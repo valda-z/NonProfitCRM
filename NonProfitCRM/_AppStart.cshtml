@@ -14,7 +14,7 @@
         WebSecurity.CreateUserAndAccount(
             "sa",
             "sa",
-            new { FirstName = "Sys", LastName = "Admin", Email = "noreply@photorobot.com", Description = "", Deleted = false });
+            new { FirstName = "Sys", LastName = "Admin", Email = "noreply@hest.cz", Description = "", Deleted = false });
     }
 
     if (!Array.Exists(Roles.GetRolesForUser("sa"), delegate (string s) { return s.Equals(NonProfitCRM.Models.TypeUserRole.USER_ADMINISTRATOR.ToString()); }))

@@ -4219,9 +4219,9 @@
     <Content Include="Content\sing\vendor\widgster\widgster.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\hestia.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\printlogo.png" />
-    <Content Include="Images\background-logo.svg" />
     <Content Include="Images\upload-cloud.png" />
     <Content Include="Content\BarCode\jquery-barcode.js" />
     <Content Include="Scripts\jstz-1.0.4.min.js" />
