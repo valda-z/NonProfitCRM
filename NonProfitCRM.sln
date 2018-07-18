@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonProfitCRM", "NonProfitCRM\NonProfitCRM.csproj", "{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Release-STAGE|Any CPU = Release-STAGE|Any CPU
+		Release-TEST|Any CPU = Release-TEST|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}.Release-STAGE|Any CPU.ActiveCfg = Release-STAGE|Any CPU
+		{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}.Release-STAGE|Any CPU.Build.0 = Release-STAGE|Any CPU
+		{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}.Release-TEST|Any CPU.ActiveCfg = Release-TEST|Any CPU
+		{91F3991F-2B1B-4DB5-A6D9-088BC816FEC2}.Release-TEST|Any CPU.Build.0 = Release-TEST|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B413F08A-1CEB-451A-A275-34A5C4CDB83D}
+	EndGlobalSection
+EndGlobal

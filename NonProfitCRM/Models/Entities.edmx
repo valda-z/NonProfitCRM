@@ -1,0 +1,1636 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="_Version">
+          <Key>
+            <PropertyRef Name="VersionName" />
+          </Key>
+          <Property Name="VersionName" Type="nvarchar" MaxLength="56" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact1Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact1Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact1Email" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact1Note" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Contact2Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact2Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact2Email" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact2Note" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Www" Type="nvarchar" MaxLength="128" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="RegionId" Type="int" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="Note" Type="ntext" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanyStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanySub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="RegionId" Type="int" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="Note" Type="ntext" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DateOfEvent" Type="datetime" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="NonProfitOrgId" Type="int" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="ContactCompanyName" Type="nvarchar" MaxLength="128" />
+          <Property Name="ContactCompanyPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactCompanyEmail" Type="nvarchar" MaxLength="128" />
+          <Property Name="ContactCompanyNote" Type="nvarchar" MaxLength="1024" />
+          <Property Name="ContactNonProfitOrgName" Type="nvarchar" MaxLength="128" />
+          <Property Name="ContactNonProfitOrgPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactNonProfitOrgEmail" Type="nvarchar" MaxLength="128" />
+          <Property Name="ContactNonProfitOrgNote" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Note" Type="ntext" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Event2CompanySub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="CompanySubId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Roles" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="LogType" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Data" Type="ntext" />
+          <Property Name="Entity" Type="varchar" MaxLength="128" />
+          <Property Name="EntityID" Type="int" />
+        </EntityType>
+        <EntityType Name="NonProfitOrg">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact1Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact1Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact1Email" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact1Note" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Contact2Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact2Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact2Email" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact2Note" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Www" Type="nvarchar" MaxLength="128" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="RegionId" Type="int" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="Note" Type="ntext" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag2Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag2Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagId" Type="int" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag2NonProfitOrg">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagId" Type="int" Nullable="false" />
+          <Property Name="NonProfitOrgId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="EntityId" Type="int" Nullable="false" />
+          <Property Name="Entity" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="DueDate" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="ntext" />
+          <Property Name="Note" Type="ntext" />
+          <Property Name="AssignedTo" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewNonProfitOrgList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IdentificationNumber" />
+            <PropertyRef Name="CountryId" />
+            <PropertyRef Name="RegionId" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Updated" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="CountryName" />
+            <PropertyRef Name="RegionName" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact1Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact1Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact1Email" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact2Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact2Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact2Email" Type="nvarchar" MaxLength="128" />
+          <Property Name="Www" Type="nvarchar" MaxLength="128" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="RegionId" Type="int" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewUserProfileList">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="TimeZone" Type="nvarchar" MaxLength="128" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Company_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Status">
+          <End Role="CompanyStatus" Type="Self.CompanyStatus" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySub_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="CompanySub" Type="Self.CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySub">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySub_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="CompanySub" Type="Self.CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySub">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySub_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="CompanySub" Type="Self.CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySub">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_NonProfitOrg">
+          <End Role="NonProfitOrg" Type="Self.NonProfitOrg" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NonProfitOrg">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="NonProfitOrgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event2CompanySub_CompanySub">
+          <End Role="CompanySub" Type="Self.CompanySub" Multiplicity="1" />
+          <End Role="Event2CompanySub" Type="Self.Event2CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanySub">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event2CompanySub">
+              <PropertyRef Name="CompanySubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event2CompanySub_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Event2CompanySub" Type="Self.Event2CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event2CompanySub">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NonProfitOrg_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="NonProfitOrg" Type="Self.NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NonProfitOrg">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NonProfitOrg_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="NonProfitOrg" Type="Self.NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NonProfitOrg">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2Company_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Tag2Company" Type="Self.Tag2Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2Company">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2Company_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
+          <End Role="Tag2Company" Type="Self.Tag2Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2Company">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2Event_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Tag2Event" Type="Self.Tag2Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2Event">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2Event_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
+          <End Role="Tag2Event" Type="Self.Tag2Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2Event">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2NonProfitOrg_NonProfitOrg">
+          <End Role="NonProfitOrg" Type="Self.NonProfitOrg" Multiplicity="1" />
+          <End Role="Tag2NonProfitOrg" Type="Self.Tag2NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NonProfitOrg">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2NonProfitOrg">
+              <PropertyRef Name="NonProfitOrgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2NonProfitOrg_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
+          <End Role="Tag2NonProfitOrg" Type="Self.Tag2NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2NonProfitOrg">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Status">
+          <End Role="TaskStatus" Type="Self.TaskStatus" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="_Version" EntityType="Self._Version" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyStatus" EntityType="Self.CompanyStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanySub" EntityType="Self.CompanySub" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event2CompanySub" EntityType="Self.Event2CompanySub" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NonProfitOrg" EntityType="Self.NonProfitOrg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tag2Company" EntityType="Self.Tag2Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tag2Event" EntityType="Self.Tag2Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tag2NonProfitOrg" EntityType="Self.Tag2NonProfitOrg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskStatus" EntityType="Self.TaskStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewNonProfitOrgList" EntityType="Self.ViewNonProfitOrgList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewNonProfitOrgList].[Id] AS [Id], 
+    [ViewNonProfitOrgList].[Name] AS [Name], 
+    [ViewNonProfitOrgList].[IdentificationNumber] AS [IdentificationNumber], 
+    [ViewNonProfitOrgList].[Contact1Name] AS [Contact1Name], 
+    [ViewNonProfitOrgList].[Contact1Phone] AS [Contact1Phone], 
+    [ViewNonProfitOrgList].[Contact1Email] AS [Contact1Email], 
+    [ViewNonProfitOrgList].[Contact2Name] AS [Contact2Name], 
+    [ViewNonProfitOrgList].[Contact2Phone] AS [Contact2Phone], 
+    [ViewNonProfitOrgList].[Contact2Email] AS [Contact2Email], 
+    [ViewNonProfitOrgList].[Www] AS [Www], 
+    [ViewNonProfitOrgList].[CountryId] AS [CountryId], 
+    [ViewNonProfitOrgList].[RegionId] AS [RegionId], 
+    [ViewNonProfitOrgList].[City] AS [City], 
+    [ViewNonProfitOrgList].[Address] AS [Address], 
+    [ViewNonProfitOrgList].[Capacity] AS [Capacity], 
+    [ViewNonProfitOrgList].[Deleted] AS [Deleted], 
+    [ViewNonProfitOrgList].[Updated] AS [Updated], 
+    [ViewNonProfitOrgList].[UpdatedBy] AS [UpdatedBy], 
+    [ViewNonProfitOrgList].[CountryName] AS [CountryName], 
+    [ViewNonProfitOrgList].[RegionName] AS [RegionName]
+    FROM [dbo].[ViewNonProfitOrgList] AS [ViewNonProfitOrgList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewUserProfileList" EntityType="Self.ViewUserProfileList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewUserProfileList].[UserId] AS [UserId], 
+    [ViewUserProfileList].[UserName] AS [UserName], 
+    [ViewUserProfileList].[Deleted] AS [Deleted], 
+    [ViewUserProfileList].[Email] AS [Email], 
+    [ViewUserProfileList].[FirstName] AS [FirstName], 
+    [ViewUserProfileList].[LastName] AS [LastName], 
+    [ViewUserProfileList].[GroupId] AS [GroupId], 
+    [ViewUserProfileList].[TimeZone] AS [TimeZone], 
+    [ViewUserProfileList].[GroupName] AS [GroupName]
+    FROM [dbo].[ViewUserProfileList] AS [ViewUserProfileList]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Company_Country" Association="Self.FK_Company_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Region" Association="Self.FK_Company_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Status" Association="Self.FK_Company_Status">
+            <End Role="CompanyStatus" EntitySet="CompanyStatus" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySub_Company" Association="Self.FK_CompanySub_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="CompanySub" EntitySet="CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySub_Country" Association="Self.FK_CompanySub_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="CompanySub" EntitySet="CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySub_Region" Association="Self.FK_CompanySub_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="CompanySub" EntitySet="CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Company" Association="Self.FK_Event_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_NonProfitOrg" Association="Self.FK_Event_NonProfitOrg">
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event2CompanySub_CompanySub" Association="Self.FK_Event2CompanySub_CompanySub">
+            <End Role="CompanySub" EntitySet="CompanySub" />
+            <End Role="Event2CompanySub" EntitySet="Event2CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event2CompanySub_Event" Association="Self.FK_Event2CompanySub_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Event2CompanySub" EntitySet="Event2CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NonProfitOrg_Country" Association="Self.FK_NonProfitOrg_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NonProfitOrg_Region" Association="Self.FK_NonProfitOrg_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Country" Association="Self.FK_Region_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2Company_Company" Association="Self.FK_Tag2Company_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Tag2Company" EntitySet="Tag2Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2Company_Tag" Association="Self.FK_Tag2Company_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="Tag2Company" EntitySet="Tag2Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2Event_Event" Association="Self.FK_Tag2Event_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Tag2Event" EntitySet="Tag2Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2Event_Tag" Association="Self.FK_Tag2Event_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="Tag2Event" EntitySet="Tag2Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2NonProfitOrg_NonProfitOrg" Association="Self.FK_Tag2NonProfitOrg_NonProfitOrg">
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+            <End Role="Tag2NonProfitOrg" EntitySet="Tag2NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2NonProfitOrg_Tag" Association="Self.FK_Tag2NonProfitOrg_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="Tag2NonProfitOrg" EntitySet="Tag2NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Status" Association="Self.FK_Task_Status">
+            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="CloseDelivery" ReturnType="Collection(Int32)">
+            <Parameter Name="DeliveryId" Mode="In" Type="Int32" />
+            <Parameter Name="DistributorId" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SaveRobotTypeDependencies">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FunctionCUActivationWillExpire" IsComposable="true" ReturnType="Collection(Model.FunctionCUActivationWillExpire_Result)">
+          <Parameter Name="daysback" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FunctionCUAuthSWWillExpire" IsComposable="true" ReturnType="Collection(Model.FunctionCUAuthSWWillExpire_Result)">
+            <Parameter Name="daysback" Mode="In" Type="Int32" />
+            <Parameter Name="swid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FunctionRobotPWSWarrantyWillExpire" IsComposable="true" ReturnType="Collection(Model.FunctionRobotPWSWarrantyWillExpire_Result1)">
+            <Parameter Name="daysback" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="C_Version" EntityType="Model.C_Version" />
+          <EntitySet Name="Company" EntityType="Model.Company" />
+          <EntitySet Name="CompanyStatus" EntityType="Model.CompanyStatus" />
+          <EntitySet Name="CompanySub" EntityType="Model.CompanySub" />
+          <EntitySet Name="Country" EntityType="Model.Country" />
+          <EntitySet Name="Event" EntityType="Model.Event" />
+          <EntitySet Name="Event2CompanySub" EntityType="Model.Event2CompanySub" />
+          <EntitySet Name="Group" EntityType="Model.Group" />
+          <EntitySet Name="Log" EntityType="Model.Log" />
+          <EntitySet Name="NonProfitOrg" EntityType="Model.NonProfitOrg" />
+          <EntitySet Name="Region" EntityType="Model.Region" />
+          <EntitySet Name="Tag" EntityType="Model.Tag" />
+          <EntitySet Name="Tag2Company" EntityType="Model.Tag2Company" />
+          <EntitySet Name="Tag2Event" EntityType="Model.Tag2Event" />
+          <EntitySet Name="Tag2NonProfitOrg" EntityType="Model.Tag2NonProfitOrg" />
+          <EntitySet Name="Task" EntityType="Model.Task" />
+          <EntitySet Name="TaskStatus" EntityType="Model.TaskStatus" />
+          <EntitySet Name="ViewUserProfileList" EntityType="Model.ViewUserProfileList" />
+          <AssociationSet Name="FK_Company_Country" Association="Model.FK_Company_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Region" Association="Model.FK_Company_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Status" Association="Model.FK_Company_Status">
+            <End Role="CompanyStatus" EntitySet="CompanyStatus" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySub_Company" Association="Model.FK_CompanySub_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="CompanySub" EntitySet="CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Company" Association="Model.FK_Event_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2Company_Company" Association="Model.FK_Tag2Company_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Tag2Company" EntitySet="Tag2Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySub_Country" Association="Model.FK_CompanySub_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="CompanySub" EntitySet="CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanySub_Region" Association="Model.FK_CompanySub_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="CompanySub" EntitySet="CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event2CompanySub_CompanySub" Association="Model.FK_Event2CompanySub_CompanySub">
+            <End Role="CompanySub" EntitySet="CompanySub" />
+            <End Role="Event2CompanySub" EntitySet="Event2CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NonProfitOrg_Country" Association="Model.FK_NonProfitOrg_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Country" Association="Model.FK_Region_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_NonProfitOrg" Association="Model.FK_Event_NonProfitOrg">
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event2CompanySub_Event" Association="Model.FK_Event2CompanySub_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Event2CompanySub" EntitySet="Event2CompanySub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2Event_Event" Association="Model.FK_Tag2Event_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Tag2Event" EntitySet="Tag2Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NonProfitOrg_Region" Association="Model.FK_NonProfitOrg_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2NonProfitOrg_NonProfitOrg" Association="Model.FK_Tag2NonProfitOrg_NonProfitOrg">
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+            <End Role="Tag2NonProfitOrg" EntitySet="Tag2NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2Company_Tag" Association="Model.FK_Tag2Company_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="Tag2Company" EntitySet="Tag2Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2Event_Tag" Association="Model.FK_Tag2Event_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="Tag2Event" EntitySet="Tag2Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tag2NonProfitOrg_Tag" Association="Model.FK_Tag2NonProfitOrg_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="Tag2NonProfitOrg" EntitySet="Tag2NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Status" Association="Model.FK_Task_Status">
+            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <EntitySet Name="ViewNonProfitOrgList" EntityType="Model.ViewNonProfitOrgList" />
+          </EntityContainer>
+        <ComplexType Name="FunctionCUActivationWillExpire_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Company" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="Distributor" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="ActivationExpired" Nullable="true" />
+          <Property Type="Int32" Name="ActivationWillExpire" Nullable="true" />
+          <Property Type="Int32" Name="CUCount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="FunctionCUAuthSWWillExpire_Result">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="Int32" Name="AuthorizedSoftwareId" Nullable="false" />
+          <Property Type="Int32" Name="CUCount" Nullable="true" />
+          <Property Type="Int32" Name="NotEnabled" Nullable="true" />
+          <Property Type="Int32" Name="Expired" Nullable="true" />
+          <Property Type="Int32" Name="Valid" Nullable="true" />
+          <Property Type="Int32" Name="WillExpire" Nullable="true" />
+          <Property Type="String" Name="AuthSWName" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="Customer" Nullable="true" MaxLength="128" />
+        </ComplexType>
+        <ComplexType Name="FunctionRobotPWSWarrantyWillExpire_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Company" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="Distributor" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="PWSPaidExpired" Nullable="true" />
+          <Property Type="Int32" Name="PWSPaidWillExpire" Nullable="true" />
+          <Property Type="Int32" Name="RobotCount" Nullable="true" />
+          <Property Type="Int32" Name="WarrantyTillExpired" Nullable="true" />
+          <Property Type="Int32" Name="WarrantyTillWillExpire" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="FunctionRobotPWSWarrantyWillExpire_Result1">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Company" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="DistributorId" Nullable="true" />
+          <Property Type="String" Name="Distributor" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="PWSPaidExpired" Nullable="true" />
+          <Property Type="Int32" Name="PWSPaidWillExpire" Nullable="true" />
+          <Property Type="Int32" Name="RobotCount" Nullable="true" />
+          <Property Type="Int32" Name="WarrantyTillExpired" Nullable="true" />
+          <Property Type="Int32" Name="WarrantyTillWillExpire" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="C_Version">
+          <Key>
+            <PropertyRef Name="VersionName" />
+          </Key>
+          <Property Name="VersionName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Note" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Note" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Www" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="RegionId" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Country" Relationship="Model.FK_Company_Country" FromRole="Company" ToRole="Country" />
+          <NavigationProperty Name="Region" Relationship="Model.FK_Company_Region" FromRole="Company" ToRole="Region" />
+          <NavigationProperty Name="CompanyStatus" Relationship="Model.FK_Company_Status" FromRole="Company" ToRole="CompanyStatus" />
+          <NavigationProperty Name="CompanySub" Relationship="Model.FK_CompanySub_Company" FromRole="Company" ToRole="CompanySub" />
+          <NavigationProperty Name="Event" Relationship="Model.FK_Event_Company" FromRole="Company" ToRole="Event" />
+          <NavigationProperty Name="Tag2Company" Relationship="Model.FK_Tag2Company_Company" FromRole="Company" ToRole="Tag2Company" />
+        </EntityType>
+        <EntityType Name="CompanyStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Company" Relationship="Model.FK_Company_Status" FromRole="CompanyStatus" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="CompanySub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="RegionId" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="Model.FK_CompanySub_Company" FromRole="CompanySub" ToRole="Company" />
+          <NavigationProperty Name="Country" Relationship="Model.FK_CompanySub_Country" FromRole="CompanySub" ToRole="Country" />
+          <NavigationProperty Name="Region" Relationship="Model.FK_CompanySub_Region" FromRole="CompanySub" ToRole="Region" />
+          <NavigationProperty Name="Event2CompanySub" Relationship="Model.FK_Event2CompanySub_CompanySub" FromRole="CompanySub" ToRole="Event2CompanySub" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Company" Relationship="Model.FK_Company_Country" FromRole="Country" ToRole="Company" />
+          <NavigationProperty Name="CompanySub" Relationship="Model.FK_CompanySub_Country" FromRole="Country" ToRole="CompanySub" />
+          <NavigationProperty Name="NonProfitOrg" Relationship="Model.FK_NonProfitOrg_Country" FromRole="Country" ToRole="NonProfitOrg" />
+          <NavigationProperty Name="Region" Relationship="Model.FK_Region_Country" FromRole="Country" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfEvent" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="NonProfitOrgId" Type="Int32" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="ContactCompanyName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContactCompanyPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactCompanyEmail" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContactCompanyNote" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNonProfitOrgName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNonProfitOrgPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNonProfitOrgEmail" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNonProfitOrgNote" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="Model.FK_Event_Company" FromRole="Event" ToRole="Company" />
+          <NavigationProperty Name="NonProfitOrg" Relationship="Model.FK_Event_NonProfitOrg" FromRole="Event" ToRole="NonProfitOrg" />
+          <NavigationProperty Name="Event2CompanySub" Relationship="Model.FK_Event2CompanySub_Event" FromRole="Event" ToRole="Event2CompanySub" />
+          <NavigationProperty Name="Tag2Event" Relationship="Model.FK_Tag2Event_Event" FromRole="Event" ToRole="Tag2Event" />
+        </EntityType>
+        <EntityType Name="Event2CompanySub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="CompanySubId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CompanySub" Relationship="Model.FK_Event2CompanySub_CompanySub" FromRole="Event2CompanySub" ToRole="CompanySub" />
+          <NavigationProperty Name="Event" Relationship="Model.FK_Event2CompanySub_Event" FromRole="Event2CompanySub" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Roles" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LogType" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Data" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Entity" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="EntityID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="NonProfitOrg">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Note" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Note" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Www" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="RegionId" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Country" Relationship="Model.FK_NonProfitOrg_Country" FromRole="NonProfitOrg" ToRole="Country" />
+          <NavigationProperty Name="Event" Relationship="Model.FK_Event_NonProfitOrg" FromRole="NonProfitOrg" ToRole="Event" />
+          <NavigationProperty Name="Region" Relationship="Model.FK_NonProfitOrg_Region" FromRole="NonProfitOrg" ToRole="Region" />
+          <NavigationProperty Name="Tag2NonProfitOrg" Relationship="Model.FK_Tag2NonProfitOrg_NonProfitOrg" FromRole="NonProfitOrg" ToRole="Tag2NonProfitOrg" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Company" Relationship="Model.FK_Company_Region" FromRole="Region" ToRole="Company" />
+          <NavigationProperty Name="CompanySub" Relationship="Model.FK_CompanySub_Region" FromRole="Region" ToRole="CompanySub" />
+          <NavigationProperty Name="Country" Relationship="Model.FK_Region_Country" FromRole="Region" ToRole="Country" />
+          <NavigationProperty Name="NonProfitOrg" Relationship="Model.FK_NonProfitOrg_Region" FromRole="Region" ToRole="NonProfitOrg" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tag1" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tag2Company" Relationship="Model.FK_Tag2Company_Tag" FromRole="Tag" ToRole="Tag2Company" />
+          <NavigationProperty Name="Tag2Event" Relationship="Model.FK_Tag2Event_Tag" FromRole="Tag" ToRole="Tag2Event" />
+          <NavigationProperty Name="Tag2NonProfitOrg" Relationship="Model.FK_Tag2NonProfitOrg_Tag" FromRole="Tag" ToRole="Tag2NonProfitOrg" />
+        </EntityType>
+        <EntityType Name="Tag2Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Model.FK_Tag2Company_Company" FromRole="Tag2Company" ToRole="Company" />
+          <NavigationProperty Name="Tag" Relationship="Model.FK_Tag2Company_Tag" FromRole="Tag2Company" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Tag2Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagId" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="Model.FK_Tag2Event_Event" FromRole="Tag2Event" ToRole="Event" />
+          <NavigationProperty Name="Tag" Relationship="Model.FK_Tag2Event_Tag" FromRole="Tag2Event" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Tag2NonProfitOrg">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagId" Type="Int32" Nullable="false" />
+          <Property Name="NonProfitOrgId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NonProfitOrg" Relationship="Model.FK_Tag2NonProfitOrg_NonProfitOrg" FromRole="Tag2NonProfitOrg" ToRole="NonProfitOrg" />
+          <NavigationProperty Name="Tag" Relationship="Model.FK_Tag2NonProfitOrg_Tag" FromRole="Tag2NonProfitOrg" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="EntityId" Type="Int32" Nullable="false" />
+          <Property Name="Entity" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedTo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TaskStatus" Relationship="Model.FK_Task_Status" FromRole="Task" ToRole="TaskStatus" />
+        </EntityType>
+        <EntityType Name="TaskStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Task" Relationship="Model.FK_Task_Status" FromRole="TaskStatus" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="ViewUserProfileList">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="TimeZone" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="GroupName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Company_Country">
+          <End Type="Model.Country" Role="Country" Multiplicity="1" />
+          <End Type="Model.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Region">
+          <End Type="Model.Region" Role="Region" Multiplicity="1" />
+          <End Type="Model.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Status">
+          <End Type="Model.CompanyStatus" Role="CompanyStatus" Multiplicity="1" />
+          <End Type="Model.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySub_Company">
+          <End Type="Model.Company" Role="Company" Multiplicity="1" />
+          <End Type="Model.CompanySub" Role="CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySub">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Company">
+          <End Type="Model.Company" Role="Company" Multiplicity="1" />
+          <End Type="Model.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2Company_Company">
+          <End Type="Model.Company" Role="Company" Multiplicity="1" />
+          <End Type="Model.Tag2Company" Role="Tag2Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2Company">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySub_Country">
+          <End Type="Model.Country" Role="Country" Multiplicity="1" />
+          <End Type="Model.CompanySub" Role="CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySub">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanySub_Region">
+          <End Type="Model.Region" Role="Region" Multiplicity="1" />
+          <End Type="Model.CompanySub" Role="CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanySub">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event2CompanySub_CompanySub">
+          <End Type="Model.CompanySub" Role="CompanySub" Multiplicity="1" />
+          <End Type="Model.Event2CompanySub" Role="Event2CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanySub">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event2CompanySub">
+              <PropertyRef Name="CompanySubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NonProfitOrg_Country">
+          <End Type="Model.Country" Role="Country" Multiplicity="1" />
+          <End Type="Model.NonProfitOrg" Role="NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NonProfitOrg">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Country">
+          <End Type="Model.Country" Role="Country" Multiplicity="1" />
+          <End Type="Model.Region" Role="Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_NonProfitOrg">
+          <End Type="Model.NonProfitOrg" Role="NonProfitOrg" Multiplicity="1" />
+          <End Type="Model.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NonProfitOrg">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="NonProfitOrgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event2CompanySub_Event">
+          <End Type="Model.Event" Role="Event" Multiplicity="1" />
+          <End Type="Model.Event2CompanySub" Role="Event2CompanySub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event2CompanySub">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2Event_Event">
+          <End Type="Model.Event" Role="Event" Multiplicity="1" />
+          <End Type="Model.Tag2Event" Role="Tag2Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2Event">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NonProfitOrg_Region">
+          <End Type="Model.Region" Role="Region" Multiplicity="1" />
+          <End Type="Model.NonProfitOrg" Role="NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NonProfitOrg">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2NonProfitOrg_NonProfitOrg">
+          <End Type="Model.NonProfitOrg" Role="NonProfitOrg" Multiplicity="1" />
+          <End Type="Model.Tag2NonProfitOrg" Role="Tag2NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NonProfitOrg">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2NonProfitOrg">
+              <PropertyRef Name="NonProfitOrgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2Company_Tag">
+          <End Type="Model.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="Model.Tag2Company" Role="Tag2Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2Company">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2Event_Tag">
+          <End Type="Model.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="Model.Tag2Event" Role="Tag2Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2Event">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tag2NonProfitOrg_Tag">
+          <End Type="Model.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="Model.Tag2NonProfitOrg" Role="Tag2NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tag2NonProfitOrg">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Status">
+          <End Type="Model.TaskStatus" Role="TaskStatus" Multiplicity="1" />
+          <End Type="Model.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ViewNonProfitOrgList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IdentificationNumber" />
+            <PropertyRef Name="CountryId" />
+            <PropertyRef Name="RegionId" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Updated" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="CountryName" />
+            <PropertyRef Name="RegionName" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Www" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="RegionId" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RegionName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="C_Version">
+            <EntityTypeMapping TypeName="Model.C_Version">
+              <MappingFragment StoreEntitySet="_Version">
+                <ScalarProperty Name="VersionName" ColumnName="VersionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="Model.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Www" ColumnName="Www" />
+                <ScalarProperty Name="Contact2Note" ColumnName="Contact2Note" />
+                <ScalarProperty Name="Contact2Email" ColumnName="Contact2Email" />
+                <ScalarProperty Name="Contact2Phone" ColumnName="Contact2Phone" />
+                <ScalarProperty Name="Contact2Name" ColumnName="Contact2Name" />
+                <ScalarProperty Name="Contact1Note" ColumnName="Contact1Note" />
+                <ScalarProperty Name="Contact1Email" ColumnName="Contact1Email" />
+                <ScalarProperty Name="Contact1Phone" ColumnName="Contact1Phone" />
+                <ScalarProperty Name="Contact1Name" ColumnName="Contact1Name" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyStatus">
+            <EntityTypeMapping TypeName="Model.CompanyStatus">
+              <MappingFragment StoreEntitySet="CompanyStatus">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanySub">
+            <EntityTypeMapping TypeName="Model.CompanySub">
+              <MappingFragment StoreEntitySet="CompanySub">
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="Model.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Event">
+            <EntityTypeMapping TypeName="Model.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ContactNonProfitOrgNote" ColumnName="ContactNonProfitOrgNote" />
+                <ScalarProperty Name="ContactNonProfitOrgEmail" ColumnName="ContactNonProfitOrgEmail" />
+                <ScalarProperty Name="ContactNonProfitOrgPhone" ColumnName="ContactNonProfitOrgPhone" />
+                <ScalarProperty Name="ContactNonProfitOrgName" ColumnName="ContactNonProfitOrgName" />
+                <ScalarProperty Name="ContactCompanyNote" ColumnName="ContactCompanyNote" />
+                <ScalarProperty Name="ContactCompanyEmail" ColumnName="ContactCompanyEmail" />
+                <ScalarProperty Name="ContactCompanyPhone" ColumnName="ContactCompanyPhone" />
+                <ScalarProperty Name="ContactCompanyName" ColumnName="ContactCompanyName" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="NonProfitOrgId" ColumnName="NonProfitOrgId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="DateOfEvent" ColumnName="DateOfEvent" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Event2CompanySub">
+            <EntityTypeMapping TypeName="Model.Event2CompanySub">
+              <MappingFragment StoreEntitySet="Event2CompanySub">
+                <ScalarProperty Name="CompanySubId" ColumnName="CompanySubId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Group">
+            <EntityTypeMapping TypeName="Model.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="Roles" ColumnName="Roles" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log">
+            <EntityTypeMapping TypeName="Model.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="EntityID" ColumnName="EntityID" />
+                <ScalarProperty Name="Entity" ColumnName="Entity" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LogType" ColumnName="LogType" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NonProfitOrg">
+            <EntityTypeMapping TypeName="Model.NonProfitOrg">
+              <MappingFragment StoreEntitySet="NonProfitOrg">
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Www" ColumnName="Www" />
+                <ScalarProperty Name="Contact2Note" ColumnName="Contact2Note" />
+                <ScalarProperty Name="Contact2Email" ColumnName="Contact2Email" />
+                <ScalarProperty Name="Contact2Phone" ColumnName="Contact2Phone" />
+                <ScalarProperty Name="Contact2Name" ColumnName="Contact2Name" />
+                <ScalarProperty Name="Contact1Note" ColumnName="Contact1Note" />
+                <ScalarProperty Name="Contact1Email" ColumnName="Contact1Email" />
+                <ScalarProperty Name="Contact1Phone" ColumnName="Contact1Phone" />
+                <ScalarProperty Name="Contact1Name" ColumnName="Contact1Name" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Region">
+            <EntityTypeMapping TypeName="Model.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tag">
+            <EntityTypeMapping TypeName="Model.Tag">
+              <MappingFragment StoreEntitySet="Tag">
+                <ScalarProperty Name="Tag1" ColumnName="Tag" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tag2Company">
+            <EntityTypeMapping TypeName="Model.Tag2Company">
+              <MappingFragment StoreEntitySet="Tag2Company">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tag2Event">
+            <EntityTypeMapping TypeName="Model.Tag2Event">
+              <MappingFragment StoreEntitySet="Tag2Event">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tag2NonProfitOrg">
+            <EntityTypeMapping TypeName="Model.Tag2NonProfitOrg">
+              <MappingFragment StoreEntitySet="Tag2NonProfitOrg">
+                <ScalarProperty Name="NonProfitOrgId" ColumnName="NonProfitOrgId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Task">
+            <EntityTypeMapping TypeName="Model.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="Entity" ColumnName="Entity" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskStatus">
+            <EntityTypeMapping TypeName="Model.TaskStatus">
+              <MappingFragment StoreEntitySet="TaskStatus">
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewUserProfileList">
+            <EntityTypeMapping TypeName="Model.ViewUserProfileList">
+              <MappingFragment StoreEntitySet="ViewUserProfileList">
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewNonProfitOrgList">
+            <EntityTypeMapping TypeName="Model.ViewNonProfitOrgList">
+              <MappingFragment StoreEntitySet="ViewNonProfitOrgList">
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Www" ColumnName="Www" />
+                <ScalarProperty Name="Contact2Email" ColumnName="Contact2Email" />
+                <ScalarProperty Name="Contact2Phone" ColumnName="Contact2Phone" />
+                <ScalarProperty Name="Contact2Name" ColumnName="Contact2Name" />
+                <ScalarProperty Name="Contact1Email" ColumnName="Contact1Email" />
+                <ScalarProperty Name="Contact1Phone" ColumnName="Contact1Phone" />
+                <ScalarProperty Name="Contact1Name" ColumnName="Contact1Name" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,56 @@
+﻿
+ins {
+	    background-color: #cfc;
+	    text-decoration: none;
+}
+	 
+del {
+	    color: #999;
+	    background-color:#FEC8C8;
+}
+
+.label-infopws {
+    background-color: #000000;
+}
+
+.bg-infopws {
+    background-color: #000000;
+}
+
+div.checkbox-ios-notready {
+    display: none;
+}
+
+.srchbox-div {
+    width: 400px;
+}
+
+.srchbox-inputbox {
+    width: 150px !important;
+}
+
+.srchbox-customer {
+    width: 200px !important;
+}
+
+.srchbox-button {
+    width: 50px !important;
+}
+
+@media screen and (max-width: 640px) {
+    .srchbox-div {
+        width: 180px;
+    }
+
+    .srchbox-inputbox {
+        width: 60px !important;
+    }
+
+    .srchbox-customer {
+        width: 80px !important;
+    }
+
+    .srchbox-button {
+        width: 40px !important;
+    }
+}

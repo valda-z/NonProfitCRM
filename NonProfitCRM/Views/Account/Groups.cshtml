@@ -1,0 +1,38 @@
+﻿@model IQueryable<NonProfitCRM.Models.Group>
+@{
+    ViewBag.PreTitle = "list of";
+    ViewBag.Title = "Groups";
+}
+
+<section class="widget">
+    <header>
+        <h4>
+            @Html.ActionLink("Create New", "GroupDetail", "Account", new { id = 0, returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
+        </h4>
+        <div class="widget-controls">
+            @using (Html.BeginForm(null, null, FormMethod.Get))
+            {
+                <div class="width-200">
+                    <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                        <input type="search" name="search" value="@Request.QueryString["search"]" class="form-control" 
+                               placeholder="Search groups">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Go!</button>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </header>
+    <div class="widget-body">
+        @{
+            var grid = new NonProfitCRM.Components.ASWebGrid(Model);
+        }
+        @grid.Draw(columns: grid.Columns(
+            grid.Column("Id", "#"),
+            grid.Column("Name", "Group Name", format: @<text>@Html.ActionLink((string)item.Name,
+                "GroupDetail", "Account", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>)
+        ))
+    </div>
+</section>

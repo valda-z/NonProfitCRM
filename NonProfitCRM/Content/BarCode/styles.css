@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'Conv_FontfabricNexaXBold';
+    src: url('./fonts/Fontfabric - Nexa-XBold.eot');
+    src: local('local'), url('./fonts/Fontfabric - Nexa-XBold.woff') format('woff'), url('./fonts/Fontfabric - Nexa-XBold.ttf') format('truetype'), url('./fonts/Fontfabric - Nexa-XBold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Conv_FontfabricNexaRegular';
+    src: url('./fonts/Fontfabric - NexaRegular.eot');
+    src: local('local'), url('./fonts/Fontfabric - NexaRegular.woff') format('woff'), url('./fonts/Fontfabric - NexaRegular.ttf') format('truetype'), url('./fonts/Fontfabric - NexaRegular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.barcode-container {
+    font-family: 'Conv_FontfabricNexaRegular';
+    position: relative;
+    padding: 2px;
+    display: inline-block;
+}
+
+.barcode-container .corner {
+    position: absolute;
+    background-color: #000000;
+    z-index: 20;
+}
+
+.barcode-container .corner-1 {
+    top: 0px;
+    left: 0px;
+    height: 10px;
+    width: 1px;
+}
+
+.barcode-container .corner-2 {
+    top: 0px;
+    left: 0px;
+    height: 1px;
+    width: 10px;
+}
+
+.barcode-container .corner-3 {
+    bottom: 0px;
+    right: 0px;
+    height: 10px;
+    width: 1px;
+}
+
+.barcode-container .corner-4 {
+    bottom: 0px;
+    right: 0px;
+    height: 1px;
+    width: 10px;
+}

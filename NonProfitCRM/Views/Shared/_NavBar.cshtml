@@ -1,0 +1,53 @@
+﻿@model NonProfitCRM.Models.NavBarModel
+
+<nav id="sidebar" class="sidebar" role="navigation">
+    <!-- need this .js class to initiate slimscroll -->
+    <div class="js-sidebar-content">
+        <header class="logo hidden-xs">
+            <a href="/"><img src="~/Images/logo.png" style="height: 42px" /></a>
+        </header>
+        <ul class="sidebar-nav">
+
+            @foreach (var item in Model.Items)
+            {
+                object v = null;
+                if (item.Controller == "Home")
+                {
+                    //v = new { v = DateTime.UtcNow.Ticks };
+                }
+                if (item.SubItems.Count == 0)
+                {
+                    <li class="@Html.Raw(item.Controller==Model.CurrentController?"active":"")">
+                        <a href="@Url.Action(item.Action, item.Controller, v)"
+                           @Html.Raw(item.Controller == "Home" ? "data-no-pjax" : "")>
+                            <span class="icon">
+                                <i class="@Html.Raw(item.Icon)"></i>
+                            </span>
+                            @item.Name
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="@Html.Raw(item.IsActive(Model.CurrentController, Model.CurrentAction)?"active":"")">
+                        <a class="@Html.Raw(item.IsActive(Model.CurrentController, Model.CurrentAction) ? "" : "collapsed")"
+                           href="#sidebar-@Html.Raw(item.Controller)" data-toggle="collapse" data-parent="#sidebar">
+                            <span class="icon">
+                                <i class="@Html.Raw(item.Icon)"></i>
+                            </span>
+                            @item.Name
+                        </a>
+                        <ul id="sidebar-@Html.Raw(item.Controller)" class="collapse">
+                            @foreach (var subitem in item.SubItems)
+                            {
+                                <li class="@Html.Raw(item.IsActiveSubItem(subitem, Model.CurrentController, Model.CurrentAction)?"active":"")"><a href="@Url.Action(subitem.Action,subitem.Controller)">@subitem.Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</nav>
+
+

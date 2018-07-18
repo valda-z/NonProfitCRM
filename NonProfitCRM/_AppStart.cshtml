@@ -1,0 +1,28 @@
+﻿@{
+    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: false);
+
+    //Roles initialization
+    foreach (string enm in Enum.GetNames(typeof(NonProfitCRM.Models.TypeUserRole)))
+    {
+        if (!Roles.RoleExists(enm)){
+            Roles.CreateRole(enm);
+        }
+    }
+
+    //Default administrator initialization
+    if (!WebSecurity.UserExists("sa")){
+        WebSecurity.CreateUserAndAccount(
+            "sa",
+            "sa",
+            new { FirstName = "Sys", LastName = "Admin", Email = "noreply@photorobot.com", Description = "", Deleted = false });
+    }
+
+    if (!Array.Exists(Roles.GetRolesForUser("sa"), delegate (string s) { return s.Equals(NonProfitCRM.Models.TypeUserRole.USER_ADMINISTRATOR.ToString()); }))
+    {
+        Roles.AddUsersToRoles(new[] { "sa" }, new[] { NonProfitCRM.Models.TypeUserRole.USER_ADMINISTRATOR.ToString() });
+    }
+    if (!Array.Exists(Roles.GetRolesForUser("sa"), delegate (string s) { return s.Equals(NonProfitCRM.Models.TypeUserRole.SYSTEM_ADMINISTRATOR.ToString()); }))
+    {
+        Roles.AddUsersToRoles(new[] { "sa" }, new[] { NonProfitCRM.Models.TypeUserRole.SYSTEM_ADMINISTRATOR.ToString() });
+    }
+}

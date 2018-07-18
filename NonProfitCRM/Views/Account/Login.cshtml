@@ -1,0 +1,132 @@
+﻿@model NonProfitCRM.Models.LoginModel
+
+@{
+    Layout = null;
+}
+
+@{
+    ViewBag.Title = "Log in";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hestia - CRM :: Login</title>
+    <link rel="shortcut icon" href="~/Images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    @Styles.Render("~/Content/custom/css")
+    @Styles.Render("~/Content/sing/css/sing")
+    @Scripts.Render("~/Content/sing/vendor/libs-js")
+    @Scripts.Render("~/Content/sing/js/apps-js")
+    @Scripts.Render("~/Content/sing/vendor/spec-js")
+    @Scripts.Render("~/bundles/jstz")
+    <script>
+        /* yeah we need this empty stylesheet here. It's cool chrome & chromium fix
+         chrome fix https://code.google.com/p/chromium/issues/detail?id=167083
+         https://code.google.com/p/chromium/issues/detail?id=332189
+         */
+    </script>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        #background {
+            text-align: right;
+        }
+
+        .stretch {
+            height: 70%;
+            position: absolute;
+            padding-right: 70px;
+            bottom: 0;
+            right: 0;
+            padding-bottom: 100px;
+        }
+
+    </style>
+</head>
+<body class="login-page">
+    <div id="background">
+        <!--
+        <img src="~/Images/background-logo.svg" class="stretch" alt="" />
+        -->
+    </div>
+    <div class="container">
+         <main id="content" class="widget-login-container" role="main">
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 col-xs-10 col-lg-offset-4 col-sm-offset-3 col-xs-offset-1">
+<!--
+                    <h4 class="widget-login-logo animated fadeInUp">
+                        <i class="fa fa-circle text-gray"></i>
+                        photorobot
+                        <i class="fa fa-circle text-warning"></i>
+                    </h4>
+-->
+                    <h4 class="widget-login-logo animated fadeInUp">
+                        &nbsp;
+                    </h4>
+                    <section class="widget widget-login animated fadeInUp">
+                        <header>
+                            <h3>Login - Hestia CRM</h3>
+                        </header>
+                        <div class="widget-body">
+                            @Html.Partial("_ValidationSummary", ViewData.ModelState)
+                            <p class="widget-login-info">
+                                Use your username to sign in.
+                            </p>
+@using (Html.BeginForm("Login", "Account",new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form mt-lg" }))
+{
+    @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "UserName" })
+                                    @Html.ValidationMessageFor(m => m.UserName)
+                                </div>
+                                <div class="form-group">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                    @Html.ValidationMessageFor(m => m.Password)
+                                </div>
+                                <div class="clearfix">
+                                    <div class="btn-toolbar pull-right">
+                                        <button type="submit" class="btn btn-inverse btn-sm">Login</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-sm-push-6">
+                                        <div class="clearfix">
+                                            <div class="checkbox widget-login-info pull-right ml-n-lg">
+                                                <input type="checkbox" id="RememberMe" name="RememberMe" value="true"
+                                                       @Html.Raw((Model != null && Model.RememberMe) ? " checked" : "")>
+                                                <label for="RememberMe">Keep me signed in </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="TimeZone" id="TimeZone" value="" />
+}
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+        <footer class="page-footer">
+            Open Source Public Domain Software
+        </footer>
+    </div>
+    <!-- The Loader. Is shown when pjax happens -->
+    <div class="loader-wrap hiding hide">
+        <i class="fa fa-circle-o-notch fa-spin-fast"></i>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var tz = jstz.determine();
+            var tzutc = new Date().toString().match(/([-\+][0-9]+)\s/)[1] + "|" + tz.name();
+            $("#TimeZone").val(tzutc);
+        });
+    </script>
+</body>
+</html>

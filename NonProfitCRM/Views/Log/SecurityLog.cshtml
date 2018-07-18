@@ -1,0 +1,41 @@
+﻿@model IQueryable<NonProfitCRM.Models.Log>
+@{
+    ViewBag.PreTitle = "system";
+    ViewBag.Title = "Security log";
+}
+
+<section class="widget">
+    <header>
+        <h4>&nbsp;
+        </h4>
+        <div class="widget-controls">
+            @using (Html.BeginForm(null, null, FormMethod.Get))
+            {
+                <div class="width-200">
+                    <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                        <input type="search" name="search" value="@Request.QueryString["search"]" class="form-control" placeholder="Search data">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Go!</button>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </header>
+    <div class="widget-body">
+        @{
+            var grid = new NonProfitCRM.Components.ASWebGrid(Model);
+        }
+        @grid.Draw(columns: grid.Columns(
+        grid.Column("Id", "#", format: @<text>@Html.ActionLink((string)item.Id.ToString(),
+                "SecurityLogDetail", "Log", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>),
+            grid.Column("Created", "Date", format:
+                @<text>@NonProfitCRM.Components.DateHelper.FormatDateUTC(item.Created)</text>),
+            grid.Column("UserName", "User Name"),
+            grid.Column("LogType", "Log Type", format:
+                @<text><span class="label label-default">@item.LogType</span></text>),
+            grid.Column("Description", "Description", style: "hidden-xs hidden-sm")
+                                   ))
+    </div>
+</section>

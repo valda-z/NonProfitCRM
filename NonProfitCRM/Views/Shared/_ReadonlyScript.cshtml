@@ -1,0 +1,10 @@
+﻿@model bool
+@if (!Model)
+{
+    <script>
+        $(document).ready(function () {
+            $('input, select, button, textarea').attr('disabled', true);
+        });
+    </script>
+}
+

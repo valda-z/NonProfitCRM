@@ -1,0 +1,56 @@
+﻿@model NonProfitCRM.Models.Log
+@{
+    ViewBag.PreTitle = "detail of";
+    ViewBag.Title = "Security Log entry";
+    ViewBag.PathTitle = "list of SecurityLogs >";
+}
+
+<section class="widget">
+    <header></header>
+    <div class="widget-body">
+        <form class="form-horizontal">
+                <fieldset>
+                    <legend>Security Log details for <span class="fw-semi-bold">#@Model.Id @Model.Description</span></legend>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserName, "User Name", new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            <span class ="form-control">@Model.UserName</spanclass>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Created, "Date", new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            <span class="form-control">@NonProfitCRM.Components.DateHelper.FormatDate(Model.Created, User.Identity.Name)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.LogType, "Log Type", new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            <div class="form-control">
+                                <span class="label label-default">@Model.LogType</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Description, "Description", new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            <span class="form-control">@Model.Description</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Data, "Log Data", new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            <pre>@Html.Raw(Model.Data)</pre>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="btn-toolbar">
+                    <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Cancel</a>
+                </div>
+            }
+        </form>
+    </div>
+</section>
+@Scripts.Render("~/Content/sing/vendor/form-js")
+@Html.Partial("_ParsleyLoader", "validation-form")
+
