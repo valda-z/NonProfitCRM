@@ -145,3 +145,49 @@
 
 @Html.Partial("_ReadonlyScript", (bool)ViewBag.CanEdit)
 
+@{ 
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+    sb.Append("var optRegionData = [ ");
+    foreach(var obj in new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name).ToList())
+    {
+        sb.AppendFormat("{{ countryid:{1}, regionid:{0}, name: \"{2}\" }},", obj.Id, obj.CountryId, obj.Name);
+    }
+    sb.Append(" ];");
+}
+
+<script>
+    $(document).ready(function () {
+
+        //first, detect when initial DD changes
+        $("#CountryId").change(function () {
+            //get what they selected
+            var selected = $("option:selected", this).val();
+            changeRegions(selected);
+        });
+
+    });
+
+    @Html.Raw(sb.ToString());
+
+    function changeRegions(regid) {
+        //no matter what, clear the other DD
+        $("#RegionId").children().remove().end();
+        var newoptions = "";
+        var firstregion = 0;
+        for (var i = 0; i < optRegionData.length; i++) {
+            if (optRegionData[i].countryid == regid) {
+                if (firstregion == 0) firstregion = optRegionData[i].regionid;
+                newoptions += "<option value=\"" + optRegionData[i].regionid + "\">" + optRegionData[i].name + "</option>";
+            }
+        }
+        $("#RegionId").children().end().append(newoptions);
+        if (regid == @Model.CountryId) {
+            $("#RegionId").val(@Model.RegionId).change();
+        } else {
+            $("#RegionId").val(firstregion).change();
+        }
+    }
+
+    changeRegions(@Model.CountryId);
+</script>
+
