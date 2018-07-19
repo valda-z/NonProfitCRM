@@ -1,0 +1,189 @@
+﻿@model NonProfitCRM.Models.Company
+@{
+                /**/
+
+                if (Model.Id == 0)
+                {
+                    ViewBag.PreTitle = "nová";
+                    ViewBag.Title = "Firma";
+                }
+                else
+                {
+                    ViewBag.PreTitle = "detail";
+                    ViewBag.Title = "Firmy";
+                }
+                ViewBag.PathTitle = "seznam Firem >";
+}
+
+<section class="widget">
+    <header></header>
+    <div class="widget-body">
+        @using (Html.BeginForm(null, null, new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post,
+            new
+            {
+                @class = "form-horizontal",
+                @data_parsley_priority_enabled = "false",
+                @novalidate = "novalidate",
+                @id = "validation-form"
+            }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            <fieldset>
+                <legend>Detail neziskovky: <span class="fw-semi-bold">@Model.Name</span></legend>
+                @Html.Partial("_ValidationSummary", ViewData.ModelState)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                    </div>
+                    @Html.LabelFor(m => m.IdentificationNumber, "IČ", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.IdentificationNumber, new { @class = "form-control", @required = "required", @pattern = "[0-9]{8,16}" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Www, "WWW stránky", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Www, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CountryId, "Země", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.CountryId,
+                            new SelectList(new NonProfitCRM.Models.Entities().Country.OrderBy(e => e.Name), "Id", "Name", Model.CountryId),
+                            new { @data_placeholder = "Vyber zemi", @class = "select2 form-control", @tabindex = "-1" })
+                    </div>
+                    @Html.LabelFor(m => m.RegionId, "Kraj", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.RegionId,
+                            new SelectList(new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name), "Id", "Name", Model.RegionId),
+                            new { @data_placeholder = "Vyber kraj", @class = "select2 form-control", @tabindex = "-1" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.City, "Město", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", @required = "required" })
+                    </div>
+                    @Html.LabelFor(m => m.Address, "Adresa", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                    </div>
+                </div>
+                <legend>Hlavní kontakt</legend>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Contact1Name, "Jméno", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Contact1Name, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.Contact1Note, "Poznámka", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Contact1Note, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Contact1Phone, "Telefon", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Contact1Phone, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.Contact1Email, "Email", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Contact1Email, new { @class = "form-control" })
+                    </div>
+                </div>
+                <legend>Kontakt 2</legend>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Contact2Name, "Jméno", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Contact2Name, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.Contact2Note, "Poznámka", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Contact2Note, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Contact2Phone, "Telefon", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Contact2Phone, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.Contact2Email, "Email", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Contact2Email, new { @class = "form-control" })
+                    </div>
+                </div>
+                <legend>Poznámka</legend>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
+                    </div>
+                </div>
+            </fieldset>
+            <div class="btn-toolbar">
+                <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
+                <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
+                @if (Model.Id != 0 && ViewBag.CanEdit)
+                {
+                    <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Company", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
+                        Smazat
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@Html.Partial("_ConfirmDialog")
+
+@Scripts.Render("~/Content/sing/vendor/form-js")
+@Html.Partial("_ParsleyLoader", "validation-form")
+
+@Html.Partial("_ReadonlyScript", (bool)ViewBag.CanEdit)
+
+@{ 
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+    sb.Append("var optRegionData = [ ");
+    foreach(var obj in new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name).ToList())
+    {
+        sb.AppendFormat("{{ countryid:{1}, regionid:{0}, name: \"{2}\" }},", obj.Id, obj.CountryId, obj.Name);
+    }
+    sb.Append(" ];");
+}
+
+<script>
+    $(document).ready(function () {
+
+        //first, detect when initial DD changes
+        $("#CountryId").change(function () {
+            //get what they selected
+            var selected = $("option:selected", this).val();
+            changeRegions(selected);
+        });
+
+    });
+
+    @Html.Raw(sb.ToString());
+
+    function changeRegions(regid) {
+        //no matter what, clear the other DD
+        $("#RegionId").children().remove().end();
+        var newoptions = "";
+        var firstregion = 0;
+        for (var i = 0; i < optRegionData.length; i++) {
+            if (optRegionData[i].countryid == regid) {
+                if (firstregion == 0) firstregion = optRegionData[i].regionid;
+                newoptions += "<option value=\"" + optRegionData[i].regionid + "\">" + optRegionData[i].name + "</option>";
+            }
+        }
+        $("#RegionId").children().end().append(newoptions);
+        if (regid == @Model.CountryId) {
+            $("#RegionId").val(@Model.RegionId).change();
+        } else {
+            $("#RegionId").val(firstregion).change();
+        }
+    }
+
+    changeRegions($("#CountryId").val());
+</script>
+

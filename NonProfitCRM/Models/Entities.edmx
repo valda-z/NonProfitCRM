@@ -208,6 +208,44 @@
           <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewCompanyList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewCompanyList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IdentificationNumber" />
+            <PropertyRef Name="CountryId" />
+            <PropertyRef Name="RegionId" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="StatusId" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Updated" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="CountryName" />
+            <PropertyRef Name="RegionName" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact1Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact1Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact1Email" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact2Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Contact2Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact2Email" Type="nvarchar" MaxLength="128" />
+          <Property Name="Www" Type="nvarchar" MaxLength="128" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="RegionId" Type="int" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewNonProfitOrgList">
           <Key>
@@ -525,6 +563,30 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySet Name="Tag2NonProfitOrg" EntityType="Self.Tag2NonProfitOrg" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskStatus" EntityType="Self.TaskStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewCompanyList" EntityType="Self.ViewCompanyList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewCompanyList].[Id] AS [Id], 
+    [ViewCompanyList].[Name] AS [Name], 
+    [ViewCompanyList].[IdentificationNumber] AS [IdentificationNumber], 
+    [ViewCompanyList].[Contact1Name] AS [Contact1Name], 
+    [ViewCompanyList].[Contact1Phone] AS [Contact1Phone], 
+    [ViewCompanyList].[Contact1Email] AS [Contact1Email], 
+    [ViewCompanyList].[Contact2Name] AS [Contact2Name], 
+    [ViewCompanyList].[Contact2Phone] AS [Contact2Phone], 
+    [ViewCompanyList].[Contact2Email] AS [Contact2Email], 
+    [ViewCompanyList].[Www] AS [Www], 
+    [ViewCompanyList].[CountryId] AS [CountryId], 
+    [ViewCompanyList].[RegionId] AS [RegionId], 
+    [ViewCompanyList].[City] AS [City], 
+    [ViewCompanyList].[Address] AS [Address], 
+    [ViewCompanyList].[StatusId] AS [StatusId], 
+    [ViewCompanyList].[Deleted] AS [Deleted], 
+    [ViewCompanyList].[Updated] AS [Updated], 
+    [ViewCompanyList].[UpdatedBy] AS [UpdatedBy], 
+    [ViewCompanyList].[CountryName] AS [CountryName], 
+    [ViewCompanyList].[RegionName] AS [RegionName]
+    FROM [dbo].[ViewCompanyList] AS [ViewCompanyList]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewNonProfitOrgList" EntityType="Self.ViewNonProfitOrgList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewNonProfitOrgList].[Id] AS [Id], 
@@ -765,6 +827,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
             <End Role="Task" EntitySet="Task" />
           </AssociationSet>
           <EntitySet Name="ViewNonProfitOrgList" EntityType="Model.ViewNonProfitOrgList" />
+          <EntitySet Name="ViewCompanyList" EntityType="Model.ViewCompanyList" />
           </EntityContainer>
         <ComplexType Name="FunctionCUActivationWillExpire_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -1344,6 +1407,42 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="RegionName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ViewCompanyList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IdentificationNumber" />
+            <PropertyRef Name="CountryId" />
+            <PropertyRef Name="RegionId" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="StatusId" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Updated" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="CountryName" />
+            <PropertyRef Name="RegionName" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact1Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact2Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Www" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="RegionId" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RegionName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1593,6 +1692,32 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
                 <ScalarProperty Name="Updated" ColumnName="Updated" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Www" ColumnName="Www" />
+                <ScalarProperty Name="Contact2Email" ColumnName="Contact2Email" />
+                <ScalarProperty Name="Contact2Phone" ColumnName="Contact2Phone" />
+                <ScalarProperty Name="Contact2Name" ColumnName="Contact2Name" />
+                <ScalarProperty Name="Contact1Email" ColumnName="Contact1Email" />
+                <ScalarProperty Name="Contact1Phone" ColumnName="Contact1Phone" />
+                <ScalarProperty Name="Contact1Name" ColumnName="Contact1Name" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewCompanyList">
+            <EntityTypeMapping TypeName="Model.ViewCompanyList">
+              <MappingFragment StoreEntitySet="ViewCompanyList">
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="RegionId" ColumnName="RegionId" />

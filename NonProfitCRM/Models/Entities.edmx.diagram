@@ -44,6 +44,7 @@
         <AssociationConnector Association="Model.FK_Tag2NonProfitOrg_Tag" />
         <AssociationConnector Association="Model.FK_Task_Status" />
         <EntityTypeShape EntityType="Model.ViewNonProfitOrgList" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="Model.ViewCompanyList" Width="1.5" PointX="7.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

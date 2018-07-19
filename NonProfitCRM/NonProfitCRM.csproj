@@ -237,6 +237,7 @@
     <Compile Include="Components\StringHelper.cs" />
     <Compile Include="Components\SystemHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\NonProfitOrgController.cs" />
@@ -324,6 +325,9 @@
     <Compile Include="Models\TaskStatus.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewCompanyList.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewNonProfitOrgList.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -351,6 +355,7 @@
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00011.sql" />
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00012.sql" />
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00013.sql" />
+    <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00014.sql" />
     <Content Include="Content\BarCode\fonts\Fontfabric - Nexa-XBold.svg" />
     <Content Include="Content\BarCode\fonts\Fontfabric - NexaRegular.svg" />
     <Content Include="Content\BarCode\script.js" />
@@ -5708,6 +5713,8 @@
     <Content Include="Views\Shared\_ConfirmDialog.cshtml" />
     <Content Include="Views\NonProfitOrg\List.cshtml" />
     <Content Include="Views\NonProfitOrg\Detail.cshtml" />
+    <Content Include="Views\Company\Detail.cshtml" />
+    <Content Include="Views\Company\List.cshtml" />
     <None Include="Web.Release-STAGE.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

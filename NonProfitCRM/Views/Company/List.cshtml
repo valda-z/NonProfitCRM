@@ -1,0 +1,48 @@
+﻿@model IQueryable<NonProfitCRM.Models.ViewCompanyList>
+@{
+    ViewBag.PreTitle = "seznam";
+    ViewBag.Title = "Firem";
+    ViewBag.PathTitle = "seznam";
+}
+
+<section class="widget">
+    <header>
+        <h4>
+            @Html.ActionLink("Vytvořit", "Detail", "Company", new { id = 0, returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
+        </h4>
+        <div class="widget-controls">
+            @using (Html.BeginForm(null, null, FormMethod.Get))
+            {
+                <div class="width-200">
+                    <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                        <input type="search" name="search" value="@Request.QueryString["search"]" class="form-control" 
+                               placeholder="hledání ...">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Hledej!</button>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </header>
+    <div class="widget-body">
+        @{
+            var grid = new NonProfitCRM.Components.ASWebGrid(Model);
+        }
+        @grid.Draw(columns: grid.Columns(
+         grid.Column("Id", "#"),
+         grid.Column("Name", "Název", format: @<text>@Html.ActionLink((string)item.Name,
+"Detail", "NonProfitOrg", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>),
+         grid.Column("IdentificationNumber", "IČ", style: "hidden-xs hidden-sm"),
+         grid.Column("Contact1Name", "Kontakt", style: "hidden-xs hidden-sm"),
+         grid.Column("CountryName", "Stát", style: "hidden-xs hidden-sm"),
+         grid.Column("RegionName", "Region", style: "hidden-xs hidden-sm"),
+         grid.Column("City", "Město", style: "hidden-xs hidden-sm"),
+         grid.Column("Deleted", ".", format: @<text>
+            @{if (item.Deleted)
+                {<span class="label label-danger">smazáno</span>}
+                }</text>)
+         ))
+    </div>
+</section>
