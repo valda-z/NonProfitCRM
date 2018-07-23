@@ -224,6 +224,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Components\ASWebGrid.cs" />
+    <Compile Include="Components\CompanyStatusHelper.cs" />
     <Compile Include="Components\DateHelper.cs" />
     <Compile Include="Components\DB\DBHelper.cs" />
     <Compile Include="Components\EAN13.cs" />
@@ -238,7 +239,9 @@
     <Compile Include="Components\SystemHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeadController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\NonProfitOrgController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -328,6 +331,9 @@
     <Compile Include="Models\ViewCompanyList.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewEventList.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewNonProfitOrgList.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -356,6 +362,9 @@
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00012.sql" />
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00013.sql" />
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00014.sql" />
+    <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00015.sql" />
+    <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00016.sql" />
+    <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00017.sql" />
     <Content Include="Content\BarCode\fonts\Fontfabric - Nexa-XBold.svg" />
     <Content Include="Content\BarCode\fonts\Fontfabric - NexaRegular.svg" />
     <Content Include="Content\BarCode\script.js" />
@@ -5715,6 +5724,9 @@
     <Content Include="Views\NonProfitOrg\Detail.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
     <Content Include="Views\Company\List.cshtml" />
+    <Content Include="Views\Lead\Detail.cshtml" />
+    <Content Include="Views\Lead\List.cshtml" />
+    <Content Include="Views\Event\List.cshtml" />
     <None Include="Web.Release-STAGE.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -5758,7 +5770,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49846</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49846/</IISUrl>
+          <IISUrl>http://localhost:8088/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

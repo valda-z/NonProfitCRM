@@ -1,18 +1,18 @@
 ﻿@model NonProfitCRM.Models.Company
 @{
-                /**/
+    /**/
 
-                if (Model.Id == 0)
-                {
-                    ViewBag.PreTitle = "nová";
-                    ViewBag.Title = "Firma";
-                }
-                else
-                {
-                    ViewBag.PreTitle = "detail";
-                    ViewBag.Title = "Firmy";
-                }
-                ViewBag.PathTitle = "seznam Firem >";
+    if (Model.Id == 0)
+    {
+        ViewBag.PreTitle = "nový";
+        ViewBag.Title = "Lead";
+    }
+    else
+    {
+        ViewBag.PreTitle = "detail";
+        ViewBag.Title = "Ladu";
+    }
+    ViewBag.PathTitle = "seznam Leadů >";
 }
 
 <section class="widget">
@@ -24,9 +24,7 @@
                 @class = "form-horizontal",
                 @data_parsley_priority_enabled = "false",
                 @novalidate = "novalidate",
-                @id = "validation-form",
-                @data_parsley_errors_container = ".form-group",
-                @data_parsley_validate = ""
+                @id = "validation-form"
             }))
         {
             @Html.HiddenFor(m => m.Id)
@@ -44,17 +42,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.StatusId, "Stav", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-2 control-label">
+                        Neaktivní
+                    </div>
                     <div class="col-sm-4">
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default @Html.Raw(Model.StatusId==0?"active":"")">
-                                <input type="radio" value="0" name="StatusId" id="StatusId_0" autocomplete="off" @Html.Raw(Model.StatusId == 0 ? "checked" : "")> aktivní
-                            </label>
-                            <label class="btn btn-default @Html.Raw(Model.StatusId==1?"active":"")">
-                                <input type="radio" value="1" name="StatusId" id="StatusId_1" autocomplete="off" @Html.Raw(Model.StatusId == 1 ? "checked" : "")> lead
-                            </label>
-                            <label class="btn btn-default @Html.Raw(Model.StatusId==-1?"active":"")">
-                                <input type="radio" value="-1" name="StatusId" id="StatusId_m1" autocomplete="off" @Html.Raw(Model.StatusId == -1 ? "checked" : "")> neaktivní
+                        <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
+                            <label for="checkbox-ios1-nonactive">
+                                <input type="checkbox" value="true" id="checkbox-ios1-nonactive" name="checkbox-ios1-nonactive" @Html.Raw((Model != null && Model.StatusId == (int)NonProfitCRM.Components.CompanyStatusHelper.Status.LEADDEAD) ? " checked" : "")>
                             </label>
                         </div>
                     </div>
@@ -141,7 +135,7 @@
                 <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
                 @if (Model.Id != 0 && ViewBag.CanEdit)
                 {
-                    <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Company", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
+                    <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Lead", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
                         Smazat
                     </a>
                 }
@@ -157,10 +151,10 @@
 
 @Html.Partial("_ReadonlyScript", (bool)ViewBag.CanEdit)
 
-@{ 
+@{
     System.Text.StringBuilder sb = new System.Text.StringBuilder();
     sb.Append("var optRegionData = [ ");
-    foreach(var obj in new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name).ToList())
+    foreach (var obj in new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name).ToList())
     {
         sb.AppendFormat("{{ countryid:{1}, regionid:{0}, name: \"{2}\" }},", obj.Id, obj.CountryId, obj.Name);
     }
@@ -177,6 +171,8 @@
             changeRegions(selected);
         });
 
+        new Switchery(document.getElementById('checkbox-ios1-nonactive'), { color: Sing.colors['brand-danger'], size: 'small' });
+        $('.checkbox-ios-notready').each(function (i, elem) { $(elem).removeClass('checkbox-ios-notready') });
     });
 
     @Html.Raw(sb.ToString());
@@ -194,12 +190,12 @@
         }
         $("#RegionId").children().end().append(newoptions);
         if (regid == @Model.CountryId) {
-            $("#RegionId").val(@Model.RegionId).change();
+        $("#RegionId").val(@Model.RegionId).change();
         } else {
-            $("#RegionId").val(firstregion).change();
+        $("#RegionId").val(firstregion).change();
         }
-    }
+        }
 
-    changeRegions($("#CountryId").val());
-</script>
+        changeRegions($("#CountryId").val());
+        </script>
 

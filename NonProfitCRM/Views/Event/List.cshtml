@@ -1,14 +1,14 @@
-﻿@model IQueryable<NonProfitCRM.Models.ViewCompanyList>
+﻿@model IQueryable<NonProfitCRM.Models.ViewEventList>
 @{
     ViewBag.PreTitle = "seznam";
-    ViewBag.Title = "Firem";
+    ViewBag.Title = "Akcí";
     ViewBag.PathTitle = "seznam";
 }
 
 <section class="widget">
     <header>
         <h4>
-            @Html.ActionLink("Vytvořit", "Detail", "Company", new { id = 0, returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
+            @Html.ActionLink("Vytvořit", "Detail", "Event", new { id = 0, returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
         </h4>
         <div class="widget-controls">
             @using (Html.BeginForm(null, null, FormMethod.Get))
@@ -32,20 +32,17 @@
         }
         @grid.Draw(columns: grid.Columns(
          grid.Column("Id", "#"),
-         grid.Column("Name", "Název", format: @<text>@Html.ActionLink((string)item.Name,
-"Detail", "Company", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>),
-         grid.Column("IdentificationNumber", "IČ", style: "hidden-xs hidden-sm"),
-         grid.Column("Contact1Name", "Kontakt", style: "hidden-xs hidden-sm"),
-         grid.Column("CountryName", "Stát", style: "hidden-xs hidden-sm"),
-         grid.Column("RegionName", "Region", style: "hidden-xs hidden-sm"),
-         grid.Column("City", "Město", style: "hidden-xs hidden-sm"),
+         grid.Column("DateOfEvent", "Datum", format: @<text>@Html.ActionLink((string)NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, User.Identity.Name),
+            "Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>),
+         grid.Column("CompanyName", "Firma"),
+         grid.Column("NonProfitOrgName", "Neziskovka"),
+         grid.Column("ContactCompanyName", "Firma-kontakt", style: "hidden-xs hidden-sm"),
+         grid.Column("ContactNonProfitOrgName", "Neziskovka-kontakt", style: "hidden-xs hidden-sm"),
          grid.Column("StatusId", "Stav", format: @<text>
-            @{if (item.StatusId == 0)
+            @{if (item.Closed == null)
                 {<span class="label label-success">aktivní</span>}
-              else if (item.StatusId == 1)
-                {<span class="label label-default">lead</span>}
-              else 
-                {<span class="label label-danger">neaktivní</span>}
+              else
+                {<span class="label label-default">ukončená</span>}
                 }</text>),
          grid.Column("Deleted", ".", format: @<text>
             @{if (item.Deleted)

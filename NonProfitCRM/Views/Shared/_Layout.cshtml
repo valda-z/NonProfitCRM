@@ -28,9 +28,9 @@
     }
     if (User.IsInRole(NonProfitCRM.Models.TypeUserRole.CRM.ToString()))
     {
-        nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-group", "Neziskovky", "NonProfitOrg", "List"));
-        nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-university", "Firmy", "Company", "List"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-bullhorn", "Akce", "Event", "List"));
+        nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-university", "Firmy", "Company", "List"));
+        nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-group", "Neziskovky", "NonProfitOrg", "List"));
     }
     if (User.IsInRole(NonProfitCRM.Models.TypeUserRole.SYSTEM_ADMINISTRATOR.ToString())
 || User.IsInRole(NonProfitCRM.Models.TypeUserRole.USER_ADMINISTRATOR.ToString()))
@@ -73,6 +73,7 @@
                             </a>
                         </li>
                         <li class="ml-sm mr-n-xs hidden-xs"><a onclick="window.location.reload();" href="#"><i class="fa fa-refresh fa-lg"></i></a></li>
+                        <li class="ml-sm mr-n-xs hidden-xs"><a title="Zobrazovat i smazané záznamy" onclick="handleIsDelOnChanged(); window.location.reload();" href="#"><i id="myDeletedSwitcher" class="fa fa-minus-square-o fa-lg"></i></a></li>
                         <li class="ml-sm mr-n-xs hidden-xs"><a class="fs-mini">@NonProfitCRM.Components.SystemHelper.GetAssemblyName()</a></li>
                     </ul>
                     <!-- xs & sm screen logo -->
@@ -153,5 +154,51 @@
             <i class="fa fa-circle-o-notch fa-spin-fast"></i>
         </div>
 
+        <script>
+            $(document).ready(function () {
+                drawIsDelOnChange();
+            });
+
+            function drawIsDelOnChange() {
+                var isDelOn = getCookie("nonprofitorgIsDelOn");
+                if (isDelOn === "true") {
+                    $("#myDeletedSwitcher").removeClass('fa-minus-square-o').addClass('fa-minus-square');
+                } else {
+                    $("#myDeletedSwitcher").removeClass('fa-minus-square').addClass('fa-minus-square-o');
+                }
+            }
+
+            function handleIsDelOnChanged() {
+                var isDelOn = getCookie("nonprofitorgIsDelOn");
+                if (isDelOn === "true") {
+                    setCookie('nonprofitorgIsDelOn', 'false', 2000);
+                }else{
+                    setCookie('nonprofitorgIsDelOn', 'true', 2000);
+                }
+                drawIsDelOnChange();
+            }
+
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+            function eraseCookie(name) {
+                document.cookie = name + '=; Max-Age=-99999999;';
+            }        </script>
 </body>
 </html>

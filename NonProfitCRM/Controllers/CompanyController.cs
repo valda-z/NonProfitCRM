@@ -28,8 +28,10 @@ namespace NonProfitCRM.Controllers
                 search = "";
             }
 
+            bool showDeleted = (Request.Cookies["nonprofitorgIsDelOn"]?.Value == "true");
+
             var model = new Entities().ViewCompanyList.
-                Where(e => search == "" ||
+                Where(e => (search == "" ||
                     (e.IdentificationNumber.StartsWith(search) ||
                         e.Name.StartsWith(search) ||
                         e.Address.StartsWith(search) ||
@@ -39,7 +41,7 @@ namespace NonProfitCRM.Controllers
                         e.CountryName.StartsWith(search) ||
                         e.RegionName.StartsWith(search) ||
                         e.Www.StartsWith(search)
-                    )).
+                    )) && (showDeleted || !e.Deleted)).
                 OrderBy(e => e.Name).Take(Properties.Settings.Default.MAXRECORDS);
 
             return View(model);
@@ -98,6 +100,7 @@ namespace NonProfitCRM.Controllers
                     {
                         p = cx.Company.Single(e => e.Id == id);
                         string _oldObject = Logger.Serialize(p);
+                        p.StatusId = model.StatusId;
                         p.Address = model.Address;
                         p.City = model.City;
                         p.Contact1Email = model.Contact1Email;

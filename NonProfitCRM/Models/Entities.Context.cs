@@ -47,6 +47,7 @@ namespace NonProfitCRM.Models
         public virtual DbSet<ViewUserProfileList> ViewUserProfileList { get; set; }
         public virtual DbSet<ViewNonProfitOrgList> ViewNonProfitOrgList { get; set; }
         public virtual DbSet<ViewCompanyList> ViewCompanyList { get; set; }
+        public virtual DbSet<ViewEventList> ViewEventList { get; set; }
     
         public virtual ObjectResult<Nullable<int>> CloseDelivery(Nullable<int> deliveryId, Nullable<int> distributorId, Nullable<int> customerId)
         {

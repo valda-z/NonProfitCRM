@@ -89,6 +89,7 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Updated" Type="datetime" Nullable="false" />
+          <Property Name="Closed" Type="datetime" />
         </EntityType>
         <EntityType Name="Event2CompanySub">
           <Key>
@@ -244,6 +245,39 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewCompanyList' does no
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="RegionName" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewEventList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewEventList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="DateOfEvent" />
+            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Updated" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="NonProfitOrgId" />
+            <PropertyRef Name="NonProfitOrgName" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DateOfEvent" Type="datetime" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="ContactCompanyName" Type="nvarchar" MaxLength="128" />
+          <Property Name="ContactCompanyPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactCompanyEmail" Type="nvarchar" MaxLength="128" />
+          <Property Name="ContactNonProfitOrgName" Type="nvarchar" MaxLength="128" />
+          <Property Name="ContactNonProfitOrgPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactNonProfitOrgEmail" Type="nvarchar" MaxLength="128" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NonProfitOrgId" Type="int" Nullable="false" />
+          <Property Name="NonProfitOrgName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Closed" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -587,6 +621,27 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
     [ViewCompanyList].[RegionName] AS [RegionName]
     FROM [dbo].[ViewCompanyList] AS [ViewCompanyList]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ViewEventList" EntityType="Self.ViewEventList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewEventList].[Id] AS [Id], 
+    [ViewEventList].[DateOfEvent] AS [DateOfEvent], 
+    [ViewEventList].[Capacity] AS [Capacity], 
+    [ViewEventList].[ContactCompanyName] AS [ContactCompanyName], 
+    [ViewEventList].[ContactCompanyPhone] AS [ContactCompanyPhone], 
+    [ViewEventList].[ContactCompanyEmail] AS [ContactCompanyEmail], 
+    [ViewEventList].[ContactNonProfitOrgName] AS [ContactNonProfitOrgName], 
+    [ViewEventList].[ContactNonProfitOrgPhone] AS [ContactNonProfitOrgPhone], 
+    [ViewEventList].[ContactNonProfitOrgEmail] AS [ContactNonProfitOrgEmail], 
+    [ViewEventList].[Deleted] AS [Deleted], 
+    [ViewEventList].[Updated] AS [Updated], 
+    [ViewEventList].[UpdatedBy] AS [UpdatedBy], 
+    [ViewEventList].[CompanyId] AS [CompanyId], 
+    [ViewEventList].[CompanyName] AS [CompanyName], 
+    [ViewEventList].[NonProfitOrgId] AS [NonProfitOrgId], 
+    [ViewEventList].[NonProfitOrgName] AS [NonProfitOrgName], 
+    [ViewEventList].[Closed] AS [Closed]
+    FROM [dbo].[ViewEventList] AS [ViewEventList]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ViewNonProfitOrgList" EntityType="Self.ViewNonProfitOrgList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewNonProfitOrgList].[Id] AS [Id], 
@@ -828,6 +883,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           </AssociationSet>
           <EntitySet Name="ViewNonProfitOrgList" EntityType="Model.ViewNonProfitOrgList" />
           <EntitySet Name="ViewCompanyList" EntityType="Model.ViewCompanyList" />
+          <EntitySet Name="ViewEventList" EntityType="Model.ViewEventList" />
           </EntityContainer>
         <ComplexType Name="FunctionCUActivationWillExpire_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -972,6 +1028,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <NavigationProperty Name="NonProfitOrg" Relationship="Model.FK_Event_NonProfitOrg" FromRole="Event" ToRole="NonProfitOrg" />
           <NavigationProperty Name="Event2CompanySub" Relationship="Model.FK_Event2CompanySub_Event" FromRole="Event" ToRole="Event2CompanySub" />
           <NavigationProperty Name="Tag2Event" Relationship="Model.FK_Tag2Event_Event" FromRole="Event" ToRole="Tag2Event" />
+          <Property Name="Closed" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Event2CompanySub">
           <Key>
@@ -1443,6 +1500,37 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="RegionName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ViewEventList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="DateOfEvent" />
+            <PropertyRef Name="Capacity" />
+            <PropertyRef Name="Deleted" />
+            <PropertyRef Name="Updated" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="NonProfitOrgId" />
+            <PropertyRef Name="NonProfitOrgName" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DateOfEvent" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="ContactCompanyName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContactCompanyPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactCompanyEmail" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNonProfitOrgName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNonProfitOrgPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNonProfitOrgEmail" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NonProfitOrgId" Type="Int32" Nullable="false" />
+          <Property Name="NonProfitOrgName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Closed" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1519,6 +1607,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySetMapping Name="Event">
             <EntityTypeMapping TypeName="Model.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="Closed" ColumnName="Closed" />
                 <ScalarProperty Name="Updated" ColumnName="Updated" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
@@ -1731,6 +1820,29 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
                 <ScalarProperty Name="Contact1Name" ColumnName="Contact1Name" />
                 <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewEventList">
+            <EntityTypeMapping TypeName="Model.ViewEventList">
+              <MappingFragment StoreEntitySet="ViewEventList">
+                <ScalarProperty Name="Closed" ColumnName="Closed" />
+                <ScalarProperty Name="NonProfitOrgName" ColumnName="NonProfitOrgName" />
+                <ScalarProperty Name="NonProfitOrgId" ColumnName="NonProfitOrgId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="ContactNonProfitOrgEmail" ColumnName="ContactNonProfitOrgEmail" />
+                <ScalarProperty Name="ContactNonProfitOrgPhone" ColumnName="ContactNonProfitOrgPhone" />
+                <ScalarProperty Name="ContactNonProfitOrgName" ColumnName="ContactNonProfitOrgName" />
+                <ScalarProperty Name="ContactCompanyEmail" ColumnName="ContactCompanyEmail" />
+                <ScalarProperty Name="ContactCompanyPhone" ColumnName="ContactCompanyPhone" />
+                <ScalarProperty Name="ContactCompanyName" ColumnName="ContactCompanyName" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="DateOfEvent" ColumnName="DateOfEvent" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
