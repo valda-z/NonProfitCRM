@@ -1,18 +1,18 @@
 ﻿@model NonProfitCRM.Models.Company
 @{
-                /**/
+    /**/
 
-                if (Model.Id == 0)
-                {
-                    ViewBag.PreTitle = "nová";
-                    ViewBag.Title = "Firma";
-                }
-                else
-                {
-                    ViewBag.PreTitle = "detail";
-                    ViewBag.Title = "Firmy";
-                }
-                ViewBag.PathTitle = "seznam Firem >";
+    if (Model.Id == 0)
+    {
+        ViewBag.PreTitle = "nová";
+        ViewBag.Title = "Firma";
+    }
+    else
+    {
+        ViewBag.PreTitle = "detail";
+        ViewBag.Title = "Firmy";
+    }
+    ViewBag.PathTitle = "seznam Firem >";
 }
 
 <section class="widget">
@@ -150,6 +150,35 @@
     </div>
 </section>
 
+@if (Model.Id > 0)
+{
+    <div class="row mb-lg">
+        <div class="col-md-12">
+            <div class="clearfix">
+                <ul id="tabs1" class="nav nav-tabs pull-left">
+                    <li class="active">
+                        <a href="#tab1" data-toggle="tab">Úkoly</a>
+                    </li>
+                </ul>
+                <div>
+                    <a class="btn btn btn-success  pull-right" href="@Url.Action("Detail", "Task",
+                       new { id = 0, entityid = Model.Id, entity = "Company", returnUrl = Request.RawUrl })">
+                        Nový úkol
+                    </a>
+                </div>
+            </div>
+            <div id="tabs1c" class="tab-content mb-lg">
+                <div class="tab-pane active clearfix" id="tab1">
+                    @Html.Partial("_TaskList",
+                        new NonProfitCRM.Models.Entities().Task.
+                            Where( e => e.EntityId == Model.Id && e.Entity == "Company").
+                            OrderByDescending(e => e.DueDate))
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 @Html.Partial("_ConfirmDialog")
 
 @Scripts.Render("~/Content/sing/vendor/form-js")
@@ -157,10 +186,10 @@
 
 @Html.Partial("_ReadonlyScript", (bool)ViewBag.CanEdit)
 
-@{ 
+@{
     System.Text.StringBuilder sb = new System.Text.StringBuilder();
     sb.Append("var optRegionData = [ ");
-    foreach(var obj in new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name).ToList())
+    foreach (var obj in new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name).ToList())
     {
         sb.AppendFormat("{{ countryid:{1}, regionid:{0}, name: \"{2}\" }},", obj.Id, obj.CountryId, obj.Name);
     }

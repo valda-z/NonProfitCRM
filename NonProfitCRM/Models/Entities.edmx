@@ -253,6 +253,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewEventList' does not 
             <PropertyRef Name="Id" />
             <PropertyRef Name="DateOfEvent" />
             <PropertyRef Name="Capacity" />
+            <PropertyRef Name="Name" />
             <PropertyRef Name="Deleted" />
             <PropertyRef Name="Updated" />
             <PropertyRef Name="UpdatedBy" />
@@ -264,6 +265,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewEventList' does not 
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="DateOfEvent" Type="datetime" Nullable="false" />
           <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ContactCompanyName" Type="nvarchar" MaxLength="128" />
           <Property Name="ContactCompanyPhone" Type="nvarchar" MaxLength="50" />
           <Property Name="ContactCompanyEmail" Type="nvarchar" MaxLength="128" />
@@ -316,6 +318,35 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' do
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="RegionName" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewTaskList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewTaskList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="StatusId" />
+            <PropertyRef Name="EntityId" />
+            <PropertyRef Name="Entity" />
+            <PropertyRef Name="DueDate" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="Updated" />
+            <PropertyRef Name="StatusName" />
+            <PropertyRef Name="StatusColor" />
+            <PropertyRef Name="EntityName" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="EntityId" Type="int" Nullable="false" />
+          <Property Name="Entity" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="DueDate" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="ntext" />
+          <Property Name="Note" Type="ntext" />
+          <Property Name="AssignedTo" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="StatusColor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EntityName" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -626,6 +657,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
     [ViewEventList].[Id] AS [Id], 
     [ViewEventList].[DateOfEvent] AS [DateOfEvent], 
     [ViewEventList].[Capacity] AS [Capacity], 
+    [ViewEventList].[Name] AS [Name], 
     [ViewEventList].[ContactCompanyName] AS [ContactCompanyName], 
     [ViewEventList].[ContactCompanyPhone] AS [ContactCompanyPhone], 
     [ViewEventList].[ContactCompanyEmail] AS [ContactCompanyEmail], 
@@ -665,6 +697,23 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
     [ViewNonProfitOrgList].[CountryName] AS [CountryName], 
     [ViewNonProfitOrgList].[RegionName] AS [RegionName]
     FROM [dbo].[ViewNonProfitOrgList] AS [ViewNonProfitOrgList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewTaskList" EntityType="Self.ViewTaskList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewTaskList].[Id] AS [Id], 
+    [ViewTaskList].[StatusId] AS [StatusId], 
+    [ViewTaskList].[EntityId] AS [EntityId], 
+    [ViewTaskList].[Entity] AS [Entity], 
+    [ViewTaskList].[DueDate] AS [DueDate], 
+    [ViewTaskList].[Description] AS [Description], 
+    [ViewTaskList].[Note] AS [Note], 
+    [ViewTaskList].[AssignedTo] AS [AssignedTo], 
+    [ViewTaskList].[UpdatedBy] AS [UpdatedBy], 
+    [ViewTaskList].[Updated] AS [Updated], 
+    [ViewTaskList].[StatusName] AS [StatusName], 
+    [ViewTaskList].[StatusColor] AS [StatusColor], 
+    [ViewTaskList].[EntityName] AS [EntityName]
+    FROM [dbo].[ViewTaskList] AS [ViewTaskList]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewUserProfileList" EntityType="Self.ViewUserProfileList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -884,6 +933,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySet Name="ViewNonProfitOrgList" EntityType="Model.ViewNonProfitOrgList" />
           <EntitySet Name="ViewCompanyList" EntityType="Model.ViewCompanyList" />
           <EntitySet Name="ViewEventList" EntityType="Model.ViewEventList" />
+          <EntitySet Name="ViewTaskList" EntityType="Model.ViewTaskList" />
           </EntityContainer>
         <ComplexType Name="FunctionCUActivationWillExpire_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -1505,6 +1555,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
             <PropertyRef Name="Id" />
             <PropertyRef Name="DateOfEvent" />
             <PropertyRef Name="Capacity" />
+            <PropertyRef Name="Name" />
             <PropertyRef Name="Deleted" />
             <PropertyRef Name="Updated" />
             <PropertyRef Name="UpdatedBy" />
@@ -1516,6 +1567,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="DateOfEvent" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ContactCompanyName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ContactCompanyPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactCompanyEmail" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
@@ -1530,6 +1582,33 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <Property Name="NonProfitOrgId" Type="Int32" Nullable="false" />
           <Property Name="NonProfitOrgName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Closed" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ViewTaskList">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="StatusId" />
+            <PropertyRef Name="EntityId" />
+            <PropertyRef Name="Entity" />
+            <PropertyRef Name="DueDate" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="Updated" />
+            <PropertyRef Name="StatusName" />
+            <PropertyRef Name="StatusColor" />
+            <PropertyRef Name="EntityName" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="EntityId" Type="Int32" Nullable="false" />
+          <Property Name="Entity" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AssignedTo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="StatusColor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EntityName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1841,8 +1920,28 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
                 <ScalarProperty Name="ContactCompanyEmail" ColumnName="ContactCompanyEmail" />
                 <ScalarProperty Name="ContactCompanyPhone" ColumnName="ContactCompanyPhone" />
                 <ScalarProperty Name="ContactCompanyName" ColumnName="ContactCompanyName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Capacity" ColumnName="Capacity" />
                 <ScalarProperty Name="DateOfEvent" ColumnName="DateOfEvent" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewTaskList">
+            <EntityTypeMapping TypeName="Model.ViewTaskList">
+              <MappingFragment StoreEntitySet="ViewTaskList">
+                <ScalarProperty Name="EntityName" ColumnName="EntityName" />
+                <ScalarProperty Name="StatusColor" ColumnName="StatusColor" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="Entity" ColumnName="Entity" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

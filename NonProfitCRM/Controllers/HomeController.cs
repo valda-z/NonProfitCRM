@@ -18,7 +18,11 @@ namespace NonProfitCRM.Controllers
         }
         public ActionResult Dashboard()
         {
-            return View();
+            var cx = new Entities();
+            var model = new HomeModel();
+            model.TaskList = cx.ViewTaskList.
+                Where(e => e.StatusId < 1000).OrderBy(e=>e.DueDate);
+            return View(model);
         }
     }
 }

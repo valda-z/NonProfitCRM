@@ -1,0 +1,144 @@
+﻿@model NonProfitCRM.Models.Task
+@{
+    /**/
+
+    if (Model.Id == 0)
+    {
+        ViewBag.PreTitle = "nový";
+        ViewBag.Title = "Úkol";
+    }
+    else
+    {
+        ViewBag.PreTitle = "detail";
+        ViewBag.Title = "Úkolu";
+    }
+    ViewBag.PathTitle = "seznam Úkolů >";
+
+    var userList = new NonProfitCRM.Models.Entities().ViewUserProfileList.
+        ToList().
+        Select(s => new
+        {
+            UserName = s.UserName,
+            Name = string.Format("{0} {1}", s.FirstName, s.LastName)
+        }).
+        ToList();
+
+}
+
+<section class="widget">
+    <header></header>
+    <div class="widget-body">
+        @using (Html.BeginForm(null, null, new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post,
+            new
+            {
+                @class = "form-horizontal",
+                @data_parsley_priority_enabled = "false",
+                @novalidate = "novalidate",
+                @id = "validation-form",
+                @data_parsley_errors_container = ".form-group",
+                @data_parsley_validate = ""
+            }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Entity)
+            @Html.HiddenFor(m => m.EntityId)
+        <fieldset>
+            <legend>Detail úkolu: <span class="fw-semi-bold"></span></legend>
+            @Html.Partial("_ValidationSummary", ViewData.ModelState)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, "Popis", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @required = "required" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.DueDate, "Datum", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    <div id="datetimepicker-start" class="input-group">
+                        @Html.TextBox("DueDateRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DueDate, User.Identity.Name)
+                            , new
+                            {
+                                @class = "form-control",
+                                @id = "datetimepicker-starti",
+                                @pattern = NonProfitCRM.Components.DateHelper.ValidatorStringDate,
+                                @required = "required"
+                            })
+                        <span class="input-group-btn">
+                            <a href="#" class="btn btn-success">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                @Html.LabelFor(m => m.AssignedTo, "Přiřazeno", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.AssignedTo,
+                        new SelectList(userList.OrderBy(e => e.Name),
+                            "UserName", "Name", Model.AssignedTo),
+                        new { @data_placeholder = "Vyber uživatele", @class = "select2 form-control", @tabindex = "-1" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.StatusId, "Stav", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default @Html.Raw(Model.StatusId==-1?"active":"")">
+                            <input type="radio" value="-1" name="StatusId" id="StatusId_m1" autocomplete="off" @Html.Raw(Model.StatusId == -1 ? "checked" : "")> Blokovaný
+                        </label>
+                        <label class="btn btn-default @Html.Raw(Model.StatusId==0?"active":"")">
+                            <input type="radio" value="0" name="StatusId" id="StatusId_0" autocomplete="off" @Html.Raw(Model.StatusId == 0 ? "checked" : "")> Nový
+                        </label>
+                        <label class="btn btn-default @Html.Raw(Model.StatusId==1?"active":"")">
+                            <input type="radio" value="1" name="StatusId" id="StatusId_1" autocomplete="off" @Html.Raw(Model.StatusId == 1 ? "checked" : "")> Rozpracovaný
+                        </label>
+                        <label class="btn btn-default @Html.Raw(Model.StatusId==1000?"active":"")">
+                            <input type="radio" value="1000" name="StatusId" id="StatusId_1000" autocomplete="off" @Html.Raw(Model.StatusId == 1 ? "checked" : "")> Dokončený
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <legend>Poznámka</legend>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
+                </div>
+            </div>
+        </fieldset>
+            <div class="btn-toolbar">
+                <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
+                <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
+                @if (Model.Id != 0 && ViewBag.CanEdit)
+                {
+                    <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Task", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
+                        Smazat
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@Html.Partial("_ConfirmDialog")
+
+@Scripts.Render("~/Content/sing/vendor/form-js")
+@Html.Partial("_ParsleyLoader", "validation-form")
+
+@Html.Partial("_ReadonlyScript", (bool)ViewBag.CanEdit)
+
+@{
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+    sb.Append("var optRegionData = [ ");
+    foreach (var obj in new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name).ToList())
+    {
+        sb.AppendFormat("{{ countryid:{1}, regionid:{0}, name: \"{2}\" }},", obj.Id, obj.CountryId, obj.Name);
+    }
+    sb.Append(" ];");
+}
+
+<script>
+    $(document).ready(function () {
+        $('#datetimepicker-start').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+    });
+</script>

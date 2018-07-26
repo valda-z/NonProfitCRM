@@ -46,6 +46,7 @@
         <EntityTypeShape EntityType="Model.ViewNonProfitOrgList" Width="1.5" PointX="5.375" PointY="6.75" />
         <EntityTypeShape EntityType="Model.ViewCompanyList" Width="1.5" PointX="7.375" PointY="6.75" />
         <EntityTypeShape EntityType="Model.ViewEventList" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.ViewTaskList" Width="1.5" PointX="10.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

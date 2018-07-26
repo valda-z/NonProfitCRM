@@ -1,0 +1,211 @@
+﻿@model NonProfitCRM.Models.Event
+@{
+    /**/
+
+    if (Model.Id == 0)
+    {
+        ViewBag.PreTitle = "nová";
+        ViewBag.Title = "Akce";
+    }
+    else
+    {
+        ViewBag.PreTitle = "detail";
+        ViewBag.Title = "Akce";
+    }
+    ViewBag.PathTitle = "seznam Akcí >";
+}
+
+<section class="widget">
+    <header></header>
+    <div class="widget-body">
+        @using (Html.BeginForm(null, null, new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post,
+            new
+            {
+                @class = "form-horizontal",
+                @data_parsley_priority_enabled = "false",
+                @novalidate = "novalidate",
+                @id = "validation-form",
+                @data_parsley_errors_container = ".form-group",
+                @data_parsley_validate = ""
+            }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            <fieldset>
+                <legend>Detail akce: <span class="fw-semi-bold">@Model.Name</span></legend>
+                @Html.Partial("_ValidationSummary", ViewData.ModelState)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                    </div>
+                    @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}"
+                   })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Closed, "Dokončeno", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
+                            <label for="checkbox-ios1-closed">
+                                <input value="true" type="checkbox" id="checkbox-ios1-closed" name="closed" @Html.Raw(Model.Closed != null ? "checked" : "") />
+                            </label>
+                        </div>
+                    </div>
+                    @Html.LabelFor(m => m.DateOfEvent, "Datum akce", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        <div id="datetimepicker-start" class="input-group">
+                            @Html.TextBox("DateOfEventRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DateOfEvent, User.Identity.Name)
+                                , new
+                                {
+                                    @class = "form-control",
+                                    @id = "datetimepicker-starti",
+                                    @pattern = NonProfitCRM.Components.DateHelper.ValidatorStringDate,
+                                    @required = "required"
+                                })
+                            <span class="input-group-btn">
+                                <a href="#" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NonProfitOrgId, "Neziskovka", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.NonProfitOrgId,
+                            new SelectList(new NonProfitCRM.Models.Entities().NonProfitOrg.Where(e => !e.Deleted).OrderBy(e => e.Name), "Id", "Name", Model.NonProfitOrgId),
+                            new { @data_placeholder = "Vyber neziskovku", @class = "select2 form-control", @tabindex = "-1" })
+                    </div>
+                    @Html.LabelFor(m => m.CompanyId, "Firma", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.CompanyId,
+                            new SelectList(new NonProfitCRM.Models.Entities().Company.Where(e => !e.Deleted && NonProfitCRM.Components.CompanyStatusHelper.IsCompany.Contains(e.StatusId)).OrderBy(e => e.Name), "Id", "Name", Model.NonProfitOrgId),
+                            new { @data_placeholder = "Vyber neziskovku", @class = "select2 form-control", @tabindex = "-1" })
+                    </div>
+                </div>
+                <legend>Firma - kontakt</legend>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactCompanyName, "Jméno", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ContactCompanyName, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.ContactCompanyNote, "Poznámka", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ContactCompanyNote, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactCompanyPhone, "Telefon", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ContactCompanyPhone, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.ContactCompanyEmail, "Email", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ContactCompanyEmail, new { @class = "form-control" })
+                    </div>
+                </div>
+                <legend>Neziskovka</legend>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactNonProfitOrgName, "Jméno", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ContactNonProfitOrgName, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.ContactNonProfitOrgNote, "Poznámka", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ContactNonProfitOrgNote, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactNonProfitOrgPhone, "Telefon", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ContactNonProfitOrgPhone, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.ContactNonProfitOrgEmail, "Email", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ContactNonProfitOrgEmail, new { @class = "form-control" })
+                    </div>
+                </div>
+                <legend>Poznámka</legend>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
+                    </div>
+                </div>
+            </fieldset>
+            <div class="btn-toolbar">
+                <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
+                <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
+                @if (Model.Id != 0 && ViewBag.CanEdit)
+                {
+                    <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Company", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
+                        Smazat
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@if (Model.Id > 0)
+{
+    <div class="row mb-lg">
+        <div class="col-md-12">
+            <div class="clearfix">
+                <ul id="tabs1" class="nav nav-tabs pull-left">
+                    <li class="active">
+                        <a href="#tab1" data-toggle="tab">Úkoly</a>
+                    </li>
+                </ul>
+                <div>
+                    <a class="btn btn btn-success  pull-right" href="@Url.Action("Detail", "Task",
+                       new { id = 0, entityid = Model.Id, entity = "Event", returnUrl = Request.RawUrl })">
+                        Nový úkol
+                    </a>
+                </div>
+            </div>
+            <div id="tabs1c" class="tab-content mb-lg">
+                <div class="tab-pane active clearfix" id="tab1">
+                    @Html.Partial("_TaskList",
+                        new NonProfitCRM.Models.Entities().Task.
+                            Where( e => e.EntityId == Model.Id && e.Entity == "Event").
+                            OrderByDescending(e => e.DueDate))
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("_ConfirmDialog")
+
+@Scripts.Render("~/Content/sing/vendor/form-js")
+@Html.Partial("_ParsleyLoader", "validation-form")
+
+@Html.Partial("_ReadonlyScript", (bool)ViewBag.CanEdit)
+
+@{
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+    sb.Append("var optRegionData = [ ");
+    foreach (var obj in new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name).ToList())
+    {
+        sb.AppendFormat("{{ countryid:{1}, regionid:{0}, name: \"{2}\" }},", obj.Id, obj.CountryId, obj.Name);
+    }
+    sb.Append(" ];");
+}
+
+<script>
+    $(document).ready(function () {
+        new Switchery(document.getElementById('checkbox-ios1-closed'), { color: Sing.colors['brand-danger'], size: 'small' });
+        $('.checkbox-ios-notready').each(function (i, elem) { $(elem).removeClass('checkbox-ios-notready') });
+    });
+
+    $(document).ready(function () {
+        $('#datetimepicker-start').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+    });
+</script>
+
+

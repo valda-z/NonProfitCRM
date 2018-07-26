@@ -34,6 +34,8 @@
          grid.Column("Id", "#"),
          grid.Column("DateOfEvent", "Datum", format: @<text>@Html.ActionLink((string)NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, User.Identity.Name),
             "Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>),
+         grid.Column("Name", "Název", format: @<text>@Html.ActionLink((string)item.Name,
+            "Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>),
          grid.Column("CompanyName", "Firma"),
          grid.Column("NonProfitOrgName", "Neziskovka"),
          grid.Column("ContactCompanyName", "Firma-kontakt", style: "hidden-xs hidden-sm"),

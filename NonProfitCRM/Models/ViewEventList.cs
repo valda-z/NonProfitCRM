@@ -17,6 +17,7 @@ namespace NonProfitCRM.Models
         public int Id { get; set; }
         public System.DateTime DateOfEvent { get; set; }
         public int Capacity { get; set; }
+        public string Name { get; set; }
         public string ContactCompanyName { get; set; }
         public string ContactCompanyPhone { get; set; }
         public string ContactCompanyEmail { get; set; }

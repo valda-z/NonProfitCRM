@@ -226,6 +226,7 @@
     <Compile Include="Components\ASWebGrid.cs" />
     <Compile Include="Components\CompanyStatusHelper.cs" />
     <Compile Include="Components\DateHelper.cs" />
+    <Compile Include="Components\DateTimeExtension.cs" />
     <Compile Include="Components\DB\DBHelper.cs" />
     <Compile Include="Components\EAN13.cs" />
     <Compile Include="Components\HtmlDiff.cs" />
@@ -237,13 +238,14 @@
     <Compile Include="Components\Security\HexUtil.cs" />
     <Compile Include="Components\StringHelper.cs" />
     <Compile Include="Components\SystemHelper.cs" />
+    <Compile Include="Components\TaskTemplate.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LeadController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\NonProfitOrgController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -300,6 +302,7 @@
     <Compile Include="Models\Group.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\Log.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -337,6 +340,9 @@
     <Compile Include="Models\ViewNonProfitOrgList.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewTaskList.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewUserProfileList.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -365,6 +371,8 @@
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00015.sql" />
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00016.sql" />
     <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00017.sql" />
+    <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00018.sql" />
+    <EmbeddedResource Include="Components\DB\Scripts\001.000.00000.00000-00019.sql" />
     <Content Include="Content\BarCode\fonts\Fontfabric - Nexa-XBold.svg" />
     <Content Include="Content\BarCode\fonts\Fontfabric - NexaRegular.svg" />
     <Content Include="Content\BarCode\script.js" />
@@ -5724,9 +5732,10 @@
     <Content Include="Views\NonProfitOrg\Detail.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
     <Content Include="Views\Company\List.cshtml" />
-    <Content Include="Views\Lead\Detail.cshtml" />
-    <Content Include="Views\Lead\List.cshtml" />
     <Content Include="Views\Event\List.cshtml" />
+    <Content Include="Views\Event\Detail.cshtml" />
+    <Content Include="Views\Shared\_TaskList.cshtml" />
+    <Content Include="Views\Task\Detail.cshtml" />
     <None Include="Web.Release-STAGE.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
