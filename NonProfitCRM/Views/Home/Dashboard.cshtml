@@ -47,7 +47,7 @@
                                         </span>
                                     }
                                     <i class="fa fa-circle pull-right text-@Html.Raw(item.StatusColor) mt-sm"></i>
-                                    <h5 class="no-margin">@item.Description</h5>
+                                    <h5 class="no-margin"><b>@item.EntityName</b> - @item.Description</h5>
                                     <small class="text-muted"><b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DueDate, User.Identity.Name) - @item.AssignedTo</b> - @item.Note</small>
                                 </a>
                             }
