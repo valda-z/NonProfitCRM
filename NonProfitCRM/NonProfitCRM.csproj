@@ -229,6 +229,7 @@
     <Compile Include="Components\DateTimeExtension.cs" />
     <Compile Include="Components\DB\DBHelper.cs" />
     <Compile Include="Components\EAN13.cs" />
+    <Compile Include="Components\EntityHelper.cs" />
     <Compile Include="Components\HtmlDiff.cs" />
     <Compile Include="Components\HtmlHelpers\DisableHtmlControlExtension.cs" />
     <Compile Include="Components\Http\ConnectionHelper.cs" />

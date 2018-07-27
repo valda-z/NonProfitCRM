@@ -27,6 +27,7 @@ namespace NonProfitCRM.Controllers
                 model = new Task();
                 model.Entity = entity;
                 model.EntityId = int.Parse(entityid);
+                model.AssignedTo = User.Identity.Name;
             }
             else
             {

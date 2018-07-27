@@ -23,6 +23,23 @@
         }).
         ToList();
 
+    string icon = "fa-circle";
+    string entityName = "";
+    switch (Model.Entity)
+    {
+        case "Event":
+            icon = "fa-bullhorn";
+            entityName = "Akci";
+            break;
+        case "Company":
+            icon = "fa-university";
+            entityName = "Firmu";
+            break;
+        case "NonProfitOrg":
+            icon = "fa-group";
+            entityName = "Neziskovku";
+            break;
+    }
 }
 
 <section class="widget">
@@ -43,7 +60,11 @@
             @Html.HiddenFor(m => m.Entity)
             @Html.HiddenFor(m => m.EntityId)
         <fieldset>
-            <legend>Detail úkolu: <span class="fw-semi-bold"></span></legend>
+            <legend>
+                Detail úkolu pro <span class="fw-semi-bold">@entityName</span>:                         
+                @Html.ActionLink(NonProfitCRM.Components.EntityHelper.GetEntityName(Model.Entity, Model.EntityId),
+                    "Detail", Model.Entity, new { id = 0, returnUrl = Request.RawUrl }, new {  })
+            </legend>
             @Html.Partial("_ValidationSummary", ViewData.ModelState)
             <div class="form-group">
                 @Html.LabelFor(m => m.Description, "Popis", new { @class = "col-sm-2 control-label" })
