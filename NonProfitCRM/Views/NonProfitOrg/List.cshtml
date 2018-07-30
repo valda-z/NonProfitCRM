@@ -13,9 +13,11 @@
         <div class="widget-controls">
             @using (Html.BeginForm(null, null, FormMethod.Get))
             {
+                <input id="tags" name="tags" class="form-control" type="text"
+                       value="@Request.QueryString["tags"]" data-role="tagsinput" />
                 <div class="width-200">
                     <div class="input-group input-group-sm input-group-transparent input-group-rounded">
-                        <input type="search" name="search" value="@Request.QueryString["search"]" class="form-control" 
+                        <input type="search" name="search" value="@Request.QueryString["search"]" class="form-control"
                                placeholder="hledání ...">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Hledej!</button>
@@ -46,3 +48,28 @@
          ))
     </div>
 </section>
+
+<script>
+    var tagsadapter = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+            url: '/api/Rest/Tag?guid=' + createGUID(),
+            filter: function (list) {
+                return $.map(list, function (tagname) {
+                    return { name: tagname };
+                });
+            }
+        }
+    });
+    tagsadapter.initialize();
+
+    $('#tags').tagsinput({
+        typeaheadjs: {
+            name: 'tags',
+            displayKey: 'name',
+            valueKey: 'name',
+            source: tagsadapter.ttAdapter()
+        }
+    });
+</script>

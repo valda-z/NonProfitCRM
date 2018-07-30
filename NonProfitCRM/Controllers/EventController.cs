@@ -18,25 +18,41 @@ namespace NonProfitCRM.Controllers
         }
 
         [HttpGet]
-        public ActionResult List(string search)
+        public ActionResult List(string search, string tags)
         {
             if (search == null)
             {
                 search = "";
             }
 
+            if (tags == null)
+            {
+                tags = "";
+            }
+            tags = tags.Trim();
+
             bool showDeleted = (Request.Cookies["nonprofitorgIsDelOn"]?.Value == "true");
 
-            var model = new Entities().ViewEventList.
-                Where(e => (search == "" ||
+            var cx = new Entities();
+            var tagsArr = tags.Split(',');
+
+            var inquery = from x in cx.Tag2Event
+                          where tags.Contains(x.Tag.Tag1)
+                          select x.EventId;
+
+            var model = (from e in cx.ViewEventList
+                    where (showDeleted || !e.Deleted) &&
+                    (search == "" ||
                     (e.CompanyName.StartsWith(search) ||
                         e.Name.StartsWith(search) ||
                         e.ContactCompanyName.StartsWith(search) ||
                         e.NonProfitOrgName.StartsWith(search) ||
                         e.ContactNonProfitOrgName.StartsWith(search)
-                    ))
-                    && (showDeleted || !e.Deleted)).
-                OrderByDescending(e => e.DateOfEvent).Take(Properties.Settings.Default.MAXRECORDS);
+                    )) &&
+                    (tags=="" || inquery.Contains(e.Id))
+                    orderby e.DateOfEvent descending
+                    select e).
+                    Take(Properties.Settings.Default.MAXRECORDS);
 
             return View(model);
         }
@@ -45,6 +61,8 @@ namespace NonProfitCRM.Controllers
         public ActionResult Detail(int id, string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.tags = TagHelper.GetTags(id, "Event");
+
             Event model;
             if (id == 0)
             {
@@ -65,6 +83,7 @@ namespace NonProfitCRM.Controllers
         public ActionResult Detail(int id, Event model, string returnUrl, FormCollection m)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.tags = m["tags"];
 
             bool isClosed = false;
             if (m["closed"] != null && m["closed"].ToString() == "true")
@@ -96,6 +115,7 @@ namespace NonProfitCRM.Controllers
 
                 //update NonProfitOrg
                 Event p = null;
+
                 try
                 {
                     if (model.Id == 0)
@@ -143,6 +163,8 @@ namespace NonProfitCRM.Controllers
                         Logger.Log(User.Identity.Name, "Modify Event " + model.Name + " / " + p.DateOfEvent.ToShortDateString(),
                             _oldObject, Logger.Serialize(p), "Event", p.Id);
                     }
+
+                    TagHelper.SetTags(p.Id, "Event", m["tags"], cx);
                 }
                 finally
                 {

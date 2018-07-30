@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -26,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
     <Use64BitIISExpress />
+    <TypeScriptToolsVersion>2.9</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -239,6 +241,7 @@
     <Compile Include="Components\Security\HexUtil.cs" />
     <Compile Include="Components\StringHelper.cs" />
     <Compile Include="Components\SystemHelper.cs" />
+    <Compile Include="Components\TagHelper.cs" />
     <Compile Include="Components\TaskTemplate.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -246,6 +249,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\NonProfitOrgController.cs" />
+    <Compile Include="Controllers\RestController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -1991,6 +1995,12 @@
     <Content Include="Content\sing\vendor\bootstrap-select\js\i18n\defaults-zh_CN.js" />
     <Content Include="Content\sing\vendor\bootstrap-select\js\i18n\defaults-zh_TW.js" />
     <Content Include="Content\sing\vendor\bootstrap-select\test.html" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput-angular.js" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput-angular.min.js" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput-typeahead.css" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput.css" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput.js" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput.min.js" />
     <Content Include="Content\sing\vendor\bootstrap3-wysihtml5\.gitignore" />
     <Content Include="Content\sing\vendor\bootstrap3-wysihtml5\.settings\.gitignore" />
     <Content Include="Content\sing\vendor\bootstrap3-wysihtml5\dist\bootstrap-wysihtml5-0.0.2.css" />
@@ -4287,6 +4297,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
@@ -5721,6 +5732,9 @@
     <Content Include="Content\BarCode\fonts\Fontfabric - NexaRegular.eot" />
     <Content Include="Content\BarCode\fonts\Fontfabric - NexaRegular.ttf" />
     <Content Include="Content\BarCode\fonts\Fontfabric - NexaRegular.woff" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput-angular.min.js.map" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput.less" />
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput.min.js.map" />
     <None Include="Properties\PublishProfiles\czhesttest - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -5743,6 +5757,9 @@
     <None Include="Web.Release-TEST.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\sing\vendor\bootstrap-tagsinput\typeahead.bundle.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -5767,6 +5784,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

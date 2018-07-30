@@ -1,20 +1,20 @@
 ﻿@model NonProfitCRM.Models.NonProfitOrg
 @{
-                /**/
+    /**/
 
-                /**/
+    /**/
 
-                if (Model.Id == 0)
-                {
-                    ViewBag.PreTitle = "nová";
-                    ViewBag.Title = "Neziskovka";
-                }
-                else
-                {
-                    ViewBag.PreTitle = "detail";
-                    ViewBag.Title = "Neziskovky";
-                }
-                ViewBag.PathTitle = "seznam Neziskovek >";
+    if (Model.Id == 0)
+    {
+        ViewBag.PreTitle = "nová";
+        ViewBag.Title = "Neziskovka";
+    }
+    else
+    {
+        ViewBag.PreTitle = "detail";
+        ViewBag.Title = "Neziskovky";
+    }
+    ViewBag.PathTitle = "seznam Neziskovek >";
 }
 
 <section class="widget">
@@ -30,102 +30,108 @@
             }))
         {
             @Html.HiddenFor(m => m.Id)
-            <fieldset>
-                <legend>Detail neziskovky: <span class="fw-semi-bold">@Model.Name</span></legend>
-                @Html.Partial("_ValidationSummary", ViewData.ModelState)
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
-                    </div>
-                    @Html.LabelFor(m => m.IdentificationNumber, "IČ", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.IdentificationNumber, new { @class = "form-control", @required = "required", @pattern = "[0-9]{8,16}" })
-                    </div>
+        <fieldset>
+            <legend>Detail neziskovky: <span class="fw-semi-bold">@Model.Name</span></legend>
+            @Html.Partial("_ValidationSummary", ViewData.ModelState)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Id, "Tagy", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <input id="tags" name="tags" class="form-control" type="text" value="@ViewBag.tags" data-role="tagsinput" />
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}" })
-                    </div>
-                    @Html.LabelFor(m => m.Www, "WWW stránky", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Www, new { @class = "form-control" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.CountryId, "Země", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.CountryId,
-                            new SelectList(new NonProfitCRM.Models.Entities().Country.OrderBy(e => e.Name), "Id", "Name", Model.CountryId),
-                            new { @data_placeholder = "Vyber zemi", @class = "select2 form-control", @tabindex = "-1" })
-                    </div>
-                    @Html.LabelFor(m => m.RegionId, "Kraj", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.RegionId,
-                            new SelectList(new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name), "Id", "Name", Model.RegionId),
-                            new { @data_placeholder = "Vyber kraj", @class = "select2 form-control", @tabindex = "-1" })
-                    </div>
+                @Html.LabelFor(m => m.IdentificationNumber, "IČ", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.IdentificationNumber, new { @class = "form-control", @required = "required", @pattern = "[0-9]{8,16}" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.City, "Město", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", @required = "required" })
-                    </div>
-                    @Html.LabelFor(m => m.Address, "Adresa", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}" })
                 </div>
-                <legend>Hlavní kontakt</legend>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Contact1Name, "Jméno", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Contact1Name, new { @class = "form-control" })
-                    </div>
-                    @Html.LabelFor(m => m.Contact1Note, "Poznámka", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Contact1Note, new { @class = "form-control" })
-                    </div>
+                @Html.LabelFor(m => m.Www, "WWW stránky", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Www, new { @class = "form-control" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Contact1Phone, "Telefon", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Contact1Phone, new { @class = "form-control" })
-                    </div>
-                    @Html.LabelFor(m => m.Contact1Email, "Email", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Contact1Email, new { @class = "form-control" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CountryId, "Země", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.CountryId,
+                        new SelectList(new NonProfitCRM.Models.Entities().Country.OrderBy(e => e.Name), "Id", "Name", Model.CountryId),
+                        new { @data_placeholder = "Vyber zemi", @class = "select2 form-control", @tabindex = "-1" })
                 </div>
-                <legend>Kontakt 2</legend>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Contact2Name, "Jméno", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Contact2Name, new { @class = "form-control" })
-                    </div>
-                    @Html.LabelFor(m => m.Contact2Note, "Poznámka", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Contact2Note, new { @class = "form-control" })
-                    </div>
+                @Html.LabelFor(m => m.RegionId, "Kraj", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.RegionId,
+                        new SelectList(new NonProfitCRM.Models.Entities().Region.OrderBy(e => e.Name), "Id", "Name", Model.RegionId),
+                        new { @data_placeholder = "Vyber kraj", @class = "select2 form-control", @tabindex = "-1" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Contact2Phone, "Telefon", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Contact2Phone, new { @class = "form-control" })
-                    </div>
-                    @Html.LabelFor(m => m.Contact2Email, "Email", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Contact2Email, new { @class = "form-control" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.City, "Město", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", @required = "required" })
                 </div>
-                <legend>Poznámka</legend>
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
-                    </div>
+                @Html.LabelFor(m => m.Address, "Adresa", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
                 </div>
-            </fieldset>
+            </div>
+            <legend>Hlavní kontakt</legend>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Contact1Name, "Jméno", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact1Name, new { @class = "form-control" })
+                </div>
+                @Html.LabelFor(m => m.Contact1Note, "Poznámka", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact1Note, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Contact1Phone, "Telefon", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact1Phone, new { @class = "form-control" })
+                </div>
+                @Html.LabelFor(m => m.Contact1Email, "Email", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact1Email, new { @class = "form-control" })
+                </div>
+            </div>
+            <legend>Kontakt 2</legend>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Contact2Name, "Jméno", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact2Name, new { @class = "form-control" })
+                </div>
+                @Html.LabelFor(m => m.Contact2Note, "Poznámka", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact2Note, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Contact2Phone, "Telefon", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact2Phone, new { @class = "form-control" })
+                </div>
+                @Html.LabelFor(m => m.Contact2Email, "Email", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact2Email, new { @class = "form-control" })
+                </div>
+            </div>
+            <legend>Poznámka</legend>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
+                </div>
+            </div>
+        </fieldset>
             <div class="btn-toolbar">
                 <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
                 <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
@@ -222,3 +228,27 @@
     changeRegions($("#CountryId").val());
 </script>
 
+<script>
+    var tagsadapter = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+            url: '/api/Rest/Tag?guid=' + createGUID(),
+            filter: function (list) {
+                return $.map(list, function (tagname) {
+                    return { name: tagname };
+                });
+            }
+        }
+    });
+    tagsadapter.initialize();
+
+    $('#tags').tagsinput({
+        typeaheadjs: {
+            name: 'tags',
+            displayKey: 'name',
+            valueKey: 'name',
+            source: tagsadapter.ttAdapter()
+        }
+    });
+</script>

@@ -51,6 +51,8 @@ namespace NonProfitCRM
                         "~/Content/sing/js/settings.js",
                         //"~/Content/sing/vendor/jvectormap/jquery-jvectormap-1.2.2.min.js",
                         //"~/Content/sing/vendor/jvectormap-world/index.js",
+                        "~/Content/sing/vendor/bootstrap-tagsinput/typeahead.bundle.js",
+                        "~/Content/sing/vendor/bootstrap-tagsinput/bootstrap-tagsinput.min.js",
                         "~/Content/sing/js/app.js"
                         ));
 
@@ -73,7 +75,8 @@ namespace NonProfitCRM
                         ));
 
             bundles.Add(new StyleBundle("~/Content/sing/css/sing").Include(
-                        "~/Content/sing/css/application.min.css"
+                        "~/Content/sing/css/application.min.css",
+                        "~/Content/sing/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css"
                         ));
 
             bundles.Add(new StyleBundle("~/Content/custom/css").Include(

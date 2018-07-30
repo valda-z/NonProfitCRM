@@ -30,111 +30,117 @@
             }))
         {
             @Html.HiddenFor(m => m.Id)
-            <fieldset>
-                <legend>Detail akce: <span class="fw-semi-bold">@Model.Name</span></legend>
-                @Html.Partial("_ValidationSummary", ViewData.ModelState)
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
-                    </div>
-                    @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}"
-                   })
+        <fieldset>
+            <legend>Detail akce: <span class="fw-semi-bold">@Model.Name</span></legend>
+            @Html.Partial("_ValidationSummary", ViewData.ModelState)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Id, "Tagy", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <input id="tags" name="tags" class="form-control" type="text" value="@ViewBag.tags" data-role="tagsinput" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                </div>
+                @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}"
+               })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Closed, "Dokončeno", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
+                        <label for="checkbox-ios1-closed">
+                            <input value="true" type="checkbox" id="checkbox-ios1-closed" name="closed" @Html.Raw(Model.Closed != null ? "checked" : "") />
+                        </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Closed, "Dokončeno", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
-                            <label for="checkbox-ios1-closed">
-                                <input value="true" type="checkbox" id="checkbox-ios1-closed" name="closed" @Html.Raw(Model.Closed != null ? "checked" : "") />
-                            </label>
-                        </div>
-                    </div>
-                    @Html.LabelFor(m => m.DateOfEvent, "Datum akce", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        <div id="datetimepicker-start" class="input-group">
-                            @Html.TextBox("DateOfEventRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DateOfEvent, User.Identity.Name)
-                                , new
-                                {
-                                    @class = "form-control",
-                                    @id = "datetimepicker-starti",
-                                    @pattern = NonProfitCRM.Components.DateHelper.ValidatorStringDate,
-                                    @required = "required"
-                                })
-                            <span class="input-group-btn">
-                                <a href="#" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </a>
-                            </span>
-                        </div>
+                @Html.LabelFor(m => m.DateOfEvent, "Datum akce", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    <div id="datetimepicker-start" class="input-group">
+                        @Html.TextBox("DateOfEventRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DateOfEvent, User.Identity.Name)
+                            , new
+                            {
+                                @class = "form-control",
+                                @id = "datetimepicker-starti",
+                                @pattern = NonProfitCRM.Components.DateHelper.ValidatorStringDate,
+                                @required = "required"
+                            })
+                        <span class="input-group-btn">
+                            <a href="#" class="btn btn-success">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </a>
+                        </span>
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.NonProfitOrgId, "Neziskovka", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.NonProfitOrgId,
-                            new SelectList(new NonProfitCRM.Models.Entities().NonProfitOrg.Where(e => !e.Deleted).OrderBy(e => e.Name), "Id", "Name", Model.NonProfitOrgId),
-                            new { @data_placeholder = "Vyber neziskovku", @class = "select2 form-control", @tabindex = "-1" })
-                    </div>
-                    @Html.LabelFor(m => m.CompanyId, "Firma", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.CompanyId,
-                            new SelectList(new NonProfitCRM.Models.Entities().Company.Where(e => !e.Deleted && NonProfitCRM.Components.CompanyStatusHelper.IsCompany.Contains(e.StatusId)).OrderBy(e => e.Name), "Id", "Name", Model.NonProfitOrgId),
-                            new { @data_placeholder = "Vyber neziskovku", @class = "select2 form-control", @tabindex = "-1" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NonProfitOrgId, "Neziskovka", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.NonProfitOrgId,
+                        new SelectList(new NonProfitCRM.Models.Entities().NonProfitOrg.Where(e => !e.Deleted).OrderBy(e => e.Name), "Id", "Name", Model.NonProfitOrgId),
+                        new { @data_placeholder = "Vyber neziskovku", @class = "select2 form-control", @tabindex = "-1" })
                 </div>
-                <legend>Firma - kontakt</legend>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ContactCompanyName, "Jméno", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ContactCompanyName, new { @class = "form-control" })
-                    </div>
-                    @Html.LabelFor(m => m.ContactCompanyNote, "Poznámka", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ContactCompanyNote, new { @class = "form-control" })
-                    </div>
+                @Html.LabelFor(m => m.CompanyId, "Firma", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.CompanyId,
+                        new SelectList(new NonProfitCRM.Models.Entities().Company.Where(e => !e.Deleted && NonProfitCRM.Components.CompanyStatusHelper.IsCompany.Contains(e.StatusId)).OrderBy(e => e.Name), "Id", "Name", Model.NonProfitOrgId),
+                        new { @data_placeholder = "Vyber neziskovku", @class = "select2 form-control", @tabindex = "-1" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ContactCompanyPhone, "Telefon", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ContactCompanyPhone, new { @class = "form-control" })
-                    </div>
-                    @Html.LabelFor(m => m.ContactCompanyEmail, "Email", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ContactCompanyEmail, new { @class = "form-control" })
-                    </div>
+            </div>
+            <legend>Firma - kontakt</legend>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ContactCompanyName, "Jméno", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactCompanyName, new { @class = "form-control" })
                 </div>
-                <legend>Neziskovka</legend>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ContactNonProfitOrgName, "Jméno", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ContactNonProfitOrgName, new { @class = "form-control" })
-                    </div>
-                    @Html.LabelFor(m => m.ContactNonProfitOrgNote, "Poznámka", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ContactNonProfitOrgNote, new { @class = "form-control" })
-                    </div>
+                @Html.LabelFor(m => m.ContactCompanyNote, "Poznámka", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactCompanyNote, new { @class = "form-control" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ContactNonProfitOrgPhone, "Telefon", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ContactNonProfitOrgPhone, new { @class = "form-control" })
-                    </div>
-                    @Html.LabelFor(m => m.ContactNonProfitOrgEmail, "Email", new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ContactNonProfitOrgEmail, new { @class = "form-control" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ContactCompanyPhone, "Telefon", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactCompanyPhone, new { @class = "form-control" })
                 </div>
-                <legend>Poznámka</legend>
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
-                    </div>
+                @Html.LabelFor(m => m.ContactCompanyEmail, "Email", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactCompanyEmail, new { @class = "form-control" })
                 </div>
-            </fieldset>
+            </div>
+            <legend>Neziskovka</legend>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ContactNonProfitOrgName, "Jméno", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactNonProfitOrgName, new { @class = "form-control" })
+                </div>
+                @Html.LabelFor(m => m.ContactNonProfitOrgNote, "Poznámka", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactNonProfitOrgNote, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ContactNonProfitOrgPhone, "Telefon", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactNonProfitOrgPhone, new { @class = "form-control" })
+                </div>
+                @Html.LabelFor(m => m.ContactNonProfitOrgEmail, "Email", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactNonProfitOrgEmail, new { @class = "form-control" })
+                </div>
+            </div>
+            <legend>Poznámka</legend>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
+                </div>
+            </div>
+        </fieldset>
             <div class="btn-toolbar">
                 <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
                 <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
@@ -208,4 +214,27 @@
     });
 </script>
 
+<script>
+    var tagsadapter = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+            url: '/api/Rest/Tag?guid=' + createGUID(),
+            filter: function (list) {
+                return $.map(list, function (tagname) {
+                    return { name: tagname };
+                });
+            }
+        }
+    });
+    tagsadapter.initialize();
 
+    $('#tags').tagsinput({
+        typeaheadjs: {
+            name: 'tags',
+            displayKey: 'name',
+            valueKey: 'name',
+            source: tagsadapter.ttAdapter()
+        }
+    });
+</script>

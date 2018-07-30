@@ -21,18 +21,30 @@ namespace NonProfitCRM.Controllers
         }
 
         [HttpGet]
-        public ActionResult List(string search)
+        public ActionResult List(string search, string tags)
         {
             if (search == null)
             {
                 search = "";
             }
+            if (tags == null)
+            {
+                tags = "";
+            }
+            tags = tags.Trim();
 
             bool showDeleted = (Request.Cookies["nonprofitorgIsDelOn"]?.Value == "true");
 
-            var model = new Entities().ViewNonProfitOrgList.
-                Where(e =>
-                    (search == "" ||
+            var cx = new Entities();
+            var tagsArr = tags.Split(',');
+
+            var inquery = from x in cx.Tag2Company
+                          where tags.Contains(x.Tag.Tag1)
+                          select x.CompanyId;
+
+            var model = (from e in cx.ViewNonProfitOrgList
+                    where 
+                        (search == "" ||
                         (e.IdentificationNumber.StartsWith(search) ||
                             e.Name.StartsWith(search) ||
                             e.Address.StartsWith(search) ||
@@ -43,8 +55,11 @@ namespace NonProfitCRM.Controllers
                             e.RegionName.StartsWith(search) ||
                             e.Www.StartsWith(search)
                         )
-                    ) && (showDeleted || !e.Deleted)).
-                OrderBy(e => e.Name).Take(Properties.Settings.Default.MAXRECORDS); 
+                    ) && (showDeleted || !e.Deleted) &&
+                    (tags == "" || inquery.Contains(e.Id))
+                    orderby e.Name
+                    select e).
+                    Take(Properties.Settings.Default.MAXRECORDS); 
 
             return View(model);
         }
@@ -53,6 +68,7 @@ namespace NonProfitCRM.Controllers
         public ActionResult Detail(int id, string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.tags = TagHelper.GetTags(id, "NonProfitOrg");
             NonProfitOrg model;
             if (id == 0)
             {
@@ -73,6 +89,7 @@ namespace NonProfitCRM.Controllers
         public ActionResult Detail(int id, NonProfitOrg model, string returnUrl, FormCollection m)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.tags = m["tags"];
 
             using (var scope = new TransactionScope(
                 TransactionScopeOption.RequiresNew,
@@ -124,6 +141,7 @@ namespace NonProfitCRM.Controllers
                         Logger.Log(User.Identity.Name, "Modify NonProfitOrg " + model.Name + " / " + p.IdentificationNumber,
                             _oldObject, Logger.Serialize(p), "NonProfitOrg", p.Id);
                     }
+                    TagHelper.SetTags(p.Id, "NonProfitOrg", m["tags"], cx);
                 }
                 catch (DbUpdateException e)
                 {
