@@ -125,6 +125,7 @@
                             Otevřené <span class="fw-semi-bold">Úkoly</span>
                         </h5>
                         <div class="widget-controls">
+                            <div class="ml-sm mr-n-xs"><a title="Zobrazovat i smazané záznamy" onclick="handleIsMyEventOnChanged(); window.location.reload();" href="#"><i id="myEventSwitcher" class="fa fa-circle-thin fa-lg"></i> pouze mé úkoly</a></div>
                         </div>
                     </header>
                     <div class="widget-body no-padding">
@@ -169,3 +170,28 @@
     </main>
 </div>
 
+<script>
+    $(document).ready(function () {
+        drawIsMyEventOnChange();
+    });
+
+    function drawIsMyEventOnChange() {
+        var isMyEventOn = getCookie("nonprofitorgIsMyEventOn");
+        if (isMyEventOn === "false") {
+            $("#myEventSwitcher").removeClass('fa-check-circle').addClass('fa-circle-thin');
+        } else {
+            $("#myEventSwitcher").removeClass('fa-circle-thin').addClass('fa-check-circle');
+        }
+    }
+
+    function handleIsMyEventOnChanged() {
+        var isMyEventOn = getCookie("nonprofitorgIsMyEventOn");
+        if (isMyEventOn === "false") {
+            setCookie('nonprofitorgIsMyEventOn', 'true', 2000);
+        } else {
+            setCookie('nonprofitorgIsMyEventOn', 'false', 2000);
+        }
+        drawIsMyEventOnChange();
+    }
+
+</script>

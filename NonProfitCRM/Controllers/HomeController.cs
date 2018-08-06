@@ -49,11 +49,16 @@ namespace NonProfitCRM.Controllers
                 search = "";
             }
             bool showDeleted = (Request.Cookies["nonprofitorgIsDelOn"]?.Value == "true");
+            bool showOnlyMy = !(Request.Cookies["nonprofitorgIsMyEventOn"]?.Value == "false");
+
             var cx = new Entities();
             var model = new HomeModel();
             model.Search = search.Trim();
             model.TaskList = cx.ViewTaskList.
-                Where(e => e.StatusId < 1000).OrderBy(e=>e.DueDate);
+                Where(
+                    e => e.StatusId < 1000 &&
+                    (!showOnlyMy || e.AssignedTo == User.Identity.Name)
+                    ).OrderBy(e=>e.DueDate);
 
             if (model.Search.Length > 0)
             {
