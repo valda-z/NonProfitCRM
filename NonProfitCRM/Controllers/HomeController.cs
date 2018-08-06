@@ -49,7 +49,7 @@ namespace NonProfitCRM.Controllers
                 search = "";
             }
             bool showDeleted = (Request.Cookies["nonprofitorgIsDelOn"]?.Value == "true");
-            bool showOnlyMy = !(Request.Cookies["nonprofitorgIsMyEventOn"]?.Value == "false");
+            bool showOnlyMy = !(Request.Cookies["nonprofitorgIsMyTaskOn"]?.Value == "false");
 
             var cx = new Entities();
             var model = new HomeModel();

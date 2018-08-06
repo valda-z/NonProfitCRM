@@ -125,7 +125,7 @@
                             Otevřené <span class="fw-semi-bold">Úkoly</span>
                         </h5>
                         <div class="widget-controls">
-                            <div class="ml-sm mr-n-xs"><a title="Zobrazovat i smazané záznamy" onclick="handleIsMyEventOnChanged(); window.location.reload();" href="#"><i id="myEventSwitcher" class="fa fa-circle-thin fa-lg"></i> pouze mé úkoly</a></div>
+                            <div class="ml-sm mr-n-xs"><a title="Zobrazovat i smazané záznamy" onclick="handleIsMyTaskOnChanged(); window.location.reload();" href="#"><i id="myEventSwitcher" class="fa fa-circle-thin fa-lg"></i> pouze mé úkoly</a></div>
                         </div>
                     </header>
                     <div class="widget-body no-padding">
@@ -172,26 +172,26 @@
 
 <script>
     $(document).ready(function () {
-        drawIsMyEventOnChange();
+        drawIsMyTaskOnChange();
     });
 
-    function drawIsMyEventOnChange() {
-        var isMyEventOn = getCookie("nonprofitorgIsMyEventOn");
-        if (isMyEventOn === "false") {
+    function drawIsMyTaskOnChange() {
+        var IsMyTaskOn = getCookie("nonprofitorgIsMyTaskOn");
+        if (IsMyTaskOn === "false") {
             $("#myEventSwitcher").removeClass('fa-check-circle').addClass('fa-circle-thin');
         } else {
             $("#myEventSwitcher").removeClass('fa-circle-thin').addClass('fa-check-circle');
         }
     }
 
-    function handleIsMyEventOnChanged() {
-        var isMyEventOn = getCookie("nonprofitorgIsMyEventOn");
-        if (isMyEventOn === "false") {
-            setCookie('nonprofitorgIsMyEventOn', 'true', 2000);
+    function handleIsMyTaskOnChanged() {
+        var IsMyTaskOn = getCookie("nonprofitorgIsMyTaskOn");
+        if (IsMyTaskOn === "false") {
+            setCookie('nonprofitorgIsMyTaskOn', 'true', 2000);
         } else {
-            setCookie('nonprofitorgIsMyEventOn', 'false', 2000);
+            setCookie('nonprofitorgIsMyTaskOn', 'false', 2000);
         }
-        drawIsMyEventOnChange();
+        drawIsMyTaskOnChange();
     }
 
 </script>
