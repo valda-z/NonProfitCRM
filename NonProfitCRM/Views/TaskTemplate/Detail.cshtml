@@ -1,0 +1,54 @@
+﻿@model NonProfitCRM.Models.EventTaskTemplate
+@{
+    List<string> allRoles = new List<string>();
+    if (Model.Id == 0)
+    {
+        ViewBag.PreTitle = "nová";
+    }
+    else
+    {
+        ViewBag.PreTitle = "detail";
+    }
+    ViewBag.Title = "Šablony";
+    ViewBag.PathTitle = "seznam Šablon >";
+}
+
+<section class="widget">
+    <header></header>
+    <div class="widget-body">
+        @using (Html.BeginForm(null, null, new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post,
+            new
+            {
+                @class = "form-horizontal",
+                @data_parsley_priority_enabled = "false",
+                @novalidate = "novalidate",
+                @id = "validation-form"
+            }))
+        {
+            @Html.HiddenFor(m => m.Id)
+        <fieldset>
+            <legend>Šablona <span class="fw-semi-bold">@Model @Model.Name</span></legend>
+            @Html.Partial("_ValidationSummary", ViewData.ModelState)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-3 control-label" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                </div>
+            </div>
+            <legend>Šablona</legend>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.TextAreaFor(m => m.Data, new { @class = "form-control", @rows = "10" })
+                </div>
+            </div>
+        </fieldset>
+            <div class="btn-toolbar">
+                <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
+                <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
+            </div>
+        }
+    </div>
+</section>
+@Scripts.Render("~/Content/sing/vendor/form-js")
+@Html.Partial("_ParsleyLoader", "validation-form")
+

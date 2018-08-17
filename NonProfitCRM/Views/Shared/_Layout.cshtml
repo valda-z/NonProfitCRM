@@ -44,6 +44,7 @@
         if (User.IsInRole(NonProfitCRM.Models.TypeUserRole.SYSTEM_ADMINISTRATOR.ToString()))
         {
             itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Security log", "Log", "SecurityLog"));
+            itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Šablony úkolů", "TaskTemplate", "List"));
         }
         nbModel.AddItem(itm);
     }

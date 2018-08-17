@@ -1,0 +1,38 @@
+﻿@model IQueryable<NonProfitCRM.Models.EventTaskTemplate>
+@{
+    ViewBag.PreTitle = "seznam";
+    ViewBag.Title = "šablon";
+}
+
+<section class="widget">
+    <header>
+        <h4>
+            @Html.ActionLink("Nová šablona", "Detail", "TaskTemplate", new { id = 0, returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
+        </h4>
+        <div class="widget-controls">
+            @using (Html.BeginForm(null, null, FormMethod.Get))
+            {
+                <div class="width-200">
+                    <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                        <input type="search" name="search" value="@Request.QueryString["search"]" class="form-control" 
+                               placeholder="Search groups">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Hledej!</button>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </header>
+    <div class="widget-body">
+        @{
+            var grid = new NonProfitCRM.Components.ASWebGrid(Model);
+        }
+        @grid.Draw(columns: grid.Columns(
+            grid.Column("Id", "#"),
+            grid.Column("Name", "Šablona", format: @<text>@Html.ActionLink((string)item.Name,
+                "Detail", "TaskTemplate", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>)
+        ))
+    </div>
+</section>

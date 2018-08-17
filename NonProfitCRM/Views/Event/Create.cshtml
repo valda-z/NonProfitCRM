@@ -1,0 +1,123 @@
+﻿@model NonProfitCRM.Models.Event
+@{
+    /**/
+
+    ViewBag.PreTitle = "nová";
+    ViewBag.Title = "Akce";
+    ViewBag.PathTitle = "seznam Akcí >";
+}
+
+<section class="widget">
+    <header></header>
+    <div class="widget-body">
+        @using (Html.BeginForm(null, null, new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post,
+            new
+            {
+                @class = "form-horizontal",
+                @data_parsley_priority_enabled = "false",
+                @novalidate = "novalidate",
+                @id = "validation-form",
+                @data_parsley_errors_container = ".form-group",
+                @data_parsley_validate = ""
+            }))
+        {
+            @Html.HiddenFor(m => m.Id)
+        <fieldset>
+            <legend>Detail akce: <span class="fw-semi-bold">@Model.Name</span></legend>
+            @Html.Partial("_ValidationSummary", ViewData.ModelState)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}"
+               })
+                </div>
+                @Html.LabelFor(m => m.Insurance, "Pojištění", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
+                        <label for="checkbox-ios1-insurance">
+                            <input value="true" type="checkbox" id="checkbox-ios1-insurance" name="Insurance" @Html.Raw(Model.Insurance ? "checked" : "") />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("TaskTemplateId", "Šablona úkolů", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.DropDownList("TaskTemplateId",
+                        new SelectList(new NonProfitCRM.Models.Entities().EventTaskTemplate.OrderBy(e => e.Name), "Id", "Name", 0),
+                        new { @data_placeholder = "Vyber šablonu", @class = "select2 form-control", @tabindex = "-1" })
+                </div>
+                @Html.LabelFor(m => m.DateOfEvent, "Datum akce", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    <div id="datetimepicker-start" class="input-group">
+                        @Html.TextBox("DateOfEventRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DateOfEvent, User.Identity.Name)
+                            , new
+                            {
+                                @class = "form-control",
+                                @id = "datetimepicker-starti",
+                                @pattern = NonProfitCRM.Components.DateHelper.ValidatorStringDate,
+                                @required = "required"
+                            })
+                        <span class="input-group-btn">
+                            <a href="#" class="btn btn-success">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NonProfitOrgId, "Neziskovka", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.NonProfitOrgId,
+                        new SelectList(new NonProfitCRM.Models.Entities().NonProfitOrg.Where(e => !e.Deleted).OrderBy(e => e.Name), "Id", "Name", Model.NonProfitOrgId),
+                        new { @data_placeholder = "Vyber neziskovku", @class = "select2 form-control", @tabindex = "-1" })
+                </div>
+                @Html.LabelFor(m => m.CompanyId, "Firma", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.CompanyId,
+                        new SelectList(new NonProfitCRM.Models.Entities().Company.Where(e => !e.Deleted && NonProfitCRM.Components.CompanyStatusHelper.IsCompany.Contains(e.StatusId)).OrderBy(e => e.Name), "Id", "Name", Model.NonProfitOrgId),
+                        new { @data_placeholder = "Vyber neziskovku", @class = "select2 form-control", @tabindex = "-1" })
+                </div>
+            </div>
+            <legend>Poznámka</legend>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
+                </div>
+            </div>
+        </fieldset>
+            <div class="btn-toolbar">
+                <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
+                <button type="submit" name="save" class="btn btn btn-primary pull-right">Vytvořit</button>
+            </div>
+        }
+    </div>
+</section>
+
+@Html.Partial("_ConfirmDialog")
+
+@Scripts.Render("~/Content/sing/vendor/form-js")
+@Html.Partial("_ParsleyLoader", "validation-form")
+
+@Html.Partial("_ReadonlyScript", (bool)ViewBag.CanEdit)
+
+<script>
+    $(document).ready(function () {
+        new Switchery(document.getElementById('checkbox-ios1-insurance'), { color: Sing.colors['brand-success'], size: 'small' });
+        $('.checkbox-ios-notready').each(function (i, elem) { $(elem).removeClass('checkbox-ios-notready') });
+    });
+
+    $(document).ready(function () {
+        $('#datetimepicker-start').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+    });
+</script>
+

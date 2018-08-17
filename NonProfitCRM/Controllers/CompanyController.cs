@@ -145,6 +145,7 @@ namespace NonProfitCRM.Controllers
                         string _oldObject = Logger.Serialize(p);
                         p.StatusId = model.StatusId;
                         p.Address = model.Address;
+                        p.Insurance = model.Insurance;
                         p.City = model.City;
                         p.Contact1Email = model.Contact1Email;
                         p.Contact1Name = model.Contact1Name;

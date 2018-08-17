@@ -84,6 +84,81 @@ namespace NonProfitCRM.Controllers
         }
 
         [HttpGet]
+        public ActionResult Create(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            var model = new Event();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Create(Event model, string returnUrl, FormCollection m)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+
+            bool isClosed = false;
+            int id = 0;
+            int templateId = int.Parse(m["TaskTemplateId"]);
+
+            bool isokA = false;
+            var dtm = DateHelper.ConvertDate(m["DateOfEventRaw"], out isokA);
+            if (!isokA || dtm == null)
+            {
+                ModelState.AddModelError("", "Chybný formát data pro Datum Akce.");
+            }
+            if (!isokA)
+            {
+                return View(model);
+            }
+
+            using (var scope = new TransactionScope(
+                TransactionScopeOption.RequiresNew,
+                new TransactionOptions()
+                {
+                    IsolationLevel = IsolationLevel.ReadCommitted
+                }))
+            {
+
+                Entities cx = new Entities();
+                model.DateOfEvent = dtm.Value;
+
+                //update NonProfitOrg
+                Event p = model;
+
+                // contact info from company / nonprofitorg
+                var comp = cx.Company.Single(e => e.Id == p.CompanyId);
+                p.ContactCompanyEmail = comp.Contact1Email;
+                p.ContactCompanyName = comp.Contact1Name;
+                p.ContactCompanyNote = comp.Contact1Note;
+                p.ContactCompanyPhone = comp.Contact1Phone;
+                var nonp = cx.NonProfitOrg.Single(e => e.Id == p.NonProfitOrgId);
+                p.ContactNonProfitOrgEmail = nonp.Contact1Email;
+                p.ContactNonProfitOrgName = nonp.Contact1Name;
+                p.ContactNonProfitOrgNote = nonp.Contact1Note;
+                p.ContactNonProfitOrgPhone = nonp.Contact1Phone;
+
+                p.Closed = (isClosed ? new DateTime?(DateTime.UtcNow) : null);
+                cx.Event.Add(p);
+                p.Updated = DateTime.UtcNow;
+                p.UpdatedBy = User.Identity.Name;
+                Logger.Log(User.Identity.Name, "Create Event " + model.Name + " / " + p.DateOfEvent.ToShortDateString(), null, model,
+                    "Event", p.Id);
+                cx.SaveChanges();
+                foreach (var obj in new
+                    TaskTemplate(templateId).GetTasks(User.Identity.Name, p.DateOfEvent, p.Id))
+                {
+                    cx.Task.Add(obj);
+                    cx.SaveChanges();
+                }
+                id = p.Id;
+                scope.Complete();
+            }
+
+            // redirect
+            return RedirectToAction("Detail", new { id = id, returnUrl = returnUrl });
+        }
+
+        [HttpGet]
         public ActionResult Detail(int id, string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -146,20 +221,7 @@ namespace NonProfitCRM.Controllers
                 {
                     if (model.Id == 0)
                     {
-                        p = model;
-                        p.Closed = (isClosed ? new DateTime?(DateTime.UtcNow) : null);
-                        cx.Event.Add(p);
-                        p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
-                        Logger.Log(User.Identity.Name, "Create Event " + model.Name + " / " + p.DateOfEvent.ToShortDateString(), null, model,
-                            "Event", p.Id);
-                        cx.SaveChanges();
-                        foreach(var obj in new 
-                            TaskTemplate().GetTasks(User.Identity.Name, p.DateOfEvent, p.Id))
-                        {
-                            cx.Task.Add(obj);
-                            cx.SaveChanges();
-                        }
+                        throw new Exception("Unsupported operation!");
                     }
                     else
                     {
@@ -171,6 +233,7 @@ namespace NonProfitCRM.Controllers
                         }
                         p.Capacity = model.Capacity;
                         p.CompanyId = model.CompanyId;
+                        p.Insurance = model.Insurance;
                         p.ContactCompanyEmail = model.ContactCompanyEmail;
                         p.ContactCompanyName = model.ContactCompanyName;
                         p.ContactCompanyNote = model.ContactCompanyNote;

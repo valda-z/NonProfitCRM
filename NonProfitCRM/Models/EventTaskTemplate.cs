@@ -12,8 +12,10 @@ namespace NonProfitCRM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class C_Version
+    public partial class EventTaskTemplate
     {
-        public string VersionName { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Data { get; set; }
     }
 }

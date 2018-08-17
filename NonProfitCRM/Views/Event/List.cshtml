@@ -8,7 +8,7 @@
 <section class="widget">
     <header>
         <h4>
-            @Html.ActionLink("Vytvořit", "Detail", "Event", new { id = 0, returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
+            @Html.ActionLink("Vytvořit", "Create", "Event", new { returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
         </h4>
         <div class="widget-controls">
             @using (Html.BeginForm(null, null, FormMethod.Get))
@@ -42,6 +42,14 @@
                  grid.Column("NonProfitOrgName", "Neziskovka", style: "hidden-xs hidden-sm"),
                  grid.Column("ContactCompanyName", "Firma-kontakt", style: "hidden-xs hidden-sm"),
                  grid.Column("ContactNonProfitOrgName", "Neziskovka-kontakt", style: "hidden-xs hidden-sm"),
+                 grid.Column("Insurance", "Pjistit", 
+                 format: @<text>
+                    @{if (item.Insurance)
+                                 {<span><i style="color: forestgreen" class="fa fa-check-circle fa-lg"></i></span>}
+                                 else
+                                 {<span><i class="fa fa-circle-thin fa-lg"></i></span>}
+                    }</text>
+                 ,style: "hidden-xs hidden-sm"),
                  grid.Column("StatusId", "Stav", format: @<text>
                     @{if (item.Closed == null)
                                  {<span class="label label-success">aktivní</span>}

@@ -24,7 +24,8 @@
 * SOFTWARE.
 */
 
-﻿using NonProfitCRM.Models;
+using Newtonsoft.Json;
+using NonProfitCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,17 +48,21 @@ namespace NonProfitCRM.Components
         }
 
         private List<TaskTemplateItem> template;
-        public TaskTemplate()
+        public static TaskTemplateItem[] ArrDeserialize(string text)
         {
-            template = new List<TaskTemplateItem>();
-            template.Add(new TaskTemplateItem(-5, "Potvrzení činností"));
-            template.Add(new TaskTemplateItem(-3, "Pojišťovací seznamy"));
-            template.Add(new TaskTemplateItem(-1, "Pojistit"));
-            template.Add(new TaskTemplateItem(-1, "Poslední ověření, obědy, BOZP"));
-            template.Add(new TaskTemplateItem(1, "Evaluační dotazníky a zpětná vazba neziskovky"));
-            template.Add(new TaskTemplateItem(3, "Follow-up a evaluační dotazníky"));
-            template.Add(new TaskTemplateItem(5, "Vyhodnocení evaluačních dotazníků"));
-            template.Add(new TaskTemplateItem(7, "Fakturace"));
+            return JsonConvert.DeserializeObject<TaskTemplateItem[]>(text);
+        }
+        public static string ArrSerialize(TaskTemplateItem[] data)
+        {
+            return JsonConvert.SerializeObject(data, Formatting.Indented);
+        }
+        public TaskTemplate(int TemplateId)
+        {
+            template = new List<TaskTemplateItem>(
+                ArrDeserialize(
+                    new Entities().EventTaskTemplate.Single(e => e.Id == TemplateId).Data
+                    )
+                );
         }
 
         public List<Task> GetTasks(string username, DateTime date, int entityId)
