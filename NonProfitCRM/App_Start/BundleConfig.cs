@@ -86,12 +86,9 @@ namespace NonProfitCRM
                         "~/Scripts/jstz-1.0.4.min.js"
                         ));
 
-            bundles.Add(new ScriptBundle("~/Content/sing/vendor/fullcalendar").Include(
-                        "~/Content/sing/vendor/fullcalendar/fullcalendar.js"
-                        ));
-
             bundles.Add(new ScriptBundle("~/Content/sing/vendor/spec-js").Include(
                         "~/Content/sing/vendor/underscore/underscore.js",
+                        "~/Content/sing/vendor/fullcalendar/fullcalendar.js",
                         "~/Content/sing/vendor/jquery.sparkline/index.js",
                         "~/Content/sing/vendor/d3/d3.min.js",
                         "~/Content/sing/vendor/rickshaw/rickshaw.min.js",
