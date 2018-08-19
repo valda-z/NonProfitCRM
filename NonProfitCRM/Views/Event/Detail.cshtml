@@ -38,7 +38,7 @@
                 <div class="col-sm-4">
                     <input id="tags" name="tags" class="form-control" type="text" value="@ViewBag.tags" data-role="tagsinput" />
                 </div>
-                @Html.LabelFor(m => m.Insurance, "Pojištění", new { @class = "col-sm-2 control-label" })
+                @Html.LabelFor(m => m.Insurance, "Pojistit", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
                     <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
                         <label for="checkbox-ios1-insurance">
@@ -154,7 +154,7 @@
                 <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
                 @if (Model.Id != 0 && ViewBag.CanEdit)
                 {
-                    <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Company", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
+                    <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Event", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
                         Smazat
                     </a>
                 }
