@@ -28,6 +28,7 @@
     }
     if (User.IsInRole(NonProfitCRM.Models.TypeUserRole.CRM.ToString()))
     {
+        nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-calendar", "Kalendář", "Calendar", "Calendar"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-bullhorn", "Akce", "Event", "List"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-university", "Firmy", "Company", "List"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-group", "Neziskovky", "NonProfitOrg", "List"));
@@ -53,6 +54,7 @@
 @Scripts.Render("~/Content/sing/vendor/libs-js")
 @Scripts.Render("~/Content/sing/js/apps-js")
 @Scripts.Render("~/Content/sing/vendor/spec-js")
+@Scripts.Render("~/Content/sing/vendor/fullcalendar")
 
 @Html.Partial("_NavBar", nbModel)
 

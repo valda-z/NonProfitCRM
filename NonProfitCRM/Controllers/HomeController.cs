@@ -42,6 +42,7 @@ namespace NonProfitCRM.Controllers
         {
             return RedirectToAction("Dashboard");
         }
+
         public ActionResult Dashboard(string search)
         {
             if (search == null)

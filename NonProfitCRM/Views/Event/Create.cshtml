@@ -27,23 +27,13 @@
             @Html.Partial("_ValidationSummary", ViewData.ModelState)
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
+                <div class="col-sm-4">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
                 </div>
-            </div>
-            <div class="form-group">
                 @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
                     @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}"
                })
-                </div>
-                @Html.LabelFor(m => m.Insurance, "Pojištění", new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-4">
-                    <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
-                        <label for="checkbox-ios1-insurance">
-                            <input value="true" type="checkbox" id="checkbox-ios1-insurance" name="Insurance" @Html.Raw(Model.Insurance ? "checked" : "") />
-                        </label>
-                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -109,11 +99,6 @@
 @Html.Partial("_ReadonlyScript", (bool)ViewBag.CanEdit)
 
 <script>
-    $(document).ready(function () {
-        new Switchery(document.getElementById('checkbox-ios1-insurance'), { color: Sing.colors['brand-success'], size: 'small' });
-        $('.checkbox-ios-notready').each(function (i, elem) { $(elem).removeClass('checkbox-ios-notready') });
-    });
-
     $(document).ready(function () {
         $('#datetimepicker-start').datetimepicker({
             format: 'YYYY-MM-DD'

@@ -40,4 +40,12 @@ namespace NonProfitCRM.Models
         public string Search { get; set; }
 
     }
+
+    public class CalendarHomeModel
+    {
+        public IEnumerable<ViewTaskList> TaskList { get; set; }
+        public IEnumerable<ViewEventList> EventList { get; set; }
+        public int Shift;
+        public DateTime CurrentMonth;
+    }
 }

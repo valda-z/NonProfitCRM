@@ -44,6 +44,57 @@ namespace NonProfitCRM.Components
                 " (" + shortLocal + ")";
         }
 
+        public static DateTime GetCurrMonthUTC(int monthShift)
+        {
+            var ret = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1).AddMonths(monthShift);
+            return ret;
+        }
+
+        public static string MonthToString(int m)
+        {
+            string ret = "";
+            switch (m)
+            {
+                case 1:
+                    ret = "Leden";
+                    break;
+                case 2:
+                    ret = "Únor";
+                    break;
+                case 3:
+                    ret = "Březen";
+                    break;
+                case 4:
+                    ret = "Duben";
+                    break;
+                case 5:
+                    ret = "Květen";
+                    break;
+                case 6:
+                    ret = "Červen";
+                    break;
+                case 7:
+                    ret = "Červenec";
+                    break;
+                case 8:
+                    ret = "Srpen";
+                    break;
+                case 9:
+                    ret = "Září";
+                    break;
+                case 10:
+                    ret = "Říjen";
+                    break;
+                case 11:
+                    ret = "Listopad";
+                    break;
+                case 12:
+                    ret = "Prosinec";
+                    break;
+            }
+            return ret;
+        }
+
         public static string FormatDate(DateTime? dt, string username)
         {
             if (dt == null)

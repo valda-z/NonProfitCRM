@@ -1,0 +1,169 @@
+﻿@model NonProfitCRM.Models.CalendarHomeModel
+@{
+    /**/
+
+    ViewBag.PreTitle = "kalendář";
+    ViewBag.Title = "Akcí";
+    ViewBag.PathTitle = "kalendář";
+}
+
+
+<div class="row">
+    <div class="col-md-3">
+        <h1>@NonProfitCRM.Components.DateHelper.MonthToString(Model.CurrentMonth.Month) <span class="fw-semi-bold">@Model.CurrentMonth.Year</span></h1>
+        <div class="calendar-external-events mb-lg" id='external-events'>
+            <div class='external-event bg-success text-white' ><a class="text-white" title="Zobrazovat úkoly" onclick="handleShowTasksOnChanged(); window.location.reload();" href="#"><i id="myEventSwitcherShow" class="fa fa-circle-thin fa-lg"></i>&nbsp; zobrazovat úkoly</a></div>
+            <div class='external-event bg-primary text-white' ><a class="text-white" title="Zobrazovat pouze mé úkoly" onclick="handleIsMyTaskOnChanged(); window.location.reload();" href="#"><i id="myEventSwitcher" class="fa fa-circle-thin fa-lg"></i>&nbsp; pouze mé úkoly</a></div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <section class="widget widget-calendar">
+            <div class="widget-body">
+                <div class="calendar-controls">
+                    <div class="btn-group ">
+                        <button class="btn btn-default" id="calender-prev"><i class="fa fa-angle-left"></i></button>
+                        <button class="btn btn-default" id="calender-next"><i class="fa fa-angle-right"></i></button>
+                    </div>
+                    <div id="calendar-switcher" class="btn-group pull-right" data-toggle="buttons">
+                        <label class="btn btn-default active">
+                            <input type="radio" name="view" value="month"> Month
+                        </label>
+                    </div>
+                </div>
+                <div id="calendar" class="calendar"></div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //new Switchery(document.getElementById('checkbox-ios1-insurance'), { color: Sing.colors['brand-success'], size: 'small' });
+        $('.checkbox-ios-notready').each(function (i, elem) { $(elem).removeClass('checkbox-ios-notready') });
+    });
+
+    $(function () {
+        function pageLoad() {
+            var $calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: '',
+                    center: '',
+                    right: ''
+                },
+                firstDay: 1,
+                dayNamesShort: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
+                selectable: false,
+                selectHelper: false,
+                editable: false,
+                droppable: false,
+
+                // Events
+                events: [
+                    @foreach(var i in Model.EventList)
+                    {
+                        @Html.Raw("{");
+                        @Html.Raw("title: '"+i.Name+" ("+i.NonProfitOrgName+" / "+i.CompanyName+")',");
+                        @Html.Raw("start: new Date("+i.DateOfEvent.Year+", "+(i.DateOfEvent.Month-1)+", "+i.DateOfEvent.Day+"),");
+                        @Html.Raw("end: new Date(" + i.DateOfEvent.Year + ", " + (i.DateOfEvent.Month-1) + ", " + i.DateOfEvent.Day + "),");
+                        @Html.Raw("url: '"+ Url.Action("Detail", "Event",
+                            new { id = i.Id, returnUrl = Request.RawUrl }) + "',");
+                        @Html.Raw("backgroundColor: '#e5603b',");
+                        @Html.Raw("textColor: '#ffffff'");
+                        @Html.Raw("},\n");
+                    }
+
+                    @if (Model.TaskList != null)
+                    {
+                        foreach(var i in Model.TaskList)
+                        {
+                            @Html.Raw("{");
+                            @Html.Raw("title: '"+i.Description+"("+i.EntityName+" / "+i.AssignedTo+")',");
+                            @Html.Raw("start: new Date("+i.DueDate.Year+", "+(i.DueDate.Month-1)+", "+i.DueDate.Day+"),");
+                            @Html.Raw("end: new Date(" + i.DueDate.Year + ", " + (i.DueDate.Month-1) + ", " + i.DueDate.Day + "),");
+                            @Html.Raw("url: '"+ Url.Action("Detail", "Task",
+                                new { id = i.Id, returnUrl = Request.RawUrl }) + "',");
+                            @Html.Raw("backgroundColor: '#64bd63',");
+                            @Html.Raw("textColor: '#ffffff'");
+                            @Html.Raw("},\n");
+                        }
+                    }
+
+                ],
+
+                eventClick: function (event) {
+                    // opens events in a popup window
+                    if (event.url) {
+                        window.location.href = event.url;
+                        return false;
+                    } else {
+                        return false;
+                    }
+                }
+
+            });
+
+            //$("#calendar-switcher").find("label").click(function () {
+            //    $calendar.fullCalendar('changeView', $(this).find('input').val())
+            //});
+
+            $('#calender-prev').click(function () {
+                window.location.href = '@Url.Action("Calendar", "Calendar", new { id = (Model.Shift-1) })'
+            });
+            $('#calender-next').click(function () {
+                window.location.href = '@Url.Action("Calendar", "Calendar", new { id = (Model.Shift+1) })'
+            });
+
+            $calendar.fullCalendar('gotoDate', new Date(@Model.CurrentMonth.Year, @(Model.CurrentMonth.Month-1), 1));
+        }
+
+        $(document).ready(function () {
+            pageLoad();
+        });
+
+    });
+
+    $(document).ready(function () {
+        drawIsMyTaskOnChange();
+        drawShowTasksOnChange();
+    });
+
+    function drawShowTasksOnChange() {
+        var IsMyTaskOn = getCookie("nonprofitorgShowTasks");
+        if (IsMyTaskOn === "false") {
+            $("#myEventSwitcherShow").removeClass('fa-check-circle').addClass('fa-circle-thin');
+        } else {
+            $("#myEventSwitcherShow").removeClass('fa-circle-thin').addClass('fa-check-circle');
+        }
+    }
+
+    function handleShowTasksOnChanged() {
+        var IsMyTaskOn = getCookie("nonprofitorgShowTasks");
+        if (IsMyTaskOn === "false") {
+            setCookie('nonprofitorgShowTasks', 'true', 2000);
+        } else {
+            setCookie('nonprofitorgShowTasks', 'false', 2000);
+        }
+        drawShowTasksOnChange();
+    }
+
+    function drawIsMyTaskOnChange() {
+        var IsMyTaskOn = getCookie("nonprofitorgIsMyTaskOn");
+        if (IsMyTaskOn === "false") {
+            $("#myEventSwitcher").removeClass('fa-check-circle').addClass('fa-circle-thin');
+        } else {
+            $("#myEventSwitcher").removeClass('fa-circle-thin').addClass('fa-check-circle');
+        }
+    }
+
+    function handleIsMyTaskOnChanged() {
+        var IsMyTaskOn = getCookie("nonprofitorgIsMyTaskOn");
+        if (IsMyTaskOn === "false") {
+            setCookie('nonprofitorgIsMyTaskOn', 'true', 2000);
+        } else {
+            setCookie('nonprofitorgIsMyTaskOn', 'false', 2000);
+        }
+        drawIsMyTaskOnChange();
+    }
+
+</script>
+

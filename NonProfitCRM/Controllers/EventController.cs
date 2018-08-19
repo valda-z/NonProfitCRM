@@ -131,6 +131,7 @@ namespace NonProfitCRM.Controllers
                 p.ContactCompanyName = comp.Contact1Name;
                 p.ContactCompanyNote = comp.Contact1Note;
                 p.ContactCompanyPhone = comp.Contact1Phone;
+                p.Insurance = comp.Insurance;
                 var nonp = cx.NonProfitOrg.Single(e => e.Id == p.NonProfitOrgId);
                 p.ContactNonProfitOrgEmail = nonp.Contact1Email;
                 p.ContactNonProfitOrgName = nonp.Contact1Name;

@@ -244,6 +244,7 @@
     <Compile Include="Components\TagHelper.cs" />
     <Compile Include="Components\TaskTemplate.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -5762,6 +5763,7 @@
     <Content Include="Views\TaskTemplate\Detail.cshtml" />
     <Content Include="Views\TaskTemplate\List.cshtml" />
     <Content Include="Views\Event\Create.cshtml" />
+    <Content Include="Views\Calendar\Calendar.cshtml" />
     <None Include="Web.Release-STAGE.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
