@@ -241,6 +241,7 @@
     <Compile Include="Components\Security\HexUtil.cs" />
     <Compile Include="Components\StringHelper.cs" />
     <Compile Include="Components\SystemHelper.cs" />
+    <Compile Include="Components\StatisticsHelper.cs" />
     <Compile Include="Components\TagHelper.cs" />
     <Compile Include="Components\TaskTemplate.cs" />
     <Compile Include="Controllers\AccountController.cs" />

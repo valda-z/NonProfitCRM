@@ -26,6 +26,7 @@
 
 ﻿using System;
 using System.Collections.Generic;
+using NonProfitCRM.Components;
 using System.Linq;
 using System.Web;
 
@@ -37,6 +38,8 @@ namespace NonProfitCRM.Models
         public IEnumerable<ViewEventList> EventList { get; set; }
         public IEnumerable<ViewCompanyList> CompanyList { get; set; }
         public IEnumerable<ViewNonProfitOrgList> NonProfitOrgList { get; set; }
+        public StatisticsHelper.StatDataWidget StatsEvents { get; set; }
+        public StatisticsHelper.StatDataWidget StatsEventsPeople { get; set; }
         public string Search { get; set; }
 
     }

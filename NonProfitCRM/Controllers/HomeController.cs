@@ -105,6 +105,9 @@ namespace NonProfitCRM.Controllers
                     OrderBy(e => e.Name).Take(Properties.Settings.Default.MAXRECORDS);
             }
 
+            model.StatsEvents = StatisticsHelper.GetEventStatWidget();
+            model.StatsEventsPeople = StatisticsHelper.GetEventPeopleStatWidget();
+
             return View(model);
         }
     }

@@ -118,53 +118,142 @@
                 </section>
             </div>
             <div class="col-md-6 widget-container ui-sortable">
-                <section class="widget" id="shares-widget" data-widgster-load="demo/ajax/widgets/shares.php">
-                    <header class="ui-sortable-handle">
-                        <h5>
-                            <span class="label label-primary"><i class="fa fa-tasks"></i></span> &nbsp;
-                            Otevřené <span class="fw-semi-bold">Úkoly</span>
-                        </h5>
-                        <div class="widget-controls">
-                            <div class="ml-sm mr-n-xs"><a title="Zobrazovat pouze mé úkoly" onclick="handleIsMyTaskOnChanged(); window.location.reload();" href="#"><i id="myEventSwitcher" class="fa fa-circle-thin fa-lg"></i> pouze mé úkoly</a></div>
-                        </div>
-                    </header>
-                    <div class="widget-body no-padding">
-                        <div class="list-group list-group-lg">
-
-                            @foreach (var item in Model.TaskList)
-                            {
-                                string icon = "fa-circle";
-                                switch (item.Entity)
-                                {
-                                    case "Event":
-                                        icon = "fa-bullhorn";
-                                        break;
-                                    case "Company":
-                                        icon = "fa-university";
-                                        break;
-                                    case "NonProfitOrg":
-                                        icon = "fa-group";
-                                        break;
-                                }
-
-                                <a href="@Url.Action("Detail", "Task", new { id = item.Id, returnUrl = Request.RawUrl })" class="list-group-item">
-                                    <span class="thumb-sm pull-left mr">
-                                        <i class="fa @Html.Raw(icon) mt-0" style="font-size:24px"></i>
-                                    </span>
-                                    @if (item.DueDate < DateTime.Now)
-                                    {
-                                        <span class="thumb-sm pull-left mr">
-                                            <i class="fa fa-exclamation-circle text-danger mt-0" style="font-size:24px"></i>
+                <div class="row">
+                    <div class="col-md-6">
+                        <section class="widget bg-gray text-white">
+                            <div class="widget-body clearfix">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <span class="widget-icon">
+                                            <i class="glyphicon glyphicon-certificate"></i>
                                         </span>
-                                    }
-                                    <i class="fa fa-circle pull-right text-@Html.Raw(item.StatusColor) mt-sm"></i>
-                                    <h5 class="no-margin"><b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DueDate, User.Identity.Name)</b> - @item.Description</h5>
-                                    <small class="text-muted"><b>@item.EntityName - @item.AssignedTo</b> - @item.Note</small>
-                                </a>
-                            }
-                        </div>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <h5 class="no-margin">Akce v <b>@Model.StatsEvents.Year</b> ke dnešku</h5>
+                                        <p class="h2 no-margin fw-normal">@Model.StatsEvents.CountThisYear</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <h5 class="no-margin">Rozdíl proti @(Model.StatsEvents.Year - 1)</h5>
+                                        <p class="value4">@(Model.StatsEvents.CountThisYear - Model.StatsEvents.CountLastYear)</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q1: <b>@(Model.StatsEvents.Q1Count)</b></h5>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q2: <b>@(Model.StatsEvents.Q2Count)</b></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q3: <b>@(Model.StatsEvents.Q3Count)</b></h5>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q4: <b>@(Model.StatsEvents.Q4Count)</b></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </section>
+                    <div class="col-md-6">
+                        <section class="widget bg-primary text-white">
+                            <div class="widget-body clearfix">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <span class="widget-icon">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <h5 class="no-margin">Dobrovolníci ve <b>@Model.StatsEventsPeople.Year</b> ke dnešku</h5>
+                                        <p class="h2 no-margin fw-normal">@Model.StatsEventsPeople.CountThisYear</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <h5 class="no-margin">Rozdíl proti @(Model.StatsEventsPeople.Year - 1)</h5>
+                                        <p class="value4">@(Model.StatsEventsPeople.CountThisYear - Model.StatsEventsPeople.CountLastYear)</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q1: <b>@(Model.StatsEventsPeople.Q1Count)</b></h5>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q2: <b>@(Model.StatsEventsPeople.Q2Count)</b></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q3: <b>@(Model.StatsEventsPeople.Q3Count)</b></h5>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q4: <b>@(Model.StatsEventsPeople.Q4Count)</b></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="widget">
+                            <header class="ui-sortable-handle">
+                                <h5>
+                                    <span class="label label-primary"><i class="fa fa-tasks"></i></span> &nbsp;
+                                    Otevřené <span class="fw-semi-bold">Úkoly</span>
+                                </h5>
+                                <div class="widget-controls">
+                                    <div class="ml-sm mr-n-xs"><a title="Zobrazovat pouze mé úkoly" onclick="handleIsMyTaskOnChanged(); window.location.reload();" href="#"><i id="myEventSwitcher" class="fa fa-circle-thin fa-lg"></i> pouze mé úkoly</a></div>
+                                </div>
+                            </header>
+                            <div class="widget-body no-padding">
+                                <div class="list-group list-group-lg">
+
+                                    @foreach (var item in Model.TaskList)
+                                    {
+                                        string icon = "fa-circle";
+                                        switch (item.Entity)
+                                        {
+                                            case "Event":
+                                                icon = "fa-bullhorn";
+                                                break;
+                                            case "Company":
+                                                icon = "fa-university";
+                                                break;
+                                            case "NonProfitOrg":
+                                                icon = "fa-group";
+                                                break;
+                                        }
+
+                                        <a href="@Url.Action("Detail", "Task", new { id = item.Id, returnUrl = Request.RawUrl })" class="list-group-item">
+                                            <span class="thumb-sm pull-left mr">
+                                                <i class="fa @Html.Raw(icon) mt-0" style="font-size:24px"></i>
+                                            </span>
+                                            @if (item.DueDate < DateTime.Now)
+                                            {
+                                                <span class="thumb-sm pull-left mr">
+                                                    <i class="fa fa-exclamation-circle text-danger mt-0" style="font-size:24px"></i>
+                                                </span>
+                                            }
+                                            <i class="fa fa-circle pull-right text-@Html.Raw(item.StatusColor) mt-sm"></i>
+                                            <h5 class="no-margin"><b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DueDate, User.Identity.Name)</b> - @item.Description</h5>
+                                            <small class="text-muted"><b>@item.EntityName - @item.AssignedTo</b> - @item.Note</small>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
