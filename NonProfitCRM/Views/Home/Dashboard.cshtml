@@ -8,201 +8,104 @@
     <main id="content" class="content" role="main">
         <div class="row">
             <div class="col-md-6 widget-container ui-sortable">
-                <section class="widget">
-                    <header>
-                        <h5>
-                            <span class="label label-primary"><i class="fa fa-search-plus"></i></span>
-                            Rychlé hledání
-                        </h5>
-                        <div class="widget-controls">
-                        </div>
-                    </header>
-                    <div class="widget-body no-padding">
-                        <form style="padding-bottom:24px; padding-left:24px; padding-right: 24px" action="@Url.Action("Dashboard", "Home")" method="get">
-                            <div class="input-group input-group-sm">
-                                <input type="text" name="search"
-                                       value="@Model.Search" class="form-control" placeholder="hledej ...">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-default">
-                                        Hledej
-                                    </button>
-                                </span>
-                            </div>
-                        </form>
-                        <div class="list-group list-group-lg">
-                            @if (Model.Search.Length > 0)
-                            {
-                                bool notFound = true;
-                                foreach (var item in Model.NonProfitOrgList)
-                                {
-                                    notFound = false;
-                                    <a href="@Url.Action("Detail", "NonProfitOrg", new { id = item.Id, returnUrl = Request.RawUrl })" class="list-group-item">
-                                        <span class="thumb-sm pull-left mr">
-                                            <i class="fa fa-group mt-0" style="font-size:24px"></i>
-                                        </span>
-                                        @if (item.Deleted)
-                                        {
-                                            <i class="fa fa-circle pull-right text-danger mt-sm"></i>
-                                        }
-                                        <h5 class="no-margin"><b>Neziskovka: </b>@item.Name</h5>
-                                        <small class="text-muted"><b>Kontakt: </b>@item.Contact2Name, @item.Contact2Phone</small>
-                                    </a>
-                                }
-                                foreach (var item in Model.CompanyList)
-                                {
-                                    notFound = false;
-                                    <a href="@Url.Action("Detail", "Company", new { id = item.Id, returnUrl = Request.RawUrl })" class="list-group-item">
-                                        <span class="thumb-sm pull-left mr">
-                                            <i class="fa fa-university mt-0" style="font-size:24px"></i>
-                                        </span>
-                                        @if (item.Deleted)
-                                        {
-                                            <i class="fa fa-circle pull-right text-danger mt-sm"></i>
-                                        }
 
-                                        @if (item.StatusId == 0)
-                                        {<span class="label label-success pull-right mt-sm">aktivní</span>}
-                                        else if (item.StatusId == 1)
-                                        {<span class="label label-default pull-right mt-sm">lead</span>}
-                                        else
-                                        {<span class="label label-danger pull-right mt-sm">neaktivní</span>}
-                                        <h5 class="no-margin"><b>Firma: </b>@item.Name</h5>
-                                        <small class="text-muted"><b>Kontakt: </b>@item.Contact2Name, @item.Contact2Phone</small>
-                                    </a>
-                                }
-                                foreach (var item in Model.EventList)
-                                {
-                                    notFound = false;
-                                    <a href="@Url.Action("Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl })" class="list-group-item">
-                                        <span class="thumb-sm pull-left mr">
-                                            <i class="fa fa-bullhorn mt-0" style="font-size:24px"></i>
-                                        </span>
-                                        @if (item.Deleted)
-                                        {
-                                            <i class="fa fa-circle pull-right text-danger mt-sm"></i>
-                                        }
-
-                                        @if (item.Closed == null)
-                                        {<span class="label label-success pull-right">aktivní</span>}
-                                        else
-                                        {<span class="label label-default pull-right">ukončená</span>}
-                                        <h5 class="no-margin"><b>Akce: </b>@item.Name - <b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, User.Identity.Name)</b></h5>
-                                        <small class="text-muted"><b>Firma: </b>@item.CompanyName, <b>Neziskovka: </b> @item.NonProfitOrgName</small>
-                                    </a>
-                                }
-
-                                if (notFound)
-                                {
-                                    <p style="padding-left:24px; color: red">
-                                        Nic nebylo nalezeno ...
-                                    </p>
-                                }
-                            }
-                        </div>
-                    </div>
-                </section>
-                <section class="widget bg-gray">
-                    <div class="widget-body no-padding">
-                        <div class="jumbotron handle bg-gray text-white mb-0 ui-sortable-handle">
-                            <div class="container">
-                                <h1>Hestia CRM!</h1>
-                                <p class="lead">
-                                    <em>Pro</em> lepší fungování dobrovolníků a neziskovek.
-                                </p>
-                                <a class="btn btn-danger btn-lg" data-widgster="restore" style="display: none;">
-                                    Want to go back?
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-6 widget-container ui-sortable">
                 <div class="row">
-                    <div class="col-md-6">
-                        <section class="widget bg-gray text-white">
-                            <div class="widget-body clearfix">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <span class="widget-icon">
-                                            <i class="glyphicon glyphicon-certificate"></i>
+                    <div class="col-md-12">
+                        <section class="widget">
+                            <header>
+                                <h5>
+                                    <span class="label label-primary"><i class="fa fa-search-plus"></i></span>
+                                    Rychlé hledání
+                                </h5>
+                                <div class="widget-controls">
+                                </div>
+                            </header>
+                            <div class="widget-body">
+                                <form style="padding-bottom:24px; padding-left:24px; padding-right: 24px" action="@Url.Action("Dashboard", "Home")" method="get">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" name="search"
+                                               value="@Model.Search" class="form-control" placeholder="hledej ...">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-default">
+                                                Hledej
+                                            </button>
                                         </span>
                                     </div>
-                                    <div class="col-xs-9">
-                                        <h5 class="no-margin">Akce v <b>@Model.StatsEvents.Year</b> ke dnešku</h5>
-                                        <p class="h2 no-margin fw-normal">@Model.StatsEvents.CountThisYear</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                    </div>
-                                    <div class="col-xs-9">
-                                        <h5 class="no-margin">Rozdíl proti @(Model.StatsEvents.Year - 1)</h5>
-                                        <p class="value4">@(Model.StatsEvents.CountThisYear - Model.StatsEvents.CountLastYear)</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <h5 class="no-margin">Q1: <b>@(Model.StatsEvents.Q1Count)</b></h5>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <h5 class="no-margin">Q2: <b>@(Model.StatsEvents.Q2Count)</b></h5>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <h5 class="no-margin">Q3: <b>@(Model.StatsEvents.Q3Count)</b></h5>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <h5 class="no-margin">Q4: <b>@(Model.StatsEvents.Q4Count)</b></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-md-6">
-                        <section class="widget bg-primary text-white">
-                            <div class="widget-body clearfix">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <span class="widget-icon">
-                                            <i class="glyphicon glyphicon-user"></i>
-                                        </span>
-                                    </div>
-                                    <div class="col-xs-9">
-                                        <h5 class="no-margin">Dobrovolníci ve <b>@Model.StatsEventsPeople.Year</b> ke dnešku</h5>
-                                        <p class="h2 no-margin fw-normal">@Model.StatsEventsPeople.CountThisYear</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                    </div>
-                                    <div class="col-xs-9">
-                                        <h5 class="no-margin">Rozdíl proti @(Model.StatsEventsPeople.Year - 1)</h5>
-                                        <p class="value4">@(Model.StatsEventsPeople.CountThisYear - Model.StatsEventsPeople.CountLastYear)</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <h5 class="no-margin">Q1: <b>@(Model.StatsEventsPeople.Q1Count)</b></h5>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <h5 class="no-margin">Q2: <b>@(Model.StatsEventsPeople.Q2Count)</b></h5>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <h5 class="no-margin">Q3: <b>@(Model.StatsEventsPeople.Q3Count)</b></h5>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <h5 class="no-margin">Q4: <b>@(Model.StatsEventsPeople.Q4Count)</b></h5>
-                                    </div>
+                                </form>
+                                <div class="list-group list-group-lg">
+                                    @if (Model.Search.Length > 0)
+                                    {
+                                        bool notFound = true;
+                                        foreach (var item in Model.NonProfitOrgList)
+                                        {
+                                            notFound = false;
+                                            <a href="@Url.Action("Detail", "NonProfitOrg", new { id = item.Id, returnUrl = Request.RawUrl })" class="list-group-item">
+                                                <span class="thumb-sm pull-left mr">
+                                                    <i class="fa fa-group mt-0" style="font-size:24px"></i>
+                                                </span>
+                                                @if (item.Deleted)
+                                                {
+                                                    <i class="fa fa-circle pull-right text-danger mt-sm"></i>
+                                                }
+                                                <h5 class="no-margin"><b>Neziskovka: </b>@item.Name</h5>
+                                                <small class="text-muted"><b>Kontakt: </b>@item.Contact2Name, @item.Contact2Phone</small>
+                                            </a>
+                                        }
+                                        foreach (var item in Model.CompanyList)
+                                        {
+                                            notFound = false;
+                                            <a href="@Url.Action("Detail", "Company", new { id = item.Id, returnUrl = Request.RawUrl })" class="list-group-item">
+                                                <span class="thumb-sm pull-left mr">
+                                                    <i class="fa fa-university mt-0" style="font-size:24px"></i>
+                                                </span>
+                                                @if (item.Deleted)
+                                                {
+                                                    <i class="fa fa-circle pull-right text-danger mt-sm"></i>
+                                                }
+
+                                                @if (item.StatusId == 0)
+                                                {<span class="label label-success pull-right mt-sm">aktivní</span>}
+                                                else if (item.StatusId == 1)
+                                                {<span class="label label-default pull-right mt-sm">lead</span>}
+                                                else
+                                                {<span class="label label-danger pull-right mt-sm">neaktivní</span>}
+                                                <h5 class="no-margin"><b>Firma: </b>@item.Name</h5>
+                                                <small class="text-muted"><b>Kontakt: </b>@item.Contact2Name, @item.Contact2Phone</small>
+                                            </a>
+                                        }
+                                        foreach (var item in Model.EventList)
+                                        {
+                                            notFound = false;
+                                            <a href="@Url.Action("Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl })" class="list-group-item">
+                                                <span class="thumb-sm pull-left mr">
+                                                    <i class="fa fa-bullhorn mt-0" style="font-size:24px"></i>
+                                                </span>
+                                                @if (item.Deleted)
+                                                {
+                                                    <i class="fa fa-circle pull-right text-danger mt-sm"></i>
+                                                }
+
+                                                @if (item.Closed == null)
+                                                {<span class="label label-success pull-right">aktivní</span>}
+                                                else
+                                                {<span class="label label-default pull-right">ukončená</span>}
+                                                <h5 class="no-margin"><b>Akce: </b>@item.Name - <b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, User.Identity.Name)</b></h5>
+                                                <small class="text-muted"><b>Firma: </b>@item.CompanyName, <b>Neziskovka: </b> @item.NonProfitOrgName</small>
+                                            </a>
+                                        }
+
+                                        if (notFound)
+                                        {
+                                            <p style="padding-left:24px; color: red">
+                                                Nic nebylo nalezeno ...
+                                            </p>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </section>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-12">
                         <section class="widget">
@@ -255,13 +158,190 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 widget-container ui-sortable">
+                <div class="row">
+                    <div class="col-md-6">
+                        <section class="widget bg-success text-white">
+                            <div class="widget-body clearfix">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <span class="widget-icon">
+                                            <i class="glyphicon glyphicon-flag"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <h5 class="no-margin">Aktivní zákazníci</h5>
+                                        <p class="h2 no-margin fw-normal">@Model.StatsCRM.CompanyCount</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Leady</h5>
+                                        <p class="value4">@Model.StatsCRM.LeadCount</p>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Neaktivní</h5>
+                                        <p class="value4">@Model.StatsCRM.InactiveCount</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="~/Images/hestia.png" height="135px" class="stretch" alt="" style="display: block; margin: 0 auto;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <section class="widget bg-gray text-white">
+                            <div class="widget-body clearfix">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <span class="widget-icon">
+                                            <i class="glyphicon glyphicon-certificate"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <h5 class="no-margin">Dobrovolnické akce v <b>@Model.StatsEvents.Year</b> (vs. @(Model.StatsEvents.Year - 1))</h5>
+                                        <p>
+                                            <span class="h2 no-margin fw-normal">@Model.StatsEvents.CountThisYear</span>
+                                            <span class="h4 no-margin fw-normal"> (@((Model.StatsEvents.CountThisYear - Model.StatsEvents.CountLastYear).ToString("+#;-#;0")))</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q1: <b>@(Model.StatsEvents.Q1Count)</b></h5>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q2: <b>@(Model.StatsEvents.Q2Count)</b></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q3: <b>@(Model.StatsEvents.Q3Count)</b></h5>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q4: <b>@(Model.StatsEvents.Q4Count)</b></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-md-6">
+                        <section class="widget bg-primary text-white">
+                            <div class="widget-body clearfix">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <span class="widget-icon">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <h5 class="no-margin">Dobrovolníci ve <b>@Model.StatsEventsPeople.Year</b> (vs. @(Model.StatsEvents.Year - 1))</h5>
+                                        <p>
+                                            <span class="h2 no-margin fw-normal">@Model.StatsEventsPeople.CountThisYear</span>
+                                            <span class="h4 no-margin fw-normal"> (@((Model.StatsEventsPeople.CountThisYear - Model.StatsEventsPeople.CountLastYear).ToString("+#;-#;0")))</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q1: <b>@(Model.StatsEventsPeople.Q1Count)</b></h5>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q2: <b>@(Model.StatsEventsPeople.Q2Count)</b></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q3: <b>@(Model.StatsEventsPeople.Q3Count)</b></h5>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h5 class="no-margin">Q4: <b>@(Model.StatsEventsPeople.Q4Count)</b></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <section class="widget">
+                            <header>
+                                <h4>
+                                    Akce <span class="fw-semi-bold">podle zaměření</span>
+                                </h4>
+                                <div class="widget-controls">
+                                </div>
+                            </header>
+                            <div class="widget-body clearfix">
+                                <div class="text-align-center">
+                                    <div id="morris3Event">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="col-md-6">
+                        <section class="widget">
+                            <header>
+                                <h4>
+                                    Akce <span class="fw-semi-bold">podle typu</span>
+                                </h4>
+                                <div class="widget-controls">
+                                </div>
+                            </header>
+                            <div class="widget-body clearfix">
+                                <div class="text-align-center">
+                                    <div id="morris3EventType">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </main>
 </div>
 
 <script>
+    function initMorris3() {
+
+        $('#morris3Event').css({ height: 180 });
+        Morris.Donut({
+            element: 'morris3Event',
+            data: [
+                @foreach( var x in Model.PieNPOEventType)
+                {
+                    @Html.Raw("{ label: '"+x.Tag+"', value: "+x.Count+" },");
+                }
+            ]
+            , colors: randomColor({ count: @Model.PieNPOEventType.Count })
+        });
+
+        $('#morris3EventType').css({ height: 180 });
+        Morris.Donut({
+            element: 'morris3EventType',
+            data: [
+                @foreach( var x in Model.PieEventType)
+                {
+                    @Html.Raw("{ label: '"+x.Tag+"', value: "+x.Count+" },");
+                }
+            ]
+            , colors: randomColor({ count: @Model.PieEventType.Count })
+        });
+
+    }
+
+
     $(document).ready(function () {
         drawIsMyTaskOnChange();
+        initMorris3();
     });
 
     function drawIsMyTaskOnChange() {

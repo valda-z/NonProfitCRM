@@ -92,6 +92,7 @@
           <Property Name="Updated" Type="datetime" Nullable="false" />
           <Property Name="Closed" Type="datetime" />
           <Property Name="Insurance" Type="bit" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Event2CompanySub">
           <Key>
@@ -108,6 +109,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Data" Type="ntext" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -155,6 +163,14 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Updated" Type="datetime" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NonProfitOrgType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -274,6 +290,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewEventList' does not 
             <PropertyRef Name="NonProfitOrgId" />
             <PropertyRef Name="NonProfitOrgName" />
             <PropertyRef Name="Insurance" />
+            <PropertyRef Name="EventTypeName" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="DateOfEvent" Type="datetime" Nullable="false" />
@@ -294,6 +311,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewEventList' does not 
           <Property Name="NonProfitOrgName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Closed" Type="datetime" />
           <Property Name="Insurance" Type="bit" Nullable="false" />
+          <Property Name="EventTypeName" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -311,6 +329,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' do
             <PropertyRef Name="UpdatedBy" />
             <PropertyRef Name="CountryName" />
             <PropertyRef Name="RegionName" />
+            <PropertyRef Name="NonProfitOrgTypeName" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -332,6 +351,31 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' do
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="RegionName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="NonProfitOrgTypeName" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewStatEventNonProfitOrgType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewStatEventNonProfitOrgType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Tag" />
+            <PropertyRef Name="DateOfEvent" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="DateOfEvent" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewStatEventType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewStatEventType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Tag" />
+            <PropertyRef Name="DateOfEvent" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="DateOfEvent" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewTaskList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -468,6 +512,18 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Event_EventType">
+          <End Role="EventType" Type="Self.EventType" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Event_NonProfitOrg">
           <End Role="NonProfitOrg" Type="Self.NonProfitOrg" Multiplicity="1" />
           <End Role="Event" Type="Self.Event" Multiplicity="*" />
@@ -513,6 +569,18 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
             </Principal>
             <Dependent Role="NonProfitOrg">
               <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NonProfitOrg_NonProfitOrgType">
+          <End Role="NonProfitOrgType" Type="Self.NonProfitOrgType" Multiplicity="1" />
+          <End Role="NonProfitOrg" Type="Self.NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NonProfitOrgType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NonProfitOrg">
+              <PropertyRef Name="TypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -633,9 +701,11 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event2CompanySub" EntityType="Self.Event2CompanySub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventTaskTemplate" EntityType="Self.EventTaskTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NonProfitOrg" EntityType="Self.NonProfitOrg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NonProfitOrgType" EntityType="Self.NonProfitOrgType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tag2Company" EntityType="Self.Tag2Company" Schema="dbo" store:Type="Tables" />
@@ -688,7 +758,8 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
     [ViewEventList].[NonProfitOrgId] AS [NonProfitOrgId], 
     [ViewEventList].[NonProfitOrgName] AS [NonProfitOrgName], 
     [ViewEventList].[Closed] AS [Closed], 
-    [ViewEventList].[Insurance] AS [Insurance]
+    [ViewEventList].[Insurance] AS [Insurance], 
+    [ViewEventList].[EventTypeName] AS [EventTypeName]
     FROM [dbo].[ViewEventList] AS [ViewEventList]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewNonProfitOrgList" EntityType="Self.ViewNonProfitOrgList" store:Type="Views" store:Schema="dbo">
@@ -712,8 +783,23 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
     [ViewNonProfitOrgList].[Updated] AS [Updated], 
     [ViewNonProfitOrgList].[UpdatedBy] AS [UpdatedBy], 
     [ViewNonProfitOrgList].[CountryName] AS [CountryName], 
-    [ViewNonProfitOrgList].[RegionName] AS [RegionName]
+    [ViewNonProfitOrgList].[RegionName] AS [RegionName], 
+    [ViewNonProfitOrgList].[NonProfitOrgTypeName] AS [NonProfitOrgTypeName]
     FROM [dbo].[ViewNonProfitOrgList] AS [ViewNonProfitOrgList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewStatEventNonProfitOrgType" EntityType="Self.ViewStatEventNonProfitOrgType" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewStatEventNonProfitOrgType].[Id] AS [Id], 
+    [ViewStatEventNonProfitOrgType].[Tag] AS [Tag], 
+    [ViewStatEventNonProfitOrgType].[DateOfEvent] AS [DateOfEvent]
+    FROM [dbo].[ViewStatEventNonProfitOrgType] AS [ViewStatEventNonProfitOrgType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewStatEventType" EntityType="Self.ViewStatEventType" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewStatEventType].[Id] AS [Id], 
+    [ViewStatEventType].[Tag] AS [Tag], 
+    [ViewStatEventType].[DateOfEvent] AS [DateOfEvent]
+    FROM [dbo].[ViewStatEventType] AS [ViewStatEventType]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewTaskList" EntityType="Self.ViewTaskList" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -773,6 +859,10 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
             <End Role="Company" EntitySet="Company" />
             <End Role="Event" EntitySet="Event" />
           </AssociationSet>
+          <AssociationSet Name="FK_Event_EventType" Association="Self.FK_Event_EventType">
+            <End Role="EventType" EntitySet="EventType" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
           <AssociationSet Name="FK_Event_NonProfitOrg" Association="Self.FK_Event_NonProfitOrg">
             <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
             <End Role="Event" EntitySet="Event" />
@@ -787,6 +877,10 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           </AssociationSet>
           <AssociationSet Name="FK_NonProfitOrg_Country" Association="Self.FK_NonProfitOrg_Country">
             <End Role="Country" EntitySet="Country" />
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NonProfitOrg_NonProfitOrgType" Association="Self.FK_NonProfitOrg_NonProfitOrgType">
+            <End Role="NonProfitOrgType" EntitySet="NonProfitOrgType" />
             <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
           </AssociationSet>
           <AssociationSet Name="FK_NonProfitOrg_Region" Association="Self.FK_NonProfitOrg_Region">
@@ -952,6 +1046,18 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySet Name="ViewEventList" EntityType="Model.ViewEventList" />
           <EntitySet Name="ViewTaskList" EntityType="Model.ViewTaskList" />
           <EntitySet Name="EventTaskTemplate" EntityType="Model.EventTaskTemplate" />
+          <EntitySet Name="ViewStatEventType" EntityType="Model.ViewStatEventType" />
+          <EntitySet Name="EventType" EntityType="Model.EventType" />
+          <EntitySet Name="NonProfitOrgType" EntityType="Model.NonProfitOrgType" />
+          <AssociationSet Name="FK_Event_EventType" Association="Model.FK_Event_EventType">
+            <End Role="EventType" EntitySet="EventType" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NonProfitOrg_NonProfitOrgType" Association="Model.FK_NonProfitOrg_NonProfitOrgType">
+            <End Role="NonProfitOrgType" EntitySet="NonProfitOrgType" />
+            <End Role="NonProfitOrg" EntitySet="NonProfitOrg" />
+          </AssociationSet>
+          <EntitySet Name="ViewStatEventNonProfitOrgType" EntityType="Model.ViewStatEventNonProfitOrgType" />
           </EntityContainer>
         <ComplexType Name="FunctionCUActivationWillExpire_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -1099,6 +1205,8 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <NavigationProperty Name="Tag2Event" Relationship="Model.FK_Tag2Event_Event" FromRole="Event" ToRole="Tag2Event" />
           <Property Name="Closed" Type="DateTime" Precision="3" />
           <Property Name="Insurance" Type="Boolean" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EventType" Relationship="Model.FK_Event_EventType" FromRole="Event" ToRole="EventType" />
         </EntityType>
         <EntityType Name="Event2CompanySub">
           <Key>
@@ -1160,6 +1268,8 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <NavigationProperty Name="Event" Relationship="Model.FK_Event_NonProfitOrg" FromRole="NonProfitOrg" ToRole="Event" />
           <NavigationProperty Name="Region" Relationship="Model.FK_NonProfitOrg_Region" FromRole="NonProfitOrg" ToRole="Region" />
           <NavigationProperty Name="Tag2NonProfitOrg" Relationship="Model.FK_Tag2NonProfitOrg_NonProfitOrg" FromRole="NonProfitOrg" ToRole="Tag2NonProfitOrg" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NonProfitOrgType" Relationship="Model.FK_NonProfitOrg_NonProfitOrgType" FromRole="NonProfitOrg" ToRole="NonProfitOrgType" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -1512,6 +1622,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
             <PropertyRef Name="UpdatedBy" />
             <PropertyRef Name="CountryName" />
             <PropertyRef Name="RegionName" />
+            <PropertyRef Name="NonProfitOrgTypeName" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1533,6 +1644,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="RegionName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="NonProfitOrgTypeName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ViewCompanyList">
           <Key>
@@ -1586,6 +1698,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
             <PropertyRef Name="NonProfitOrgId" />
             <PropertyRef Name="NonProfitOrgName" />
             <PropertyRef Name="Insurance" />
+            <PropertyRef Name="EventTypeName" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="DateOfEvent" Type="DateTime" Nullable="false" Precision="3" />
@@ -1606,6 +1719,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <Property Name="NonProfitOrgName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Closed" Type="DateTime" Precision="3" />
           <Property Name="Insurance" Type="Boolean" Nullable="false" />
+          <Property Name="EventTypeName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ViewTaskList">
           <Key>
@@ -1641,6 +1755,66 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Data" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewStatEventType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Tag" />
+            <PropertyRef Name="DateOfEvent" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Tag" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfEvent" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Event" Relationship="Model.FK_Event_EventType" FromRole="EventType" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="NonProfitOrgType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NonProfitOrg" Relationship="Model.FK_NonProfitOrg_NonProfitOrgType" FromRole="NonProfitOrgType" ToRole="NonProfitOrg" />
+        </EntityType>
+        <Association Name="FK_Event_EventType">
+          <End Type="Model.EventType" Role="EventType" Multiplicity="1" />
+          <End Type="Model.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NonProfitOrg_NonProfitOrgType">
+          <End Type="Model.NonProfitOrgType" Role="NonProfitOrgType" Multiplicity="1" />
+          <End Type="Model.NonProfitOrg" Role="NonProfitOrg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NonProfitOrgType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NonProfitOrg">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ViewStatEventNonProfitOrgType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Tag" />
+            <PropertyRef Name="DateOfEvent" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Tag" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfEvent" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1719,6 +1893,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySetMapping Name="Event">
             <EntityTypeMapping TypeName="Model.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="Insurance" ColumnName="Insurance" />
                 <ScalarProperty Name="Closed" ColumnName="Closed" />
                 <ScalarProperty Name="Updated" ColumnName="Updated" />
@@ -1777,6 +1952,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySetMapping Name="NonProfitOrg">
             <EntityTypeMapping TypeName="Model.NonProfitOrg">
               <MappingFragment StoreEntitySet="NonProfitOrg">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="Updated" ColumnName="Updated" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
@@ -1888,6 +2064,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySetMapping Name="ViewNonProfitOrgList">
             <EntityTypeMapping TypeName="Model.ViewNonProfitOrgList">
               <MappingFragment StoreEntitySet="ViewNonProfitOrgList">
+                <ScalarProperty Name="NonProfitOrgTypeName" ColumnName="NonProfitOrgTypeName" />
                 <ScalarProperty Name="RegionName" ColumnName="RegionName" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
@@ -1941,6 +2118,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySetMapping Name="ViewEventList">
             <EntityTypeMapping TypeName="Model.ViewEventList">
               <MappingFragment StoreEntitySet="ViewEventList">
+                <ScalarProperty Name="EventTypeName" ColumnName="EventTypeName" />
                 <ScalarProperty Name="Insurance" ColumnName="Insurance" />
                 <ScalarProperty Name="Closed" ColumnName="Closed" />
                 <ScalarProperty Name="NonProfitOrgName" ColumnName="NonProfitOrgName" />
@@ -1987,6 +2165,40 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
               <MappingFragment StoreEntitySet="EventTaskTemplate">
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewStatEventType">
+            <EntityTypeMapping TypeName="Model.ViewStatEventType">
+              <MappingFragment StoreEntitySet="ViewStatEventType">
+                <ScalarProperty Name="DateOfEvent" ColumnName="DateOfEvent" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventType">
+            <EntityTypeMapping TypeName="Model.EventType">
+              <MappingFragment StoreEntitySet="EventType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NonProfitOrgType">
+            <EntityTypeMapping TypeName="Model.NonProfitOrgType">
+              <MappingFragment StoreEntitySet="NonProfitOrgType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewStatEventNonProfitOrgType">
+            <EntityTypeMapping TypeName="Model.ViewStatEventNonProfitOrgType">
+              <MappingFragment StoreEntitySet="ViewStatEventNonProfitOrgType">
+                <ScalarProperty Name="DateOfEvent" ColumnName="DateOfEvent" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

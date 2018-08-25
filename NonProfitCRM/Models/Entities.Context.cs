@@ -50,6 +50,10 @@ namespace NonProfitCRM.Models
         public virtual DbSet<ViewEventList> ViewEventList { get; set; }
         public virtual DbSet<ViewTaskList> ViewTaskList { get; set; }
         public virtual DbSet<EventTaskTemplate> EventTaskTemplate { get; set; }
+        public virtual DbSet<ViewStatEventType> ViewStatEventType { get; set; }
+        public virtual DbSet<EventType> EventType { get; set; }
+        public virtual DbSet<NonProfitOrgType> NonProfitOrgType { get; set; }
+        public virtual DbSet<ViewStatEventNonProfitOrgType> ViewStatEventNonProfitOrgType { get; set; }
     
         public virtual ObjectResult<Nullable<int>> CloseDelivery(Nullable<int> deliveryId, Nullable<int> distributorId, Nullable<int> customerId)
         {

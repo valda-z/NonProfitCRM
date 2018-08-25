@@ -41,10 +41,12 @@ namespace NonProfitCRM.Models
         public bool Deleted { get; set; }
         public string UpdatedBy { get; set; }
         public System.DateTime Updated { get; set; }
+        public int TypeId { get; set; }
     
         public virtual Country Country { get; set; }
         public virtual ICollection<Event> Event { get; set; }
         public virtual Region Region { get; set; }
         public virtual ICollection<Tag2NonProfitOrg> Tag2NonProfitOrg { get; set; }
+        public virtual NonProfitOrgType NonProfitOrgType { get; set; }
     }
 }

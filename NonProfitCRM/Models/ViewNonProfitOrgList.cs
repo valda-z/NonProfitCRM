@@ -34,5 +34,6 @@ namespace NonProfitCRM.Models
         public string UpdatedBy { get; set; }
         public string CountryName { get; set; }
         public string RegionName { get; set; }
+        public string NonProfitOrgTypeName { get; set; }
     }
 }

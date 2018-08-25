@@ -35,6 +35,146 @@ namespace NonProfitCRM.Components
 {
     public class StatisticsHelper
     {
+        private static string keyCRM = "statistics-data-crm";
+        private static string keyPieEventType = "statistics-data-pieeventtype";
+        private static string keyPieNPOEventType = "statistics-data-pienpoeventtype";
+        private static string keyEvent = "statistics-data-event";
+        private static string keyEventPeople = "statistics-data-eventpeople";
+        public static void InvalidateCacheCRM()
+        {
+            HttpContext.Current.Cache.Remove(keyCRM);
+            HttpContext.Current.Cache.Remove(keyPieNPOEventType);
+        }
+        public static void InvalidateCacheEvent()
+        {
+            HttpContext.Current.Cache.Remove(keyEvent);
+            HttpContext.Current.Cache.Remove(keyPieEventType);
+            HttpContext.Current.Cache.Remove(keyPieNPOEventType);
+        }
+        public static void InvalidateCacheEventPeople()
+        {
+            HttpContext.Current.Cache.Remove(keyEventPeople);
+        }
+
+        public class StatDataPieEventTypeItem
+        {
+            public string Tag { get; set; }
+            public int Count { get; set; }
+        }
+
+        public static List<StatDataPieEventTypeItem> GetPieEventType()
+        {
+            var cx = new Entities();
+
+            List<StatDataPieEventTypeItem> ret = 
+                (List<StatDataPieEventTypeItem>)HttpContext.Current.Cache[keyPieEventType];
+            if (ret == null)
+            {
+
+                ret = new List<StatDataPieEventTypeItem>();
+
+                var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
+                var query = from p in cx.ViewStatEventType
+                            where p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                            group p by p.Tag into g
+                            select new
+                            {
+                                tag = g.Key,
+                                count = g.Count()
+                            };
+                foreach(var x in query)
+                {
+                    var i = new StatDataPieEventTypeItem();
+                    i.Tag = x.tag.Trim();
+                    i.Count = x.count;
+                    ret.Add(i);
+                }
+
+                HttpContext.Current.Cache.Insert(keyPieEventType, ret,
+                                   null, DateTime.Now.AddMinutes(10d),
+                                   System.Web.Caching.Cache.NoSlidingExpiration);
+
+            }
+            return ret;
+        }
+
+        public static List<StatDataPieEventTypeItem> GetPieNPOEventType()
+        {
+            var cx = new Entities();
+
+            List<StatDataPieEventTypeItem> ret =
+                (List<StatDataPieEventTypeItem>)HttpContext.Current.Cache[keyPieNPOEventType];
+            if (ret == null)
+            {
+
+                ret = new List<StatDataPieEventTypeItem>();
+
+                var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
+                var query = from p in cx.ViewStatEventNonProfitOrgType
+                            where p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                            group p by p.Tag into g
+                            select new
+                            {
+                                tag = g.Key,
+                                count = g.Count()
+                            };
+                foreach (var x in query)
+                {
+                    var i = new StatDataPieEventTypeItem();
+                    i.Tag = x.tag.Trim();
+                    i.Count = x.count;
+                    ret.Add(i);
+                }
+
+                HttpContext.Current.Cache.Insert(keyPieNPOEventType, ret,
+                                   null, DateTime.Now.AddMinutes(10d),
+                                   System.Web.Caching.Cache.NoSlidingExpiration);
+
+            }
+            return ret;
+        }
+
+        public class StatDataCRM
+        {
+            public int CompanyCount { get; set; }
+            public int LeadCount { get; set; }
+            public int InactiveCount { get; set; }
+        }
+
+        public static StatDataCRM GetCRMStatWidget()
+        {
+            var cx = new Entities();
+
+            StatDataCRM ret = (StatDataCRM)HttpContext.Current.Cache[keyCRM];
+            if (ret == null)
+            {
+
+                ret = new StatDataCRM();
+
+                ret.CompanyCount = (from p in cx.Company
+                                    where !p.Deleted && p.StatusId == ((int)CompanyStatusHelper.Status.COMPANY)
+                                    select p).Count();
+
+                ret.LeadCount = (from p in cx.Company
+                                 where !p.Deleted && p.StatusId == ((int)CompanyStatusHelper.Status.LEAD)
+                                 select p).Count();
+
+                ret.InactiveCount = (from p in cx.Company
+                                     where !p.Deleted && p.StatusId == ((int)CompanyStatusHelper.Status.LEADDEAD)
+                                     select p).Count();
+
+                HttpContext.Current.Cache.Insert(keyCRM, ret,
+                                   null, DateTime.Now.AddMinutes(10d),
+                                   System.Web.Caching.Cache.NoSlidingExpiration);
+
+            }
+            return ret;
+        }
+
         public class StatDataWidget
         {
             public int Year { get; set; }
@@ -45,93 +185,108 @@ namespace NonProfitCRM.Components
             public int Q3Count { get; set; }
             public int Q4Count { get; set; }
         }
-
         public static StatDataWidget GetEventStatWidget()
         {
             var cx = new Entities();
 
-            var ret = new StatDataWidget();
+            StatDataWidget ret = (StatDataWidget)HttpContext.Current.Cache[keyEvent];
+            if (ret == null)
+            {
+                ret = new StatDataWidget();
 
-            ret.Year = DateTime.Now.Year;
+                ret.Year = DateTime.Now.Year;
 
-            var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
-            var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            var dFromLY = dFrom.AddYears(-1);
-            var dToLY = dTo.AddYears(-1);
+                var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var dFromLY = dFrom.AddYears(-1);
+                var dToLY = dTo.AddYears(-1);
 
-            ret.CountLastYear = (from p in cx.Event
-                                 where !p.Deleted && p.DateOfEvent >= dFromLY && p.DateOfEvent < dToLY
-                                 select p).Count();
+                ret.CountLastYear = (from p in cx.Event
+                                     where !p.Deleted && p.DateOfEvent >= dFromLY && p.DateOfEvent < dToLY
+                                     select p).Count();
 
-            ret.CountThisYear = (from p in cx.Event
-                                 where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                                 select p).Count();
+                ret.CountThisYear = (from p in cx.Event
+                                     where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                                     select p).Count();
 
 
-            dFrom = new DateTime(DateTime.Now.Year, 1, 1);
-            dTo = dFrom.AddMonths(3);
-            ret.Q1Count = (from p in cx.Event
-                           where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                           select p).Count();
-            dFrom = dFrom.AddMonths(3);
-            dTo = dFrom.AddMonths(3);
-            ret.Q2Count = (from p in cx.Event
-                           where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                           select p).Count();
-            dFrom = dFrom.AddMonths(3);
-            dTo = dFrom.AddMonths(3);
-            ret.Q3Count = (from p in cx.Event
-                           where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                           select p).Count();
-            dFrom = dFrom.AddMonths(3);
-            dTo = dFrom.AddMonths(3);
-            ret.Q4Count = (from p in cx.Event
-                           where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                           select p).Count();
+                dFrom = new DateTime(DateTime.Now.Year, 1, 1);
+                dTo = dFrom.AddMonths(3);
+                ret.Q1Count = (from p in cx.Event
+                               where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                               select p).Count();
+                dFrom = dFrom.AddMonths(3);
+                dTo = dFrom.AddMonths(3);
+                ret.Q2Count = (from p in cx.Event
+                               where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                               select p).Count();
+                dFrom = dFrom.AddMonths(3);
+                dTo = dFrom.AddMonths(3);
+                ret.Q3Count = (from p in cx.Event
+                               where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                               select p).Count();
+                dFrom = dFrom.AddMonths(3);
+                dTo = dFrom.AddMonths(3);
+                ret.Q4Count = (from p in cx.Event
+                               where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                               select p).Count();
+
+                HttpContext.Current.Cache.Insert(keyEvent, ret,
+                                   null, DateTime.Now.AddMinutes(10d),
+                                   System.Web.Caching.Cache.NoSlidingExpiration);
+            }
             return ret;
         }
         public static StatDataWidget GetEventPeopleStatWidget()
         {
             var cx = new Entities();
 
-            var ret = new StatDataWidget();
+            StatDataWidget ret = (StatDataWidget)HttpContext.Current.Cache[keyEventPeople];
+            if (ret == null)
+            {
+                ret = new StatDataWidget();
 
-            ret.Year = DateTime.Now.Year;
+                ret.Year = DateTime.Now.Year;
 
-            var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
-            var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            var dFromLY = dFrom.AddYears(-1);
-            var dToLY = dTo.AddYears(-1);
+                var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var dFromLY = dFrom.AddYears(-1);
+                var dToLY = dTo.AddYears(-1);
 
-            ret.CountLastYear = (from p in cx.Event
-                                 where !p.Deleted && p.DateOfEvent >= dFromLY && p.DateOfEvent < dToLY
-                                 select p.Capacity).Sum();
+                ret.CountLastYear = (from p in cx.Event
+                                     where !p.Deleted && p.DateOfEvent >= dFromLY && p.DateOfEvent < dToLY
+                                     select p.Capacity).Sum();
 
-            ret.CountThisYear = (from p in cx.Event
-                                 where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                                 select p.Capacity).Sum();
+                ret.CountThisYear = (from p in cx.Event
+                                     where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                                     select p.Capacity).Sum();
 
 
-            dFrom = new DateTime(DateTime.Now.Year, 1, 1);
-            dTo = dFrom.AddMonths(3);
-            ret.Q1Count = (from p in cx.Event
-                           where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                           select p.Capacity).Sum();
-            dFrom = dFrom.AddMonths(3);
-            dTo = dFrom.AddMonths(3);
-            ret.Q2Count = (from p in cx.Event
-                           where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                           select p.Capacity).Sum();
-            dFrom = dFrom.AddMonths(3);
-            dTo = dFrom.AddMonths(3);
-            ret.Q3Count = (from p in cx.Event
-                           where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                           select p.Capacity).Sum();
-            dFrom = dFrom.AddMonths(3);
-            dTo = dFrom.AddMonths(3);
-            ret.Q4Count = (from p in cx.Event
-                           where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                           select p.Capacity).Sum();
+                dFrom = new DateTime(DateTime.Now.Year, 1, 1);
+                dTo = dFrom.AddMonths(3);
+                ret.Q1Count = (from p in cx.Event
+                               where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                               select p.Capacity).Sum();
+                dFrom = dFrom.AddMonths(3);
+                dTo = dFrom.AddMonths(3);
+                ret.Q2Count = (from p in cx.Event
+                               where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                               select p.Capacity).Sum();
+                dFrom = dFrom.AddMonths(3);
+                dTo = dFrom.AddMonths(3);
+                ret.Q3Count = (from p in cx.Event
+                               where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                               select p.Capacity).Sum();
+                dFrom = dFrom.AddMonths(3);
+                dTo = dFrom.AddMonths(3);
+                ret.Q4Count = (from p in cx.Event
+                               where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                               select p.Capacity).Sum();
+
+                HttpContext.Current.Cache.Insert(keyEventPeople, ret,
+                                   null, DateTime.Now.AddMinutes(10d),
+                                   System.Web.Caching.Cache.NoSlidingExpiration);
+            }
             return ret;
         }
     }

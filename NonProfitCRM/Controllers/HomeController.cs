@@ -107,6 +107,10 @@ namespace NonProfitCRM.Controllers
 
             model.StatsEvents = StatisticsHelper.GetEventStatWidget();
             model.StatsEventsPeople = StatisticsHelper.GetEventPeopleStatWidget();
+            model.StatsCRM = StatisticsHelper.GetCRMStatWidget();
+
+            model.PieEventType = StatisticsHelper.GetPieEventType();
+            model.PieNPOEventType = StatisticsHelper.GetPieNPOEventType();
 
             return View(model);
         }

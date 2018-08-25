@@ -48,6 +48,12 @@
         <EntityTypeShape EntityType="Model.ViewEventList" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="Model.ViewTaskList" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="Model.EventTaskTemplate" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Model.ViewStatEventType" Width="1.5" PointX="9.375" PointY="6.75" />
+        <EntityTypeShape EntityType="Model.EventType" Width="1.5" PointX="8.25" PointY="13.75" />
+        <EntityTypeShape EntityType="Model.NonProfitOrgType" Width="1.5" PointX="11.375" PointY="5.875" />
+        <AssociationConnector Association="Model.FK_Event_EventType" />
+        <AssociationConnector Association="Model.FK_NonProfitOrg_NonProfitOrgType" />
+        <EntityTypeShape EntityType="Model.ViewStatEventNonProfitOrgType" Width="1.5" PointX="12.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

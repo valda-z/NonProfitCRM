@@ -29,17 +29,21 @@ using System.Collections.Generic;
 using NonProfitCRM.Components;
 using System.Linq;
 using System.Web;
+using static NonProfitCRM.Components.StatisticsHelper;
 
 namespace NonProfitCRM.Models
 {
     public class HomeModel
     {
+        public List<StatDataPieEventTypeItem> PieEventType { get; set; }
+        public List<StatDataPieEventTypeItem> PieNPOEventType { get; set; }
         public IEnumerable<ViewTaskList> TaskList { get; set; }
         public IEnumerable<ViewEventList> EventList { get; set; }
         public IEnumerable<ViewCompanyList> CompanyList { get; set; }
         public IEnumerable<ViewNonProfitOrgList> NonProfitOrgList { get; set; }
-        public StatisticsHelper.StatDataWidget StatsEvents { get; set; }
-        public StatisticsHelper.StatDataWidget StatsEventsPeople { get; set; }
+        public StatDataWidget StatsEvents { get; set; }
+        public StatDataWidget StatsEventsPeople { get; set; }
+        public StatDataCRM StatsCRM { get; set; }
         public string Search { get; set; }
 
     }

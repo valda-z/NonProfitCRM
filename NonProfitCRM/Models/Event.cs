@@ -40,10 +40,12 @@ namespace NonProfitCRM.Models
         public System.DateTime Updated { get; set; }
         public Nullable<System.DateTime> Closed { get; set; }
         public bool Insurance { get; set; }
+        public int TypeId { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual NonProfitOrg NonProfitOrg { get; set; }
         public virtual ICollection<Event2CompanySub> Event2CompanySub { get; set; }
         public virtual ICollection<Tag2Event> Tag2Event { get; set; }
+        public virtual EventType EventType { get; set; }
     }
 }

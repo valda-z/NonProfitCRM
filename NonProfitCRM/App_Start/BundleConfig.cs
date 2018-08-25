@@ -91,6 +91,8 @@ namespace NonProfitCRM
                         "~/Content/sing/vendor/fullcalendar/fullcalendar.js",
                         "~/Content/sing/vendor/jquery.sparkline/index.js",
                         "~/Content/sing/vendor/d3/d3.min.js",
+                        "~/Content/sing/vendor/randomcolor/randomcolor.js",
+                        "~/Content/sing/vendor/morris.js/morris.min.js",
                         "~/Content/sing/vendor/rickshaw/rickshaw.min.js",
                         "~/Content/sing/vendor/raphael/raphael-min.js",
                         "~/Content/sing/vendor/jQuery-Mapael/js/jquery.mapael.js",

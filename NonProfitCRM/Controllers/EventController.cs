@@ -71,6 +71,7 @@ namespace NonProfitCRM.Controllers
                     (search == "" ||
                     (e.CompanyName.StartsWith(search) ||
                         e.Name.StartsWith(search) ||
+                        e.EventTypeName.StartsWith(search) ||
                         e.ContactCompanyName.StartsWith(search) ||
                         e.NonProfitOrgName.StartsWith(search) ||
                         e.ContactNonProfitOrgName.StartsWith(search)
@@ -153,6 +154,8 @@ namespace NonProfitCRM.Controllers
                 }
                 id = p.Id;
                 scope.Complete();
+                StatisticsHelper.InvalidateCacheEvent();
+                StatisticsHelper.InvalidateCacheEventPeople();
             }
 
             // redirect
@@ -247,6 +250,7 @@ namespace NonProfitCRM.Controllers
                         p.NonProfitOrgId = model.NonProfitOrgId;
                         p.Name = model.Name;
                         p.Note = model.Note;
+                        p.TypeId = model.TypeId;
                         p.Updated = DateTime.UtcNow;
                         p.UpdatedBy = User.Identity.Name;
                         cx.SaveChanges();
@@ -262,6 +266,8 @@ namespace NonProfitCRM.Controllers
                 }
 
                 scope.Complete();
+                StatisticsHelper.InvalidateCacheEvent();
+                StatisticsHelper.InvalidateCacheEventPeople();
             }
 
             // redirect
@@ -289,6 +295,8 @@ namespace NonProfitCRM.Controllers
                     _oldObject, Logger.Serialize(p), "Event", p.Id);
             }
             cx.SaveChanges();
+            StatisticsHelper.InvalidateCacheEvent();
+            StatisticsHelper.InvalidateCacheEventPeople();
             // redirect
             if (returnUrl != null && returnUrl.Length > 0)
             {

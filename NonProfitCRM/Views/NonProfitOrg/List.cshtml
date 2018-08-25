@@ -44,7 +44,7 @@
          grid.Column("Id", "#"),
          grid.Column("Name", "Název", format: @<text>@Html.ActionLink((string)item.Name,
 "Detail", "NonProfitOrg", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>),
-         grid.Column("IdentificationNumber", "IČ", style: "hidden-xs hidden-sm"),
+         grid.Column("NonProfitOrgTypeName", "Typ", style: "hidden-xs hidden-sm"),
          grid.Column("Capacity", "Kapacita"),
          grid.Column("CountryName", "Stát", style: "hidden-xs hidden-sm"),
          grid.Column("RegionName", "Region", style: "hidden-xs hidden-sm"),

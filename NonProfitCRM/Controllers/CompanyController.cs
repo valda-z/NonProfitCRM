@@ -194,6 +194,7 @@ namespace NonProfitCRM.Controllers
                 }
 
                 scope.Complete();
+                StatisticsHelper.InvalidateCacheCRM();
             }
 
             // redirect
@@ -222,6 +223,7 @@ namespace NonProfitCRM.Controllers
                     _oldObject, Logger.Serialize(p), "Company", p.Id);
             }
             cx.SaveChanges();
+            StatisticsHelper.InvalidateCacheCRM();
             // redirect
             if (returnUrl != null && returnUrl.Length > 0)
             {

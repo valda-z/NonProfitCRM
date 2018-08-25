@@ -33,5 +33,6 @@ namespace NonProfitCRM.Models
         public string NonProfitOrgName { get; set; }
         public Nullable<System.DateTime> Closed { get; set; }
         public bool Insurance { get; set; }
+        public string EventTypeName { get; set; }
     }
 }

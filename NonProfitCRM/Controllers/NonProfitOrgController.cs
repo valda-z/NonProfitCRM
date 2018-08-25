@@ -73,6 +73,7 @@ namespace NonProfitCRM.Controllers
                         (search == "" ||
                         (e.IdentificationNumber.StartsWith(search) ||
                             e.Name.StartsWith(search) ||
+                            e.NonProfitOrgTypeName.StartsWith(search) ||
                             e.Address.StartsWith(search) ||
                             e.City.StartsWith(search) ||
                             e.Contact1Name.StartsWith(search) ||
@@ -160,6 +161,7 @@ namespace NonProfitCRM.Controllers
                         p.Name = model.Name;
                         p.Note = model.Note;
                         p.RegionId = model.RegionId;
+                        p.TypeId = model.TypeId;
                         p.Www = model.Www;
                         p.Updated = DateTime.UtcNow;
                         p.UpdatedBy = User.Identity.Name;
@@ -193,6 +195,7 @@ namespace NonProfitCRM.Controllers
                 }
 
                 scope.Complete();
+                StatisticsHelper.InvalidateCacheCRM();
             }
 
             // redirect
@@ -221,6 +224,7 @@ namespace NonProfitCRM.Controllers
                     _oldObject, Logger.Serialize(p), "NonProfitOrg", p.Id);
             }
             cx.SaveChanges();
+            StatisticsHelper.InvalidateCacheCRM();
             // redirect
             if (returnUrl != null && returnUrl.Length > 0)
             {
