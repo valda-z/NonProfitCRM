@@ -57,7 +57,7 @@ namespace NonProfitCRM.Components
     {
         private int take;
         private bool noPag = false;
-        public ASWebGrid(IEnumerable<Object> source, int rowsPerPage = 10, bool noPaginator = false)
+        public ASWebGrid(IEnumerable<Object> source, int rowsPerPage = 25, bool noPaginator = false)
             : base(canSort: false, rowsPerPage: rowsPerPage)
         {
             take = NonProfitCRM.Properties.Settings.Default.MAXRECORDS;
@@ -94,9 +94,9 @@ namespace NonProfitCRM.Components
                     HttpUtility.HtmlEncode(i.Header),
                     i.Style);
             }
-            string strret = e.Replace(ret.ToString(), sbth.ToString());
             sbth.AppendLine("</tr>");
             sbth.AppendLine("</thead>");
+            string strret = e.Replace(ret.ToString(), sbth.ToString());
 
             //replace paginator look and feel
             string _paginator = " " + this.Pager(

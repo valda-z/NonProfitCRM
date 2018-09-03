@@ -26,7 +26,9 @@
 
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace NonProfitCRM.Components
@@ -53,6 +55,21 @@ namespace NonProfitCRM.Components
             var i = (int)(Math.Floor(Math.Log(bytes) / Math.Log(1024)));
             return string.Format(System.Globalization.CultureInfo.InvariantCulture, 
                 "{0} {1}", Math.Round(bytes / Math.Pow(1024, i), 2), sizes[i]);
+        }
+
+        public static string ReplaceDiacritics(this string source)
+        {
+            string sourceInFormD = source.Normalize(NormalizationForm.FormD);
+
+            var output = new StringBuilder();
+            foreach (char c in sourceInFormD)
+            {
+                UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (uc != UnicodeCategory.NonSpacingMark)
+                    output.Append(c);
+            }
+
+            return (output.ToString().Normalize(NormalizationForm.FormC));
         }
     }
 }

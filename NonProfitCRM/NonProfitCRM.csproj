@@ -225,6 +225,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Components\ASWebGridABC.cs" />
     <Compile Include="Components\ASWebGrid.cs" />
     <Compile Include="Components\CompanyStatusHelper.cs" />
     <Compile Include="Components\DateHelper.cs" />

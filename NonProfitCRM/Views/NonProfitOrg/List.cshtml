@@ -38,7 +38,7 @@
     </header>
     <div class="widget-body">
         @{
-            var grid = new NonProfitCRM.Components.ASWebGrid(Model);
+            var grid = new NonProfitCRM.Components.ASWebGridABC(Model);
         }
         @grid.Draw(columns: grid.Columns(
          grid.Column("Id", "#"),
