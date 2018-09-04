@@ -408,6 +408,7 @@
     <EmbeddedResource Include="Components\DB\Scripts\001.002.00000.00000-00005.sql" />
     <EmbeddedResource Include="Components\DB\Scripts\001.002.00000.00000-00006.sql" />
     <EmbeddedResource Include="Components\DB\Scripts\001.002.00000.00000-00007.sql" />
+    <EmbeddedResource Include="Components\DB\Scripts\001.002.00001.00000-00001.sql" />
     <Content Include="Content\BarCode\fonts\Fontfabric - Nexa-XBold.svg" />
     <Content Include="Content\BarCode\fonts\Fontfabric - NexaRegular.svg" />
     <Content Include="Content\BarCode\script.js" />

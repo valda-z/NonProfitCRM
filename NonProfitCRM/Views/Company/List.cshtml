@@ -15,6 +15,10 @@
             {
                 <table border="0">
                     <tr>
+                        <td>
+                            <div class='btn btn-sm bg-gray text-white'><a class="text-white" title="Zobrazovat aktivní" onclick="handleIsActiveOn(); window.location.reload();" href="#"><i id="myActiveShow" class="fa fa-circle-thin fa-lg"></i>&nbsp; pouze aktivní</a></div>
+                            &nbsp;
+                        </td>
                         <td style="min-width: 250px">
                             <input id="tags" name="tags" class="form-control" type="text"
                                    value="@Request.QueryString["tags"]" data-role="tagsinput" />
@@ -88,4 +92,27 @@
             source: tagsadapter.ttAdapter()
         }
     });
+
+    $(document).ready(function () {
+        drawIsActiveOn();
+    });
+
+    function drawIsActiveOn() {
+        var IsMyTaskOn = getCookie("companyActiveOn");
+        if (IsMyTaskOn === "true") {
+            $("#myActiveShow").removeClass('fa-circle-thin').addClass('fa-check-circle');
+        } else {
+            $("#myActiveShow").removeClass('fa-check-circle').addClass('fa-circle-thin');
+        }
+    }
+
+    function handleIsActiveOn() {
+        var IsMyTaskOn = getCookie("companyActiveOn");
+        if (IsMyTaskOn === "true") {
+            setCookie('companyActiveOn', 'false', 2000);
+        } else {
+            setCookie('companyActiveOn', 'true', 2000);
+        }
+        drawIsActiveOn();
+    }
 </script>

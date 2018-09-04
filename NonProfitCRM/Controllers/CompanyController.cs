@@ -61,6 +61,8 @@ namespace NonProfitCRM.Controllers
 
             bool showDeleted = (Request.Cookies["nonprofitorgIsDelOn"]?.Value == "true");
 
+            bool showActive = (Request.Cookies["companyActiveOn"]?.Value == "true");
+
             var cx = new Entities();
             var tagsArr = tags.Split(',');
 
@@ -80,6 +82,7 @@ namespace NonProfitCRM.Controllers
                         e.RegionName.StartsWith(search) ||
                         e.Www.StartsWith(search)
                     )) && (showDeleted || !e.Deleted) &&
+                    ((showActive && CompanyStatusHelper.IsCompany.Contains(e.StatusId)) || (!showActive)) &&
                     (tags == "" || inquery.Contains(e.Id))
                     orderby e.Name
                     select e).

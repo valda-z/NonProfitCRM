@@ -59,6 +59,8 @@ namespace NonProfitCRM.Controllers
 
             bool showDeleted = (Request.Cookies["nonprofitorgIsDelOn"]?.Value == "true");
 
+            bool showActive = (Request.Cookies["eventActiveOn"]?.Value == "true");
+
             var cx = new Entities();
             var tagsArr = tags.Split(',');
 
@@ -76,6 +78,7 @@ namespace NonProfitCRM.Controllers
                         e.NonProfitOrgName.StartsWith(search) ||
                         e.ContactNonProfitOrgName.StartsWith(search)
                     )) &&
+                    ((showActive && e.Closed == null) || (!showActive)) &&
                     (tags=="" || inquery.Contains(e.Id))
                     orderby e.DateOfEvent descending
                     select e).
@@ -122,6 +125,7 @@ namespace NonProfitCRM.Controllers
 
                 Entities cx = new Entities();
                 model.DateOfEvent = dtm.Value;
+                model.Name = DateHelper.FormatDateShort(model.DateOfEvent, User.Identity.Name);
 
                 //update NonProfitOrg
                 Event p = model;
@@ -248,7 +252,7 @@ namespace NonProfitCRM.Controllers
                         p.ContactNonProfitOrgPhone = model.ContactNonProfitOrgPhone;
                         p.DateOfEvent = model.DateOfEvent;
                         p.NonProfitOrgId = model.NonProfitOrgId;
-                        p.Name = model.Name;
+                        //p.Name = model.Name;
                         p.Note = model.Note;
                         p.TypeId = model.TypeId;
                         p.Updated = DateTime.UtcNow;

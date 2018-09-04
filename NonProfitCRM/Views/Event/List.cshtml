@@ -15,6 +15,10 @@
             {
                 <table border="0">
                     <tr>
+                        <td>
+                            <div class='btn btn-sm bg-gray text-white'><a class="text-white" title="Zobrazovat aktivní" onclick="handleIsActiveOn(); window.location.reload();" href="#"><i id="myActiveShow" class="fa fa-circle-thin fa-lg"></i>&nbsp; pouze aktivní</a></div>
+                            &nbsp;
+                        </td>
                         <td style="min-width: 250px">
                             <input id="tags" name="tags" class="form-control" type="text"
                                 value="@Request.QueryString["tags"]" data-role="tagsinput" />
@@ -44,8 +48,6 @@
          grid.Column("Id", "#"),
          grid.Column("DateOfEvent", "Datum", format: @<text>@Html.ActionLink((string)NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, User.Identity.Name),
 "Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>, style: "tdnowrap"),
-             grid.Column("Name", "Název", format: @<text>@Html.ActionLink((string)item.Name,
-"Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>, style: "hidden-xs hidden-sm"),
                  grid.Column("CompanyName", "Firma"),
                  grid.Column("NonProfitOrgName", "Neziskovka", style: "hidden-xs hidden-sm"),
                  grid.Column("EventTypeName", "Typ", style: "hidden-xs hidden-sm"),
@@ -95,4 +97,28 @@
             source: tagsadapter.ttAdapter()
         }
     });
+
+    $(document).ready(function () {
+        drawIsActiveOn();
+    });
+
+    function drawIsActiveOn() {
+        var IsMyTaskOn = getCookie("eventActiveOn");
+        if (IsMyTaskOn === "true") {
+            $("#myActiveShow").removeClass('fa-circle-thin').addClass('fa-check-circle');
+        } else {
+            $("#myActiveShow").removeClass('fa-check-circle').addClass('fa-circle-thin');
+        }
+    }
+
+    function handleIsActiveOn() {
+        var IsMyTaskOn = getCookie("eventActiveOn");
+        if (IsMyTaskOn === "true") {
+            setCookie('eventActiveOn', 'false', 2000);
+        } else {
+            setCookie('eventActiveOn', 'true', 2000);
+        }
+        drawIsActiveOn();
+    }
+
 </script>

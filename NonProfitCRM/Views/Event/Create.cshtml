@@ -26,22 +26,18 @@
             <legend>Detail akce: <span class="fw-semi-bold">@Model.Name</span></legend>
             @Html.Partial("_ValidationSummary", ViewData.ModelState)
             <div class="form-group">
-                @Html.LabelFor(m => m.Name, "Název", new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @required = "required" })
-                </div>
-                @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}"
-               })
-                </div>
-            </div>
-            <div class="form-group">
                 @Html.Label("TaskTemplateId", "Šablona úkolů", new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-4">
+                <div class="col-sm-10">
                     @Html.DropDownList("TaskTemplateId",
                         new SelectList(new NonProfitCRM.Models.Entities().EventTaskTemplate.OrderBy(e => e.Name), "Id", "Name", 0),
                         new { @data_placeholder = "Vyber šablonu", @class = "select2 form-control", @tabindex = "-1" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Capacity, "Počet dobrovolníků", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}"
+               })
                 </div>
                 @Html.LabelFor(m => m.DateOfEvent, "Datum akce", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">

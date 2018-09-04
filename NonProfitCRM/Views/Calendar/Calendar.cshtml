@@ -62,7 +62,7 @@
                     @foreach(var i in Model.EventList)
                     {
                         @Html.Raw("{");
-                        @Html.Raw("title: '"+i.Name+" ("+i.NonProfitOrgName+" / "+i.CompanyName+")',");
+                        @Html.Raw("title: '"+i.NonProfitOrgName+" / "+i.CompanyName+"',");
                         @Html.Raw("start: new Date("+i.DateOfEvent.Year+", "+(i.DateOfEvent.Month-1)+", "+i.DateOfEvent.Day+"),");
                         @Html.Raw("end: new Date(" + i.DateOfEvent.Year + ", " + (i.DateOfEvent.Month-1) + ", " + i.DateOfEvent.Day + "),");
                         @Html.Raw("url: '"+ Url.Action("Detail", "Event",
@@ -77,7 +77,7 @@
                         foreach(var i in Model.TaskList)
                         {
                             @Html.Raw("{");
-                            @Html.Raw("title: '"+i.Description+"("+i.EntityName+" / "+i.AssignedTo+")',");
+                            @Html.Raw("title: '"+i.Description+" ("+i.EntityName+" / "+i.AssignedTo+")',");
                             @Html.Raw("start: new Date("+i.DueDate.Year+", "+(i.DueDate.Month-1)+", "+i.DueDate.Day+"),");
                             @Html.Raw("end: new Date(" + i.DueDate.Year + ", " + (i.DueDate.Month-1) + ", " + i.DueDate.Day + "),");
                             @Html.Raw("url: '"+ Url.Action("Detail", "Task",
