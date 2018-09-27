@@ -16,10 +16,10 @@
                 <table border="0">
                     <tr>
                         <td>
-                            <div class='btn btn-sm bg-gray text-white'><a class="text-white" title="Zobrazovat aktivní" onclick="handleIsActiveOn(); window.location.reload();" href="#"><i id="myActiveShow" class="fa fa-circle-thin fa-lg"></i>&nbsp; pouze aktivní</a></div>
+                            <div class='btn btn-sm bg-gray text-white'><a class="text-white" title="Zobrazovat aktivní" onclick="handleIsActiveOn(); window.location.reload();" href="#"><i id="myActiveShow" class="fa fa-circle-thin fa-lg"></i><span class="hidden-xs hidden-sm">&nbsp; pouze </span>aktivní</a></div>
                             &nbsp;
                         </td>
-                        <td style="min-width: 250px">
+                        <td style="min-width: 250px" class="hidden-xs hidden-sm">
                             <input id="tags" name="tags" class="form-control" type="text"
                                 value="@Request.QueryString["tags"]" data-role="tagsinput" />
                         </td>

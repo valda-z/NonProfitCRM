@@ -58,7 +58,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}" })
+                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @data_parsley_type = "number" })
                 </div>
                 @Html.LabelFor(m => m.Www, "WWW stránky", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">

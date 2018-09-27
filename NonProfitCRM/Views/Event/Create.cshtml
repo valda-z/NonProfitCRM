@@ -16,9 +16,7 @@
                 @class = "form-horizontal",
                 @data_parsley_priority_enabled = "false",
                 @novalidate = "novalidate",
-                @id = "validation-form",
-                @data_parsley_errors_container = ".form-group",
-                @data_parsley_validate = ""
+                @id = "validation-form"
             }))
         {
             @Html.HiddenFor(m => m.Id)
@@ -36,8 +34,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Capacity, "Počet dobrovolníků", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @pattern = "[0-9]{1,6}"
-               })
+                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", @required = "required", @data_parsley_type = "number" })
                 </div>
                 @Html.LabelFor(m => m.DateOfEvent, "Datum akce", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">

@@ -24,9 +24,7 @@
                 @class = "form-horizontal",
                 @data_parsley_priority_enabled = "false",
                 @novalidate = "novalidate",
-                @id = "validation-form",
-                @data_parsley_errors_container = ".form-group",
-                @data_parsley_validate = ""
+                @id = "validation-form"
             }))
         {
             @Html.HiddenFor(m => m.Id)
@@ -60,7 +58,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.StatusId, "Stav", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
-                    <div class="btn-group" data-toggle="buttons">
+                    <div class="btn-group" data-toggle="buttons" >
                         <label class="btn btn-default @Html.Raw(Model.StatusId==0?"active":"")">
                             <input type="radio" value="0" name="StatusId" id="StatusId_0" autocomplete="off" @Html.Raw(Model.StatusId == 0 ? "checked" : "")> aktivní
                         </label>
@@ -223,6 +221,8 @@
             var selected = $("option:selected", this).val();
             changeRegions(selected);
         });
+
+        $("#parsley-id-multiple-StatusId").hide();
 
         new Switchery(document.getElementById('checkbox-ios1-insurance'), { color: Sing.colors['brand-success'], size: 'small' });
         $('.checkbox-ios-notready').each(function (i, elem) { $(elem).removeClass('checkbox-ios-notready') });

@@ -18,21 +18,21 @@
                 {
                     <table border="0" class="pull-right">
                         <tr>
-                            <td style="min-width: 250px">
+                            <td style="min-width: 250px" class="hidden-xs hidden-sm">
                                 <input id="tags" name="tags" class="form-control" type="text"
                                        value="@Request.QueryString["tags"]" data-role="tagsinput" />
                             </td>
                             <td>
-                                <input type="search" placeholder="Kapacita" class="form-control input-sm" value="@Request.QueryString["srchCapacity"]" name="srchCapacity" />
+                                <input type="search" placeholder="Kapacita" class="form-control input-sm hidden-xs hidden-sm" value="@Request.QueryString["srchCapacity"]" name="srchCapacity" />
                             </td>
                             <td>
-                                <input type="search" placeholder="Zaměření" class="form-control input-sm" value="@Request.QueryString["srchType"]" name="srchType" />
+                                <input type="search" placeholder="Zaměření" class="form-control input-sm hidden-xs hidden-sm" value="@Request.QueryString["srchType"]" name="srchType" />
                             </td>
                             <td>
-                                <input type="search" placeholder="Region" class="form-control input-sm" value="@Request.QueryString["srchDistrict"]" name="srchDistrict" />
+                                <input type="search" placeholder="Region" class="form-control input-sm hidden-xs hidden-sm" value="@Request.QueryString["srchDistrict"]" name="srchDistrict" />
                             </td>
                             <td>
-                                <input type="search" placeholder="Město" class="form-control input-sm" value="@Request.QueryString["srchCity"]" name="srchCity" />
+                                <input type="search" placeholder="Město" class="form-control input-sm hidden-xs hidden-sm" value="@Request.QueryString["srchCity"]" name="srchCity" />
                             </td>
                             <td>
                                 <div class="width-200 pull-right">
