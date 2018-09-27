@@ -1,4 +1,12 @@
-﻿.tdnowrap{
+﻿.bg-hest-blue {
+    background-color: #00305A;
+}
+
+.bg-hest-yellow {
+    background-color: #D6AD78;
+}
+
+.tdnowrap{
     white-space: pre
 }
 

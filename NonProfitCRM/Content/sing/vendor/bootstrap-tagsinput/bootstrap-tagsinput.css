@@ -16,6 +16,8 @@
   line-height: 22px;
   cursor: text;
   width: 100%;
+  background-image: url(../../img/searchtag.png);
+  background-repeat: no-repeat
 }
 .bootstrap-tagsinput input {
   border: none;

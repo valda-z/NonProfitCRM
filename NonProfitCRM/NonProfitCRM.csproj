@@ -419,6 +419,7 @@
     <Content Include="Content\sing\css\application.css" />
     <Content Include="Content\sing\css\application.min.css" />
     <Content Include="Content\sing\img\avatar.png" />
+    <Content Include="Content\sing\img\searchtag.png" />
     <Content Include="Content\sing\img\search.png" />
     <Content Include="Content\sing\img\sing-preview.png" />
     <Content Include="Content\sing\img\sing-screenshot.png" />

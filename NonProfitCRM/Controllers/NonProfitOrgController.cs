@@ -47,11 +47,33 @@ namespace NonProfitCRM.Controllers
         }
 
         [HttpGet]
-        public ActionResult List(string search, string tags)
+        public ActionResult List(string search, string tags, 
+            string srchCapacity, string srchType, string srchDistrict, string srchCity)
         {
+            int srchCapacityInt = 0;
             if (search == null)
             {
                 search = "";
+            }
+            if (srchCapacity == null)
+            {
+                srchCapacity = "";
+            }
+            if (srchCity == null)
+            {
+                srchCity = "";
+            }
+            if (srchDistrict == null)
+            {
+                srchDistrict = "";
+            }
+            if (srchType == null)
+            {
+                srchType = "";
+            }
+            if (srchCapacity != "")
+            {
+                int.TryParse(srchCapacity, out srchCapacityInt);
             }
             if (tags == null)
             {
@@ -83,6 +105,12 @@ namespace NonProfitCRM.Controllers
                             e.Www.StartsWith(search)
                         )
                     ) && (showDeleted || !e.Deleted) &&
+                    (
+                        (srchCapacity == "" || e.Capacity >= srchCapacityInt) &&
+                        (srchCity == "" || e.City.StartsWith(srchCity)) &&
+                        (srchDistrict == "" || e.RegionName.StartsWith(srchDistrict)) &&
+                        (srchType == "" || e.NonProfitOrgTypeName.StartsWith(srchType)) 
+                    ) &&
                     (tags == "" || inquery.Contains(e.Id))
                     orderby e.Name
                     select e).

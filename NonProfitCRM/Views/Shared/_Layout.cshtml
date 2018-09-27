@@ -1,23 +1,23 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Hestia - CRM</title>
-        <link rel="shortcut icon" href="~/Images/favicon.png">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        @Styles.Render("~/Content/custom/css")
-        @Styles.Render("~/Content/sing/css/sing")
-        <script>
+<head>
+    <meta charset="utf-8" />
+    <title>Hestia - CRM</title>
+    <link rel="shortcut icon" href="~/Images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    @Styles.Render("~/Content/sing/css/sing")
+    @Styles.Render("~/Content/custom/css")
+    <script>
         /* yeah we need this empty stylesheet here. It's cool chrome & chromium fix
          chrome fix https://code.google.com/p/chromium/issues/detail?id=167083
          https://code.google.com/p/chromium/issues/detail?id=332189
          */
-        </script>
-    </head>
+    </script>
+</head>
 @{NonProfitCRM.Models.UserProfile currUser = NonProfitCRM.Models.AccountHelper.GetUser(User.Identity.Name);
     NonProfitCRM.Models.NavBarModel nbModel = new NonProfitCRM.Models.NavBarModel();
     nbModel.CurrentAction = ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString();

@@ -7,32 +7,48 @@
 
 <section class="widget">
     <header>
-        <h4>
-            @Html.ActionLink("Vytvořit", "Detail", "NonProfitOrg", new { id = 0, returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
-        </h4>
-        <div class="widget-controls">
-            @using (Html.BeginForm(null, null, FormMethod.Get))
-            {
-                <table border="0">
-                    <tr>
-                        <td style="min-width: 250px">
-                            <input id="tags" name="tags" class="form-control" type="text"
-                                   value="@Request.QueryString["tags"]" data-role="tagsinput" />
-                        </td>
-                        <td>
-                            <div class="width-200">
-                                <div class="input-group input-group-sm input-group-transparent input-group-rounded">
-                                    <input type="search" name="search" value="@Request.QueryString["search"]" class="form-control"
-                                           placeholder="hledání ...">
-                                    <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Hledej!</button>
-                                    </span>
+        <div class="row">
+            <div class="col-sm-2">
+                <h4>
+                    @Html.ActionLink("Vytvořit", "Detail", "NonProfitOrg", new { id = 0, returnUrl = Request.RawUrl }, new { @class = "btn-sm btn-success" })
+                </h4>
+            </div>
+            <div class="col-sm-10">
+                @using (Html.BeginForm(null, null, FormMethod.Get))
+                {
+                    <table border="0" class="pull-right">
+                        <tr>
+                            <td style="min-width: 250px">
+                                <input id="tags" name="tags" class="form-control" type="text"
+                                       value="@Request.QueryString["tags"]" data-role="tagsinput" />
+                            </td>
+                            <td>
+                                <input type="search" placeholder="Kapacita" class="form-control input-sm" value="@Request.QueryString["srchCapacity"]" name="srchCapacity" />
+                            </td>
+                            <td>
+                                <input type="search" placeholder="Zaměření" class="form-control input-sm" value="@Request.QueryString["srchType"]" name="srchType" />
+                            </td>
+                            <td>
+                                <input type="search" placeholder="Region" class="form-control input-sm" value="@Request.QueryString["srchDistrict"]" name="srchDistrict" />
+                            </td>
+                            <td>
+                                <input type="search" placeholder="Město" class="form-control input-sm" value="@Request.QueryString["srchCity"]" name="srchCity" />
+                            </td>
+                            <td>
+                                <div class="width-200 pull-right">
+                                    <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                                        <input type="search" name="search" value="@Request.QueryString["search"]" class="form-control"
+                                               placeholder="hledání ...">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Hledej!</button>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            }
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
         </div>
 
     </header>
