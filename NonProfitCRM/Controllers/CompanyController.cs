@@ -117,6 +117,7 @@ namespace NonProfitCRM.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.tags = m["tags"];
+            int myid = id;
 
             using (var scope = new TransactionScope(
                 TransactionScopeOption.RequiresNew,
@@ -141,6 +142,7 @@ namespace NonProfitCRM.Controllers
                         Logger.Log(User.Identity.Name, "Create Company " + model.Name + " / " + p.IdentificationNumber, null, model,
                             "Company", p.Id);
                         cx.SaveChanges();
+                        myid = p.Id;
                     }
                     else
                     {
@@ -200,14 +202,21 @@ namespace NonProfitCRM.Controllers
                 StatisticsHelper.InvalidateCacheCRM();
             }
 
-            // redirect
-            if (returnUrl != null && returnUrl.Length > 0)
+            if (id == 0)
             {
-                return Redirect(returnUrl);
+                return RedirectToAction("Detail", new { id = myid, returnUrl = returnUrl });
             }
             else
             {
-                return RedirectToAction("List", "Company");
+                // redirect
+                if (returnUrl != null && returnUrl.Length > 0)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("List", "Company");
+                }
             }
         }
 

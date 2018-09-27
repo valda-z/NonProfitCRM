@@ -150,16 +150,20 @@
                 </div>
             </div>
         </fieldset>
-            <div class="btn-toolbar">
-                <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
-                <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
-                @if (Model.Id != 0 && ViewBag.CanEdit)
-                {
-                    <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Company", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
-                        Smazat
-                    </a>
-                }
-            </div>
+        <div class="btn-toolbar">
+            <a href="@ViewBag.ReturnUrl" class="btn btn btn-default pull-right">Zpět</a>
+            <button type="submit" name="save" class="btn btn btn-primary pull-right">Uložit</button>
+            @if (Model.Id == 0)
+            {
+                <button type="submit" name="saveandtask" value="true" class="btn btn btn-primary pull-right">Uložit a zadat úkoly</button>
+            }
+            @if (Model.Id != 0 && ViewBag.CanEdit)
+            {
+                <a class="btn btn btn-danger" data-href="@Url.Action("Delete", "Company", new { id = Model.Id, returnUrl = ViewBag.ReturnUrl })" data-toggle="modal" data-target="#confirm-delete">
+                    Smazat
+                </a>
+            }
+        </div>
         }
     </div>
 </section>
