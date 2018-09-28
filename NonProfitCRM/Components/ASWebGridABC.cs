@@ -68,6 +68,10 @@ namespace NonProfitCRM.Components
                         tmp[0] >= 'a' && tmp[0]<='z')
             {
                 ret = tmp.Substring(0, 1).ToUpper();
+                if(tmp.Length>=2 && tmp[0]=='c' && tmp[1] == 'h')
+                {
+                    ret = "Ch";
+                }
             }
             return ret;
         }
