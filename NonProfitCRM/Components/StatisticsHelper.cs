@@ -255,33 +255,33 @@ namespace NonProfitCRM.Components
 
                 ret.CountLastYear = (from p in cx.Event
                                      where !p.Deleted && p.DateOfEvent >= dFromLY && p.DateOfEvent < dToLY
-                                     select p.Capacity).Sum();
+                                     select p.Capacity).DefaultIfEmpty(0).Sum();
 
                 ret.CountThisYear = (from p in cx.Event
                                      where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                                     select p.Capacity).Sum();
+                                     select p.Capacity).DefaultIfEmpty(0).Sum();
 
 
                 dFrom = new DateTime(DateTime.Now.Year, 1, 1);
                 dTo = dFrom.AddMonths(3);
                 ret.Q1Count = (from p in cx.Event
                                where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                               select p.Capacity).Sum();
+                               select p.Capacity).DefaultIfEmpty(0).Sum();
                 dFrom = dFrom.AddMonths(3);
                 dTo = dFrom.AddMonths(3);
                 ret.Q2Count = (from p in cx.Event
                                where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                               select p.Capacity).Sum();
+                               select p.Capacity).DefaultIfEmpty(0).Sum();
                 dFrom = dFrom.AddMonths(3);
                 dTo = dFrom.AddMonths(3);
                 ret.Q3Count = (from p in cx.Event
                                where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                               select p.Capacity).Sum();
+                               select p.Capacity).DefaultIfEmpty(0).Sum();
                 dFrom = dFrom.AddMonths(3);
                 dTo = dFrom.AddMonths(3);
                 ret.Q4Count = (from p in cx.Event
                                where !p.Deleted && p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
-                               select p.Capacity).Sum();
+                               select p.Capacity).DefaultIfEmpty(0).Sum();
 
                 HttpContext.Current.Cache.Insert(keyEventPeople, ret,
                                    null, DateTime.Now.AddMinutes(10d),

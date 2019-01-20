@@ -201,11 +201,11 @@
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TimeZoneConverter, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TimeZoneConverter.2.4.2\lib\net45\TimeZoneConverter.dll</HintPath>
+    <Reference Include="TimeZoneConverter, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TimeZoneConverter.2.5.1\lib\net45\TimeZoneConverter.dll</HintPath>
     </Reference>
-    <Reference Include="TimeZoneNames, Version=3.3.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TimeZoneNames.3.3.4\lib\net45\TimeZoneNames.dll</HintPath>
+    <Reference Include="TimeZoneNames, Version=3.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TimeZoneNames.3.4.0\lib\net45\TimeZoneNames.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
