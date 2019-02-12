@@ -35,7 +35,8 @@ namespace NonProfitCRM.Components
     {
         public enum Status
         {
-            COMPANY = 0,
+            COMPANY_APPL = 0,
+            COMPANY_ADHOC = 10,
             LEAD = 1,
             LEADDEAD = -1
         }
@@ -44,7 +45,7 @@ namespace NonProfitCRM.Components
         {
             get
             {
-                return new int[] { (int)Status.COMPANY };
+                return new int[] { (int)Status.COMPANY_APPL, (int)Status.COMPANY_ADHOC };
             }
         }
         public static int[] IsLead

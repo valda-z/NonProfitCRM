@@ -78,6 +78,10 @@ namespace NonProfitCRM.Controllers
                         e.City.StartsWith(search) ||
                         e.Contact1Name.StartsWith(search) ||
                         e.Contact2Name.StartsWith(search) ||
+                        e.Contact1Phone.StartsWith(search) ||
+                        e.Contact2Phone.StartsWith(search) ||
+                        e.Contact1Email.StartsWith(search) ||
+                        e.Contact2Email.StartsWith(search) ||
                         e.CountryName.StartsWith(search) ||
                         e.RegionName.StartsWith(search) ||
                         e.Www.StartsWith(search)
@@ -119,6 +123,21 @@ namespace NonProfitCRM.Controllers
             ViewBag.tags = m["tags"];
             int myid = id;
 
+            DateTime? dtm = null;
+            if (m["FirstContactRaw"].Trim().Length > 0)
+            {
+                bool isokA = false;
+                dtm = DateHelper.ConvertDate(m["FirstContactRaw"], out isokA);
+                if (!isokA || dtm == null)
+                {
+                    ModelState.AddModelError("", "Chybný formát data pro Datum prvního kontaktu.");
+                }
+                if (!isokA)
+                {
+                    return View(model);
+                }
+            }
+
             using (var scope = new TransactionScope(
                 TransactionScopeOption.RequiresNew,
                 new TransactionOptions()
@@ -128,6 +147,8 @@ namespace NonProfitCRM.Controllers
             {
 
                 Entities cx = new Entities();
+
+                model.FirstContact = dtm;
 
                 //update NonProfitOrg
                 Company p = null;
@@ -166,6 +187,8 @@ namespace NonProfitCRM.Controllers
                         p.Note = model.Note;
                         p.RegionId = model.RegionId;
                         p.Www = model.Www;
+                        p.FirstContact = model.FirstContact;
+                        p.ContactPerson = model.ContactPerson;
                         p.Updated = DateTime.UtcNow;
                         p.UpdatedBy = User.Identity.Name;
                         cx.SaveChanges();

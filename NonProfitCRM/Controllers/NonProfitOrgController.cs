@@ -86,9 +86,9 @@ namespace NonProfitCRM.Controllers
             var cx = new Entities();
             var tagsArr = tags.Split(',');
 
-            var inquery = from x in cx.Tag2Company
+            var inquery = from x in cx.Tag2NonProfitOrg
                           where tags.Contains(x.Tag.Tag1)
-                          select x.CompanyId;
+                          select x.NonProfitOrgId;
 
             var model = (from e in cx.ViewNonProfitOrgList
                     where 
@@ -100,6 +100,10 @@ namespace NonProfitCRM.Controllers
                             e.City.StartsWith(search) ||
                             e.Contact1Name.StartsWith(search) ||
                             e.Contact2Name.StartsWith(search) ||
+                            e.Contact1Phone.StartsWith(search) ||
+                            e.Contact2Phone.StartsWith(search) ||
+                            e.Contact1Email.StartsWith(search) ||
+                            e.Contact2Email.StartsWith(search) ||
                             e.CountryName.StartsWith(search) ||
                             e.RegionName.StartsWith(search) ||
                             e.Www.StartsWith(search)

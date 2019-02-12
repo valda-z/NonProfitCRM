@@ -19,6 +19,9 @@
             <th class="hidden-xs hidden-sm">
                 Přiřazeno
             </th>
+            <th>
+                .
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -41,6 +44,13 @@
             </td>
             <td class="hidden-xs hidden-sm">
                 @_itm.AssignedTo
+            </td>
+            <td>
+                @if (_itm.StatusId != 1000)
+                {
+                    @Html.ActionLink("Dokončit", "Detail", "Task",
+                        new { id = _itm.Id, returnUrl = Request.RawUrl+"#tab1", cmd = "DONE" }, new { @class = "btn-sm btn-success" })
+                }
             </td>
         </tr>
         }

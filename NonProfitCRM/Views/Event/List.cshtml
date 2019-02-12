@@ -48,9 +48,20 @@
          grid.Column("Id", "#"),
          grid.Column("DateOfEvent", "Datum", format: @<text>@Html.ActionLink((string)NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, User.Identity.Name),
 "Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>, style: "tdnowrap"),
+                 grid.Column("Capacity", "Účast"),
                  grid.Column("CompanyName", "Firma"),
                  grid.Column("NonProfitOrgName", "Neziskovka", style: "hidden-xs hidden-sm"),
                  grid.Column("EventTypeName", "Typ", style: "hidden-xs hidden-sm"),
+                 grid.Column("TaskName", "Úkol", 
+                 format: @<text>
+                    @{if (item.TaskName=="")
+                                 {<span>-</span>}
+                      else if (item.TaskName.StartsWith("~"))
+                                 {<span class="label label-danger">@item.TaskName.Substring(1)</span>}
+                                 else
+                                 {<span class="label label-success">@item.TaskName</span>}
+                    }</text>
+                 ,style: "hidden-xs hidden-sm"),
                  grid.Column("Insurance", "Pojistit", 
                  format: @<text>
                     @{if (item.Insurance)

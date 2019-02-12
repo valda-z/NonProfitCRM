@@ -38,11 +38,11 @@
                 <div class="col-sm-4">
                     <input id="tags" name="tags" class="form-control" type="text" value="@ViewBag.tags" data-role="tagsinput" />
                 </div>
-                @Html.LabelFor(m => m.TypeId, "Typ", new { @class = "col-sm-2 control-label" })
+                @Html.LabelFor(m => m.TypeId, "Zaměření", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
                     @Html.DropDownListFor(m => m.TypeId,
                         new SelectList(new NonProfitCRM.Models.Entities().NonProfitOrgType.OrderBy(e => e.Name), "Id", "Name", Model.TypeId),
-                        new { @data_placeholder = "Vyber typ", @class = "select2 form-control", @tabindex = "-1" })
+                        new { @data_placeholder = "Vyber zaměření", @class = "select2 form-control", @tabindex = "-1" })
                 </div>
             </div>
             <div class="form-group">

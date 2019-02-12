@@ -58,15 +58,18 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.StatusId, "Stav", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
-                    <div class="btn-group" data-toggle="buttons" >
-                        <label class="btn btn-default @Html.Raw(Model.StatusId==0?"active":"")">
-                            <input type="radio" value="0" name="StatusId" id="StatusId_0" autocomplete="off" @Html.Raw(Model.StatusId == 0 ? "checked" : "")> aktivní
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default @Html.Raw(Model.StatusId==((int)NonProfitCRM.Components.CompanyStatusHelper.Status.COMPANY_APPL)?"active":"")">
+                            <input type="radio" value="0" name="StatusId" id="StatusId_0" autocomplete="off" @Html.Raw(Model.StatusId == ((int)NonProfitCRM.Components.CompanyStatusHelper.Status.COMPANY_APPL) ? "checked" : "")> aplikace
                         </label>
-                        <label class="btn btn-default @Html.Raw(Model.StatusId==1?"active":"")">
-                            <input type="radio" value="1" name="StatusId" id="StatusId_1" autocomplete="off" @Html.Raw(Model.StatusId == 1 ? "checked" : "")> lead
+                        <label class="btn btn-default @Html.Raw(Model.StatusId==((int)NonProfitCRM.Components.CompanyStatusHelper.Status.COMPANY_ADHOC)?"active":"")">
+                            <input type="radio" value="10" name="StatusId" id="StatusId_10" autocomplete="off" @Html.Raw(Model.StatusId == ((int)NonProfitCRM.Components.CompanyStatusHelper.Status.COMPANY_ADHOC) ? "checked" : "")> adhoc
                         </label>
-                        <label class="btn btn-default @Html.Raw(Model.StatusId==-1?"active":"")">
-                            <input type="radio" value="-1" name="StatusId" id="StatusId_m1" autocomplete="off" @Html.Raw(Model.StatusId == -1 ? "checked" : "")> neaktivní
+                        <label class="btn btn-default @Html.Raw(Model.StatusId==((int)NonProfitCRM.Components.CompanyStatusHelper.Status.LEAD)?"active":"")">
+                            <input type="radio" value="1" name="StatusId" id="StatusId_1" autocomplete="off" @Html.Raw(Model.StatusId == ((int)NonProfitCRM.Components.CompanyStatusHelper.Status.LEAD) ? "checked" : "")> lead
+                        </label>
+                        <label class="btn btn-default @Html.Raw(Model.StatusId==((int)NonProfitCRM.Components.CompanyStatusHelper.Status.LEADDEAD)?"active":"")">
+                            <input type="radio" value="-1" name="StatusId" id="StatusId_m1" autocomplete="off" @Html.Raw(Model.StatusId == ((int)NonProfitCRM.Components.CompanyStatusHelper.Status.LEADDEAD) ? "checked" : "")> neaktivní
                         </label>
                     </div>
                 </div>
@@ -142,6 +145,29 @@
                 </div>
             </div>
             <legend>Poznámka</legend>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstContact, "První kontakt", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    <div id="datetimepicker-start" class="input-group">
+                        @Html.TextBox("FirstContactRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.FirstContact, User.Identity.Name)
+                            , new
+                            {
+                                @class = "form-control",
+                                @id = "datetimepicker-starti",
+                                @pattern = NonProfitCRM.Components.DateHelper.ValidatorStringDate
+                            })
+                        <span class="input-group-btn">
+                            <a href="#" class="btn btn-success">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                @Html.LabelFor(m => m.ContactPerson, "Kontakt u nás", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
+                </div>
+            </div>
             <div class="form-group">
                 <div class="col-sm-12">
                     @Html.TextAreaFor(m => m.Note, new { @class = "form-control", @rows = "3" })
@@ -220,6 +246,10 @@
             //get what they selected
             var selected = $("option:selected", this).val();
             changeRegions(selected);
+        });
+
+        $('#datetimepicker-start').datetimepicker({
+            format: 'YYYY-MM-DD'
         });
 
         $("#parsley-id-multiple-StatusId").hide();

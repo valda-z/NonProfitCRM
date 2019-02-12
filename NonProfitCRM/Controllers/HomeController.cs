@@ -58,6 +58,7 @@ namespace NonProfitCRM.Controllers
             model.TaskList = cx.ViewTaskList.
                 Where(
                     e => e.StatusId < 1000 &&
+                    e.Entity != "Event" &&
                     (!showOnlyMy || e.AssignedTo == User.Identity.Name)
                     ).OrderBy(e=>e.DueDate);
 

@@ -156,7 +156,7 @@ namespace NonProfitCRM.Components
                 ret = new StatDataCRM();
 
                 ret.CompanyCount = (from p in cx.Company
-                                    where !p.Deleted && p.StatusId == ((int)CompanyStatusHelper.Status.COMPANY)
+                                    where !p.Deleted && p.StatusId == ((int)CompanyStatusHelper.Status.COMPANY_APPL)
                                     select p).Count();
 
                 ret.LeadCount = (from p in cx.Company

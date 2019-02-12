@@ -21,6 +21,7 @@ namespace NonProfitCRM.Models
         public string ContactCompanyName { get; set; }
         public string ContactCompanyPhone { get; set; }
         public string ContactCompanyEmail { get; set; }
+        public string ContactCompanyNote { get; set; }
         public string ContactNonProfitOrgName { get; set; }
         public string ContactNonProfitOrgPhone { get; set; }
         public string ContactNonProfitOrgEmail { get; set; }
@@ -34,5 +35,6 @@ namespace NonProfitCRM.Models
         public Nullable<System.DateTime> Closed { get; set; }
         public bool Insurance { get; set; }
         public string EventTypeName { get; set; }
+        public string TaskName { get; set; }
     }
 }

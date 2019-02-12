@@ -35,5 +35,7 @@ namespace NonProfitCRM.Models
         public string CountryName { get; set; }
         public string RegionName { get; set; }
         public bool Insurance { get; set; }
+        public System.DateTime? FirstContact { get; set; }
+        public string ContactPerson { get; set; }
     }
 }

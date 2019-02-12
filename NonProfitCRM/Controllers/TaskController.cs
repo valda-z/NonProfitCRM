@@ -44,8 +44,48 @@ namespace NonProfitCRM.Controllers
         }
 
         [HttpGet]
-        public ActionResult Detail(int id, string entityid, string entity, string returnUrl)
+        public ActionResult Detail(int id, string entityid, string entity, string returnUrl, string cmd)
         {
+            if (cmd != null && cmd == "DONE" && id != 0)
+            {
+                using (var scope = new TransactionScope(
+                    TransactionScopeOption.RequiresNew,
+                    new TransactionOptions()
+                    {
+                        IsolationLevel = IsolationLevel.ReadCommitted
+                    }))
+                {
+
+                    var cx = new Entities();
+                    Task p = null;
+                    try
+                    {
+                        p = cx.Task.Single(e => e.Id == id);
+                        string _oldObject = Logger.Serialize(p);
+                        p.StatusId = 1000;
+                        p.Updated = DateTime.UtcNow;
+                        p.UpdatedBy = User.Identity.Name;
+                        cx.SaveChanges();
+                        Logger.Log(User.Identity.Name, "Modify Task - DONE" + p.Description + " / " + p.Entity + " / " + p.EntityId,
+                            _oldObject, Logger.Serialize(p), "Task", p.Id);
+                    }
+                    finally
+                    {
+
+                    }
+
+                    scope.Complete();
+                }
+                if (returnUrl != null && returnUrl.Length > 0)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("List", "Task");
+                }
+            }
+
             ViewBag.ReturnUrl = returnUrl;
             Task model;
             if (id == 0)

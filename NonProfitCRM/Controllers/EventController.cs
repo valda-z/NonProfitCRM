@@ -74,9 +74,9 @@ namespace NonProfitCRM.Controllers
                     (e.CompanyName.StartsWith(search) ||
                         e.Name.StartsWith(search) ||
                         e.EventTypeName.StartsWith(search) ||
-                        e.ContactCompanyName.StartsWith(search) ||
                         e.NonProfitOrgName.StartsWith(search) ||
-                        e.ContactNonProfitOrgName.StartsWith(search)
+                        e.ContactNonProfitOrgName.StartsWith(search) ||
+                        e.ContactCompanyNote.StartsWith(search)
                     )) &&
                     ((showActive && e.Closed == null) || (!showActive)) &&
                     (tags=="" || inquery.Contains(e.Id))
@@ -132,10 +132,18 @@ namespace NonProfitCRM.Controllers
 
                 // contact info from company / nonprofitorg
                 var comp = cx.Company.Single(e => e.Id == p.CompanyId);
-                p.ContactCompanyEmail = comp.Contact1Email;
-                p.ContactCompanyName = comp.Contact1Name;
-                p.ContactCompanyNote = comp.Contact1Note;
-                p.ContactCompanyPhone = comp.Contact1Phone;
+                if (model.ContactCompanyNote == null || model.ContactCompanyNote.Length == 0)
+                {
+                    p.ContactCompanyNote = comp.Contact1Name;
+                    if (comp.Contact1Email.Length > 0)
+                    {
+                        p.ContactCompanyNote += ", " + comp.Contact1Email;
+                    }
+                    if (comp.Contact1Phone.Length > 0)
+                    {
+                        p.ContactCompanyNote += ", " + comp.Contact1Phone;
+                    }
+                }
                 p.Insurance = comp.Insurance;
                 var nonp = cx.NonProfitOrg.Single(e => e.Id == p.NonProfitOrgId);
                 p.ContactNonProfitOrgEmail = nonp.Contact1Email;
@@ -163,7 +171,16 @@ namespace NonProfitCRM.Controllers
             }
 
             // redirect
-            return RedirectToAction("Detail", new { id = id, returnUrl = returnUrl });
+            //return RedirectToAction("Detail", new { id = id, returnUrl = returnUrl });
+            if (returnUrl != null && returnUrl.Length > 0)
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("List", "Event");
+            }
+
         }
 
         [HttpGet]
