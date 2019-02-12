@@ -66,7 +66,7 @@ namespace NonProfitCRM.Controllers
                         p.Updated = DateTime.UtcNow;
                         p.UpdatedBy = User.Identity.Name;
                         cx.SaveChanges();
-                        Logger.Log(User.Identity.Name, "Modify Task - DONE" + p.Description + " / " + p.Entity + " / " + p.EntityId,
+                        Logger.Log(User.Identity.Name, "Modify Task - DONE " + p.Description + " / " + p.Entity + " / " + p.EntityId,
                             _oldObject, Logger.Serialize(p), "Task", p.Id);
                     }
                     finally
