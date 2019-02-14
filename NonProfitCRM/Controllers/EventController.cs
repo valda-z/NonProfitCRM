@@ -134,17 +134,18 @@ namespace NonProfitCRM.Controllers
                 var comp = cx.Company.Single(e => e.Id == p.CompanyId);
                 if (model.ContactCompanyNote == null || model.ContactCompanyNote.Length == 0)
                 {
-                    p.ContactCompanyNote = comp.Contact1Name;
-                    if (comp.Contact1Email.Length > 0)
+                    p.ContactCompanyNote = comp.Contact1Name == null ? "" : comp.Contact1Name;
+                    if (comp.Contact1Email != null && comp.Contact1Email.Length > 0)
                     {
                         p.ContactCompanyNote += ", " + comp.Contact1Email;
                     }
-                    if (comp.Contact1Phone.Length > 0)
+                    if (comp.Contact1Phone != null && comp.Contact1Phone.Length > 0)
                     {
                         p.ContactCompanyNote += ", " + comp.Contact1Phone;
                     }
                 }
                 p.Insurance = comp.Insurance;
+                
                 var nonp = cx.NonProfitOrg.Single(e => e.Id == p.NonProfitOrgId);
                 p.ContactNonProfitOrgEmail = nonp.Contact1Email;
                 p.ContactNonProfitOrgName = nonp.Contact1Name;

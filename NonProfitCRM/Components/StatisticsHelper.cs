@@ -74,7 +74,7 @@ namespace NonProfitCRM.Components
                 ret = new List<StatDataPieEventTypeItem>();
 
                 var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
-                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
 
                 var query = from p in cx.ViewStatEventType
                             where p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
@@ -112,7 +112,7 @@ namespace NonProfitCRM.Components
                 ret = new List<StatDataPieEventTypeItem>();
 
                 var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
-                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
 
                 var query = from p in cx.ViewStatEventNonProfitOrgType
                             where p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
@@ -197,7 +197,7 @@ namespace NonProfitCRM.Components
                 ret.Year = DateTime.Now.Year;
 
                 var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
-                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
                 var dFromLY = dFrom.AddYears(-1);
                 var dToLY = dTo.AddYears(-1);
 
@@ -249,7 +249,7 @@ namespace NonProfitCRM.Components
                 ret.Year = DateTime.Now.Year;
 
                 var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
-                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
                 var dFromLY = dFrom.AddYears(-1);
                 var dToLY = dTo.AddYears(-1);
 
