@@ -45,7 +45,7 @@
             var grid = new NonProfitCRM.Components.ASWebGrid(Model);
         }
         @grid.Draw(columns: grid.Columns(
-         grid.Column("Id", "#"),
+         //grid.Column("Id", "#"),
          grid.Column("DateOfEvent", "Datum", format: @<text>@Html.ActionLink((string)NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, User.Identity.Name),
 "Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>, style: "tdnowrap"),
                  grid.Column("Capacity", "Účast"),

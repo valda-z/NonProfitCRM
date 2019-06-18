@@ -10,7 +10,7 @@
             <th scope="col">
                 Stav
             </th>
-            <th scope="col">
+            <th scope="col" class="hidden-xs">
                 Datum
             </th>
             <th scope="col">
@@ -28,7 +28,7 @@
         @foreach (var _itm in Model)
         {
         <tr>
-            <td class="hidden-xs hidden-sm">
+            <td class="">
                 @if (_itm.DueDate < DateTime.Now && _itm.StatusId < 1000)
                 {
                     <span class="glyphicon glyphicon-exclamation-sign" style="font-size: 16px; color: red" aria-hidden="true"></span>
@@ -37,8 +37,8 @@
             <td>
                 <span class="label label-@Html.Raw(_itm.TaskStatus.Color)">@_itm.TaskStatus.Name</span>
             </td>
-            <td class="hidden-xs hidden-sm">@DateHelper.FormatDateShort(_itm.DueDate, User.Identity.Name)</td>
-            <td class="hidden-xs hidden-sm">
+            <td class="hidden-xs">@DateHelper.FormatDateShort(_itm.DueDate, User.Identity.Name)</td>
+            <td>
                 @Html.ActionLink((string)_itm.Description.ToString(), "Detail", "Task",
                     new { id = _itm.Id, returnUrl = Request.RawUrl }, null)
             </td>
