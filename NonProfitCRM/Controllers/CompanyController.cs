@@ -73,18 +73,18 @@ namespace NonProfitCRM.Controllers
             var model = (from e in cx.ViewCompanyList
                     where (search == "" ||
                         (e.IdentificationNumber.StartsWith(search) ||
-                        e.Name.StartsWith(search) ||
-                        e.Address.StartsWith(search) ||
-                        e.City.StartsWith(search) ||
-                        e.Contact1Name.StartsWith(search) ||
-                        e.Contact2Name.StartsWith(search) ||
-                        e.Contact1Phone.StartsWith(search) ||
-                        e.Contact2Phone.StartsWith(search) ||
-                        e.Contact1Email.StartsWith(search) ||
-                        e.Contact2Email.StartsWith(search) ||
-                        e.CountryName.StartsWith(search) ||
-                        e.RegionName.StartsWith(search) ||
-                        e.Www.StartsWith(search)
+                        e.Name.Contains(search) ||
+                        e.Address.Contains(search) ||
+                        e.City.Contains(search) ||
+                        e.Contact1Name.Contains(search) ||
+                        e.Contact2Name.Contains(search) ||
+                        e.Contact1Phone.Contains(search) ||
+                        e.Contact2Phone.Contains(search) ||
+                        e.Contact1Email.Contains(search) ||
+                        e.Contact2Email.Contains(search) ||
+                        e.CountryName.Contains(search) ||
+                        e.RegionName.Contains(search) ||
+                        e.Www.Contains(search)
                     )) && (showDeleted || !e.Deleted) &&
                     ((showActive && CompanyStatusHelper.IsCompany.Contains(e.StatusId)) || (!showActive)) &&
                     (tags == "" || inquery.Contains(e.Id))
@@ -104,6 +104,7 @@ namespace NonProfitCRM.Controllers
             if (id == 0)
             {
                 model = new Company();
+                model.IdentificationNumber = EntityHelper.Create16DigitString();
             }
             else
             {
@@ -225,7 +226,7 @@ namespace NonProfitCRM.Controllers
                 StatisticsHelper.InvalidateCacheCRM();
             }
 
-            if (id == 0)
+            if (id == 0 && (m["saveandtask"] != null) )
             {
                 return RedirectToAction("Detail", new { id = myid, returnUrl = returnUrl });
             }

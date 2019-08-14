@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace NonProfitCRM.Components
@@ -53,6 +54,18 @@ namespace NonProfitCRM.Components
             }
 
             return ret;
+        }
+
+        private static Random RNG = new Random();
+
+        public static string Create16DigitString()
+        {
+            var builder = new StringBuilder();
+            while (builder.Length < 16)
+            {
+                builder.Append(RNG.Next(10).ToString());
+            }
+            return builder.ToString();
         }
     }
 }

@@ -74,9 +74,9 @@ namespace NonProfitCRM.Controllers
                     (e.CompanyName.StartsWith(search) ||
                         e.Name.StartsWith(search) ||
                         e.EventTypeName.StartsWith(search) ||
-                        e.NonProfitOrgName.StartsWith(search) ||
-                        e.ContactNonProfitOrgName.StartsWith(search) ||
-                        e.ContactCompanyNote.StartsWith(search)
+                        e.NonProfitOrgName.Contains(search) ||
+                        e.ContactNonProfitOrgName.Contains(search) ||
+                        e.ContactCompanyNote.Contains(search)
                     )) &&
                     ((showActive && e.Closed == null) || (!showActive)) &&
                     (tags=="" || inquery.Contains(e.Id))
@@ -172,16 +172,21 @@ namespace NonProfitCRM.Controllers
             }
 
             // redirect
-            //return RedirectToAction("Detail", new { id = id, returnUrl = returnUrl });
-            if (returnUrl != null && returnUrl.Length > 0)
+            if((m["saveandtask"] != null))
             {
-                return Redirect(returnUrl);
+                return RedirectToAction("Detail", new { id = id, returnUrl = returnUrl });
             }
             else
             {
-                return RedirectToAction("List", "Event");
+                if (returnUrl != null && returnUrl.Length > 0)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("List", "Event");
+                }
             }
-
         }
 
         [HttpGet]

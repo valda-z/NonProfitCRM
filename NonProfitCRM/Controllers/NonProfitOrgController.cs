@@ -94,19 +94,19 @@ namespace NonProfitCRM.Controllers
                     where 
                         (search == "" ||
                         (e.IdentificationNumber.StartsWith(search) ||
-                            e.Name.StartsWith(search) ||
+                            e.Name.Contains(search) ||
                             e.NonProfitOrgTypeName.StartsWith(search) ||
-                            e.Address.StartsWith(search) ||
-                            e.City.StartsWith(search) ||
-                            e.Contact1Name.StartsWith(search) ||
-                            e.Contact2Name.StartsWith(search) ||
-                            e.Contact1Phone.StartsWith(search) ||
-                            e.Contact2Phone.StartsWith(search) ||
-                            e.Contact1Email.StartsWith(search) ||
-                            e.Contact2Email.StartsWith(search) ||
-                            e.CountryName.StartsWith(search) ||
-                            e.RegionName.StartsWith(search) ||
-                            e.Www.StartsWith(search)
+                            e.Address.Contains(search) ||
+                            e.City.Contains(search) ||
+                            e.Contact1Name.Contains(search) ||
+                            e.Contact2Name.Contains(search) ||
+                            e.Contact1Phone.Contains(search) ||
+                            e.Contact2Phone.Contains(search) ||
+                            e.Contact1Email.Contains(search) ||
+                            e.Contact2Email.Contains(search) ||
+                            e.CountryName.Contains(search) ||
+                            e.RegionName.Contains(search) ||
+                            e.Www.Contains(search)
                         )
                     ) && (showDeleted || !e.Deleted) &&
                     (
@@ -132,6 +132,7 @@ namespace NonProfitCRM.Controllers
             if (id == 0)
             {
                 model = new NonProfitOrg();
+                model.IdentificationNumber = EntityHelper.Create16DigitString();
             }
             else
             {
