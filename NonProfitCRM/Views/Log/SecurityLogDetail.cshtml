@@ -20,7 +20,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Created, "Date", new { @class = "col-sm-3 control-label" })
                         <div class="col-sm-9">
-                            <span class="form-control">@NonProfitCRM.Components.DateHelper.FormatDate(Model.Created, User.Identity.Name)</span>
+                            <span class="form-control">@NonProfitCRM.Components.DateHelper.FormatDate(Model.Created, NonProfitCRM.Components.SystemHelper.GetUserName)</span>
                         </div>
                     </div>
                     <div class="form-group">

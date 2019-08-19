@@ -24,7 +24,9 @@
 * SOFTWARE.
 */
 
-﻿using NonProfitCRM.Components;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
+using NonProfitCRM.Components;
 using NonProfitCRM.Models;
 using System;
 using System.Collections.Generic;
@@ -32,15 +34,30 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            //SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
+            return base.BeginExecute(requestContext, callback, state);
+        }
+
         public ActionResult Index()
         {
             return RedirectToAction("Dashboard");
+        }
+
+        public void SignOut()
+        {
+            HttpContext.GetOwinContext().Authentication.SignOut(
+                new Microsoft.Owin.Security.AuthenticationProperties { RedirectUri = System.Configuration.ConfigurationManager.AppSettings["RedirectUri"] },
+                OpenIdConnectAuthenticationDefaults.AuthenticationType,
+                CookieAuthenticationDefaults.AuthenticationType);
         }
 
         public ActionResult Dashboard(string search)
@@ -59,7 +76,7 @@ namespace NonProfitCRM.Controllers
                 Where(
                     e => e.StatusId < 1000 &&
                     e.Entity != "Event" &&
-                    (!showOnlyMy || e.AssignedTo == User.Identity.Name)
+                    (!showOnlyMy || e.AssignedTo == NonProfitCRM.Components.SystemHelper.GetUserName)
                     ).OrderBy(e=>e.DueDate);
 
             if (model.Search.Length > 0)

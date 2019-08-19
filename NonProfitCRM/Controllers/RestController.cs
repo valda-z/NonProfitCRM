@@ -34,6 +34,7 @@ using System.Web.Http;
 
 namespace NonProfitCRM.Controllers
 {
+    [Authorize]
     public class RestController : ApiController
     {
         // GET: api/Rest/Tag

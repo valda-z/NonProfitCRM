@@ -38,5 +38,43 @@ namespace NonProfitCRM.Components
             return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
+        public static string GetUserName
+        {
+            get
+            {
+                var userClaims = HttpContext.Current.User.Identity as System.Security.Claims.ClaimsIdentity;
+                return userClaims?.FindFirst("preferred_username")?.Value;
+            }
+        }
+
+        public enum Roles
+        {
+            FRD,
+            FRD_SYSTEM_ADMINISTRATOR
+        }
+
+        public static bool IsInRole(Roles role)
+        {
+            var userClaims = HttpContext.Current.User.Identity as System.Security.Claims.ClaimsIdentity;
+            if (!userClaims.IsAuthenticated)
+            {
+                return false;
+            }
+            return userClaims.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", role.ToString());
+        }
+
+        public static void TestIsInRole(Roles role)
+        {
+            var userClaims = HttpContext.Current.User.Identity as System.Security.Claims.ClaimsIdentity;
+            if (!userClaims.IsAuthenticated)
+            {
+                return;
+            }
+            if (! userClaims.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", role.ToString()))
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+
     }
 }

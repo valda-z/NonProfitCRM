@@ -32,15 +32,23 @@ using System.Linq;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
+    [Authorize]
     public class TaskController : Controller
     {
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             base.Initialize(requestContext);
             ViewBag.CanEdit = true;
+        }
+
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
+            return base.BeginExecute(requestContext, callback, state);
         }
 
         [HttpGet]
@@ -64,9 +72,9 @@ namespace NonProfitCRM.Controllers
                         string _oldObject = Logger.Serialize(p);
                         p.StatusId = 1000;
                         p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
+                        p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
                         cx.SaveChanges();
-                        Logger.Log(User.Identity.Name, "Modify Task - DONE " + p.Description + " / " + p.Entity + " / " + p.EntityId,
+                        Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Modify Task - DONE " + p.Description + " / " + p.Entity + " / " + p.EntityId,
                             _oldObject, Logger.Serialize(p), "Task", p.Id);
                     }
                     finally
@@ -93,7 +101,7 @@ namespace NonProfitCRM.Controllers
                 model = new Task();
                 model.Entity = entity;
                 model.EntityId = int.Parse(entityid);
-                model.AssignedTo = User.Identity.Name;
+                model.AssignedTo = NonProfitCRM.Components.SystemHelper.GetUserName;
             }
             else
             {
@@ -136,8 +144,8 @@ namespace NonProfitCRM.Controllers
                         p = model;
                         cx.Task.Add(p);
                         p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
-                        Logger.Log(User.Identity.Name, "Create Task " + model.Description + " / " + p.Entity + " / " + p.EntityId, null, model,
+                        p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                        Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Create Task " + model.Description + " / " + p.Entity + " / " + p.EntityId, null, model,
                             "Task", p.Id);
                         cx.SaveChanges();
                     }
@@ -151,9 +159,9 @@ namespace NonProfitCRM.Controllers
                         p.Note = model.Note;
                         p.StatusId = model.StatusId;
                         p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
+                        p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
                         cx.SaveChanges();
-                        Logger.Log(User.Identity.Name, "Modify Task " + model.Description + " / " + p.Entity + " / " + p.EntityId,
+                        Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Modify Task " + model.Description + " / " + p.Entity + " / " + p.EntityId,
                             _oldObject, Logger.Serialize(p), "Task", p.Id);
                     }
                 }
@@ -184,8 +192,8 @@ namespace NonProfitCRM.Controllers
             {
                 string _oldObject = Logger.Serialize(p);
                 p.Updated = DateTime.UtcNow;
-                p.UpdatedBy = User.Identity.Name;
-                Logger.Log(User.Identity.Name, "Deleted Task " + p.Description + " / " + p.Entity + " / " + p.EntityId,
+                p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Deleted Task " + p.Description + " / " + p.Entity + " / " + p.EntityId,
                     _oldObject, Logger.Serialize(p), "Task", p.Id);
             }
             cx.Task.Remove(p);

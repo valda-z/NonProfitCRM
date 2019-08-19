@@ -32,6 +32,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 
 namespace NonProfitCRM
 {
@@ -49,10 +50,19 @@ namespace NonProfitCRM
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth();
 
             //update database
             NonProfitCRM.Components.DB.DBHelper.UpdateDB();
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            var context = new HttpContextWrapper(Context);
+            // set flag only if forms auth enabled and request comes from ajax
+            if (FormsAuthentication.IsEnabled)
+            {
+                context.Response.SuppressFormsAuthenticationRedirect = true;
+            }
         }
     }
 }

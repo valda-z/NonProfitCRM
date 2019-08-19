@@ -34,10 +34,11 @@ using System.Linq;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
-    [Authorize(Roles = "CRM")]
+    [Authorize]
     public class CompanyController : Controller
     {
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
@@ -45,6 +46,13 @@ namespace NonProfitCRM.Controllers
             base.Initialize(requestContext);
             ViewBag.CanEdit = true;
         }
+
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
+            return base.BeginExecute(requestContext, callback, state);
+        }
+
 
         [HttpGet]
         public ActionResult List(string search, string tags)
@@ -160,8 +168,8 @@ namespace NonProfitCRM.Controllers
                         p = model;
                         cx.Company.Add(p);
                         p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
-                        Logger.Log(User.Identity.Name, "Create Company " + model.Name + " / " + p.IdentificationNumber, null, model,
+                        p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                        Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Create Company " + model.Name + " / " + p.IdentificationNumber, null, model,
                             "Company", p.Id);
                         cx.SaveChanges();
                         myid = p.Id;
@@ -191,9 +199,9 @@ namespace NonProfitCRM.Controllers
                         p.FirstContact = model.FirstContact;
                         p.ContactPerson = model.ContactPerson;
                         p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
+                        p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
                         cx.SaveChanges();
-                        Logger.Log(User.Identity.Name, "Modify Company " + model.Name + " / " + p.IdentificationNumber,
+                        Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Modify Company " + model.Name + " / " + p.IdentificationNumber,
                             _oldObject, Logger.Serialize(p), "Company", p.Id);
                     }
 
@@ -254,8 +262,8 @@ namespace NonProfitCRM.Controllers
                 p.Deleted = true;
                 p.IdentificationNumber = p.Id.ToString() + "|" + p.IdentificationNumber;
                 p.Updated = DateTime.UtcNow;
-                p.UpdatedBy = User.Identity.Name;
-                Logger.Log(User.Identity.Name, "Deleted Company " + p.Name + " / " + p.IdentificationNumber,
+                p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Deleted Company " + p.Name + " / " + p.IdentificationNumber,
                     _oldObject, Logger.Serialize(p), "Company", p.Id);
             }
             cx.SaveChanges();

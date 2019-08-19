@@ -18,35 +18,26 @@
          */
     </script>
 </head>
-@{NonProfitCRM.Models.UserProfile currUser = NonProfitCRM.Models.AccountHelper.GetUser(User.Identity.Name);
-    NonProfitCRM.Models.NavBarModel nbModel = new NonProfitCRM.Models.NavBarModel();
+
+@{  NonProfitCRM.Models.NavBarModel nbModel = new NonProfitCRM.Models.NavBarModel();
     nbModel.CurrentAction = ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString();
     nbModel.CurrentController = ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString();
     //create Nav Bar tree
     {
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-desktop", "Dashboard", "Home", "Dashboard"));
     }
-    if (User.IsInRole(NonProfitCRM.Models.TypeUserRole.CRM.ToString()))
+    if (NonProfitCRM.Components.SystemHelper.IsInRole(NonProfitCRM.Components.SystemHelper.Roles.FRD))
     {
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-calendar", "Kalendář", "Calendar", "Calendar"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-bullhorn", "Akce", "Event", "List"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-university", "Firmy", "Company", "List"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-group", "Neziskovky", "NonProfitOrg", "List"));
     }
-    if (User.IsInRole(NonProfitCRM.Models.TypeUserRole.SYSTEM_ADMINISTRATOR.ToString())
-|| User.IsInRole(NonProfitCRM.Models.TypeUserRole.USER_ADMINISTRATOR.ToString()))
+    if (NonProfitCRM.Components.SystemHelper.IsInRole(NonProfitCRM.Components.SystemHelper.Roles.FRD_SYSTEM_ADMINISTRATOR))
     {
         NonProfitCRM.Models.NavBarModel.NavBarItem itm = new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-cog", "Settings");
-        if (User.IsInRole(NonProfitCRM.Models.TypeUserRole.USER_ADMINISTRATOR.ToString()))
-        {
-            itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Users", "Account", "Users"));
-            itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Groups", "Account", "Groups"));
-        }
-        if (User.IsInRole(NonProfitCRM.Models.TypeUserRole.SYSTEM_ADMINISTRATOR.ToString()))
-        {
-            itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Security log", "Log", "SecurityLog"));
-            itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Šablony úkolů", "TaskTemplate", "List"));
-        }
+        itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Security log", "Log", "SecurityLog"));
+        itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Šablony úkolů", "TaskTemplate", "List"));
         nbModel.AddItem(itm);
     }
 }
@@ -106,8 +97,7 @@
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
-                                @currUser.FirstName <strong>@currUser.LastName</strong> 
-                                 (@NonProfitCRM.Components.DateHelper.GetUserTimezoneName(User.Identity.Name))
+                                <strong>@NonProfitCRM.Components.SystemHelper.GetUserName</strong>
                             </a>
                         </li>
                         <li class="dropdown">
@@ -115,11 +105,8 @@
                                 <i class="fa fa-cog fa-lg"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("MyAccount","Account")"><i class="fa fa-user"></i> &nbsp; My Account</a></li>
-                                <li><a href="@Url.Action("ChangePassword","Account", new { returnUrl = Request.RawUrl })"><i class="fa fa-key"></i> &nbsp; Change password</a></li>
-                                <li class="divider"></li>
                                 <li>
-                                    <a href="@Url.Action("LogOff","Account")"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a>
+                                    <a href="@Url.Action("SignOut","Home")"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a>
                                 </li>
                             </ul>
                         </li>

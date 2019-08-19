@@ -32,15 +32,23 @@ using System.Linq;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
+    [Authorize]
     public class EventController : Controller
     {
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             base.Initialize(requestContext);
             ViewBag.CanEdit = true;
+        }
+
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
+            return base.BeginExecute(requestContext, callback, state);
         }
 
         [HttpGet]
@@ -125,7 +133,7 @@ namespace NonProfitCRM.Controllers
 
                 Entities cx = new Entities();
                 model.DateOfEvent = dtm.Value;
-                model.Name = DateHelper.FormatDateShort(model.DateOfEvent, User.Identity.Name);
+                model.Name = DateHelper.FormatDateShort(model.DateOfEvent, NonProfitCRM.Components.SystemHelper.GetUserName);
 
                 //update NonProfitOrg
                 Event p = model;
@@ -155,12 +163,12 @@ namespace NonProfitCRM.Controllers
                 p.Closed = (isClosed ? new DateTime?(DateTime.UtcNow) : null);
                 cx.Event.Add(p);
                 p.Updated = DateTime.UtcNow;
-                p.UpdatedBy = User.Identity.Name;
-                Logger.Log(User.Identity.Name, "Create Event " + model.Name + " / " + p.DateOfEvent.ToShortDateString(), null, model,
+                p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Create Event " + model.Name + " / " + p.DateOfEvent.ToShortDateString(), null, model,
                     "Event", p.Id);
                 cx.SaveChanges();
                 foreach (var obj in new
-                    TaskTemplate(templateId).GetTasks(User.Identity.Name, p.DateOfEvent, p.Id))
+                    TaskTemplate(templateId).GetTasks(NonProfitCRM.Components.SystemHelper.GetUserName, p.DateOfEvent, p.Id))
                 {
                     cx.Task.Add(obj);
                     cx.SaveChanges();
@@ -279,9 +287,9 @@ namespace NonProfitCRM.Controllers
                         p.Note = model.Note;
                         p.TypeId = model.TypeId;
                         p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
+                        p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
                         cx.SaveChanges();
-                        Logger.Log(User.Identity.Name, "Modify Event " + model.Name + " / " + p.DateOfEvent.ToShortDateString(),
+                        Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Modify Event " + model.Name + " / " + p.DateOfEvent.ToShortDateString(),
                             _oldObject, Logger.Serialize(p), "Event", p.Id);
                     }
 
@@ -317,8 +325,8 @@ namespace NonProfitCRM.Controllers
                 string _oldObject = Logger.Serialize(p);
                 p.Deleted = true;
                 p.Updated = DateTime.UtcNow;
-                p.UpdatedBy = User.Identity.Name;
-                Logger.Log(User.Identity.Name, "Deleted Event " + p.Name + " / " + p.DateOfEvent.ToShortDateString(),
+                p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Deleted Event " + p.Name + " / " + p.DateOfEvent.ToShortDateString(),
                     _oldObject, Logger.Serialize(p), "Event", p.Id);
             }
             cx.SaveChanges();

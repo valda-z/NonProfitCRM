@@ -31,11 +31,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
+    [Authorize]
     public class CalendarController : Controller
     {
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
+            return base.BeginExecute(requestContext, callback, state);
+        }
+
         public ActionResult Calendar(int? id)
         {
             bool showTasks = (Request.Cookies["nonprofitorgShowTasks"]?.Value == "true");
@@ -59,7 +67,7 @@ namespace NonProfitCRM.Controllers
                 model.TaskList = cx.ViewTaskList.
                     Where(
                         e => e.StatusId < 1000 &&
-                        (!showOnlyMy || e.AssignedTo == User.Identity.Name) &&
+                        (!showOnlyMy || e.AssignedTo == NonProfitCRM.Components.SystemHelper.GetUserName) &&
                         (e.DueDate > datF && e.DueDate < datT)
                         ).OrderBy(e => e.DueDate);
             }

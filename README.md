@@ -6,6 +6,39 @@ Main goal of solution is deliver open source platform (MIT license) for managing
 ## Technical background
 Solution is developed in .Net framework, Entity framework and uses Azure SQL database for data persistence.
 
+## Roles / Users
+Solution is using AAD roles/users, check these links for more informations:
+
+* Create AAD application: https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-v2-aspnet-webapp
+* Create Application roles for app: https://docs.microsoft.com/en-us/azure/architecture/multitenant-identity/app-roles
+
+Snipped of XML configuration for FRD roles:
+
+```xml
+"appRoles": [
+  {
+    "allowedMemberTypes": [
+      "User"
+    ],
+    "description": "Can manage customers, non-profit orgs and events.",
+    "displayName": "FRD",
+    "id": "1b4f816e-6eaf-48b9-8623-7923835634ad",
+    "isEnabled": true,
+    "value": "FRD"
+  },
+  {
+    "allowedMemberTypes": [
+      "User"
+    ],
+    "description": "Administrators can manage templates and search logs.",
+    "displayName": "FRD_SYSTEM_ADMINISTRATOR",
+    "id": "c20e145e-5759-4a6c-a174-b9407453cfe1",
+    "isEnabled": true,
+    "value": "FRD_SYSTEM_ADMINISTRATOR"
+  }
+],
+```
+
 ## License
 
 ```

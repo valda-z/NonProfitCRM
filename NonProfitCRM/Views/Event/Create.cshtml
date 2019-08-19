@@ -39,7 +39,7 @@
                 @Html.LabelFor(m => m.DateOfEvent, "Datum akce", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
                     <div id="datetimepicker-start" class="input-group">
-                        @Html.TextBox("DateOfEventRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DateOfEvent, User.Identity.Name)
+                        @Html.TextBox("DateOfEventRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DateOfEvent, NonProfitCRM.Components.SystemHelper.GetUserName)
                             , new
                             {
                                 @class = "form-control",

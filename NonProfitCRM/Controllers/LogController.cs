@@ -24,18 +24,26 @@
 * SOFTWARE.
 */
 
-﻿using NonProfitCRM.Models;
+using NonProfitCRM.Components;
+using NonProfitCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
-    [Authorize(Roles = "SYSTEM_ADMINISTRATOR")]
+    [Authorize]
     public class LogController : Controller
     {
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD_SYSTEM_ADMINISTRATOR);
+            return base.BeginExecute(requestContext, callback, state);
+        }
+
         public ActionResult SecurityLog(string search)
         {
             if (search == null)

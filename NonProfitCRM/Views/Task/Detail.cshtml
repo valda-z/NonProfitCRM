@@ -76,7 +76,7 @@
                 @Html.LabelFor(m => m.DueDate, "Datum", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
                     <div id="datetimepicker-start" class="input-group">
-                        @Html.TextBox("DueDateRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DueDate, User.Identity.Name)
+                        @Html.TextBox("DueDateRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.DueDate, NonProfitCRM.Components.SystemHelper.GetUserName)
                             , new
                             {
                                 @class = "form-control",

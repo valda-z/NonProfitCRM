@@ -89,7 +89,7 @@
                                                 {<span class="label label-success pull-right">aktivní</span>}
                                                 else
                                                 {<span class="label label-default pull-right">ukončená</span>}
-                                                <h5 class="no-margin"><b>Akce: </b>@item.Name - <b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, User.Identity.Name)</b></h5>
+                                                <h5 class="no-margin"><b>Akce: </b>@item.Name - <b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DateOfEvent, NonProfitCRM.Components.SystemHelper.GetUserName)</b></h5>
                                                 <small class="text-muted"><b>Firma: </b>@item.CompanyName, <b>Neziskovka: </b> @item.NonProfitOrgName</small>
                                             </a>
                                         }
@@ -148,7 +148,7 @@
                                                 </span>
                                             }
                                             <i class="fa fa-circle pull-right text-@Html.Raw(item.StatusColor) mt-sm"></i>
-                                            <h5 class="no-margin"><b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DueDate, User.Identity.Name)</b> - @item.Description</h5>
+                                            <h5 class="no-margin"><b>@NonProfitCRM.Components.DateHelper.FormatDateShort(item.DueDate, NonProfitCRM.Components.SystemHelper.GetUserName)</b> - @item.Description</h5>
                                             <small class="text-muted"><b>@item.EntityName - @item.AssignedTo</b> - @item.Note</small>
                                         </a>
                                     }

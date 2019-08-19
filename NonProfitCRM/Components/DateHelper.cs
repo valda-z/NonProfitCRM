@@ -200,8 +200,7 @@ namespace NonProfitCRM.Components
 
         private static string getUserTimezone(string username)
         {
-            return new UsersContext().UserProfiles.
-                Single(e => e.UserName == username).TimeZone;
+            return "Central Europe Standard Time";
         }
 
         /// <summary>

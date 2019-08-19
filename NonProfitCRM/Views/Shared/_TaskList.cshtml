@@ -37,7 +37,7 @@
             <td>
                 <span class="label label-@Html.Raw(_itm.TaskStatus.Color)">@_itm.TaskStatus.Name</span>
             </td>
-            <td class="hidden-xs">@DateHelper.FormatDateShort(_itm.DueDate, User.Identity.Name)</td>
+            <td class="hidden-xs">@DateHelper.FormatDateShort(_itm.DueDate, NonProfitCRM.Components.SystemHelper.GetUserName)</td>
             <td>
                 @Html.ActionLink((string)_itm.Description.ToString(), "Detail", "Task",
                     new { id = _itm.Id, returnUrl = Request.RawUrl }, null)

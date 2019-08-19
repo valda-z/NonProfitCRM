@@ -149,7 +149,7 @@
                 @Html.LabelFor(m => m.FirstContact, "První kontakt", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
                     <div id="datetimepicker-start" class="input-group">
-                        @Html.TextBox("FirstContactRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.FirstContact, User.Identity.Name)
+                        @Html.TextBox("FirstContactRaw", NonProfitCRM.Components.DateHelper.FormatDateShort(Model.FirstContact, NonProfitCRM.Components.SystemHelper.GetUserName)
                             , new
                             {
                                 @class = "form-control",

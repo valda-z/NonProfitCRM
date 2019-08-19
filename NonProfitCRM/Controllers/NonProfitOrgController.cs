@@ -34,16 +34,22 @@ using NonProfitCRM.Components;
 using System.Transactions;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
+using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
-    [Authorize(Roles = "CRM")]
+    [Authorize]
     public class NonProfitOrgController : Controller
     {
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             base.Initialize(requestContext);
             ViewBag.CanEdit = true;
+        }
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
+            return base.BeginExecute(requestContext, callback, state);
         }
 
         [HttpGet]
@@ -170,8 +176,8 @@ namespace NonProfitCRM.Controllers
                         p = model;
                         cx.NonProfitOrg.Add(p);
                         p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
-                        Logger.Log(User.Identity.Name, "Create NonProfitOrg " + model.Name + " / " + p.IdentificationNumber, null, model, "NonProfitOrg", p.Id);
+                        p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                        Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Create NonProfitOrg " + model.Name + " / " + p.IdentificationNumber, null, model, "NonProfitOrg", p.Id);
                         cx.SaveChanges();
                     }
                     else
@@ -197,9 +203,9 @@ namespace NonProfitCRM.Controllers
                         p.TypeId = model.TypeId;
                         p.Www = model.Www;
                         p.Updated = DateTime.UtcNow;
-                        p.UpdatedBy = User.Identity.Name;
+                        p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
                         cx.SaveChanges();
-                        Logger.Log(User.Identity.Name, "Modify NonProfitOrg " + model.Name + " / " + p.IdentificationNumber,
+                        Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Modify NonProfitOrg " + model.Name + " / " + p.IdentificationNumber,
                             _oldObject, Logger.Serialize(p), "NonProfitOrg", p.Id);
                     }
                     TagHelper.SetTags(p.Id, "NonProfitOrg", m["tags"], cx);
@@ -252,8 +258,8 @@ namespace NonProfitCRM.Controllers
                 p.Deleted = true;
                 p.IdentificationNumber = p.Id.ToString() + "|" + p.IdentificationNumber;
                 p.Updated = DateTime.UtcNow;
-                p.UpdatedBy = User.Identity.Name;
-                Logger.Log(User.Identity.Name, "Deleted NonProfitOrg " + p.Name + " / " + p.IdentificationNumber,
+                p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Deleted NonProfitOrg " + p.Name + " / " + p.IdentificationNumber,
                     _oldObject, Logger.Serialize(p), "NonProfitOrg", p.Id);
             }
             cx.SaveChanges();
