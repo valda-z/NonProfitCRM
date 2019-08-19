@@ -38,18 +38,13 @@ using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "FRD")]
     public class NonProfitOrgController : Controller
     {
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             base.Initialize(requestContext);
             ViewBag.CanEdit = true;
-        }
-        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
-        {
-            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
-            return base.BeginExecute(requestContext, callback, state);
         }
 
         [HttpGet]

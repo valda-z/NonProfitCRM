@@ -35,15 +35,9 @@ using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "FRD")]
     public class CalendarController : Controller
     {
-        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
-        {
-            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
-            return base.BeginExecute(requestContext, callback, state);
-        }
-
         public ActionResult Calendar(int? id)
         {
             bool showTasks = (Request.Cookies["nonprofitorgShowTasks"]?.Value == "true");

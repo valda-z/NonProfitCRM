@@ -35,15 +35,9 @@ using System.Web.Routing;
 
 namespace NonProfitCRM.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "FRD_SYSTEM_ADMINISTRATOR")]
     public class LogController : Controller
     {
-        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
-        {
-            SystemHelper.TestIsInRole(SystemHelper.Roles.FRD_SYSTEM_ADMINISTRATOR);
-            return base.BeginExecute(requestContext, callback, state);
-        }
-
         public ActionResult SecurityLog(string search)
         {
             if (search == null)

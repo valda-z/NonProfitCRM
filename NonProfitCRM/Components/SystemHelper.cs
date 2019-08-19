@@ -62,19 +62,5 @@ namespace NonProfitCRM.Components
             }
             return userClaims.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", role.ToString());
         }
-
-        public static void TestIsInRole(Roles role)
-        {
-            var userClaims = HttpContext.Current.User.Identity as System.Security.Claims.ClaimsIdentity;
-            if (!userClaims.IsAuthenticated)
-            {
-                return;
-            }
-            if (! userClaims.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", role.ToString()))
-            {
-                throw new UnauthorizedAccessException();
-            }
-        }
-
     }
 }

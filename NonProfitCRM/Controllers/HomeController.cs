@@ -35,18 +35,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
 
 namespace NonProfitCRM.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "FRD")]
     public class HomeController : Controller
     {
-        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
-        {
-            //SystemHelper.TestIsInRole(SystemHelper.Roles.FRD);
-            return base.BeginExecute(requestContext, callback, state);
-        }
-
         public ActionResult Index()
         {
             return RedirectToAction("Dashboard");
