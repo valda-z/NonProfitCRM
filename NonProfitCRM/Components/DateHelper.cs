@@ -180,27 +180,27 @@ namespace NonProfitCRM.Components
 
         public static TimeZoneInfo GetUserTimezoneInfo(string username)
         {
-            string key = "tzi_user_" + username;
-            TimeZoneInfo tzi = (TimeZoneInfo)HttpContext.Current.Cache[key];
-            if (tzi == null)
+            string tz = getUserTimezone(username);
+            if (tz == null || !tz.Contains("|"))
             {
-                string tz = getUserTimezone(username);
-                if (tz == null || !tz.Contains("|"))
-                {
-                    tz = "+0200|Europe/Berlin";
-                }
-                tz = tz.Split('|')[1];
-                tzi = OlsonTimeZoneToTimeZoneInfo(tz);
-                HttpContext.Current.Cache.Insert(key, tzi,
-                    null, DateTime.Now.AddMinutes(5d),
-                    System.Web.Caching.Cache.NoSlidingExpiration);
+                tz = "+0200|Europe/Berlin";
             }
+            tz = tz.Split('|')[1];
+            var tzi = OlsonTimeZoneToTimeZoneInfo(tz);
             return tzi;
         }
 
         private static string getUserTimezone(string username)
         {
-            return "Central Europe Standard Time";
+            string jstz = HttpContext.Current.Request.Cookies["jstz"]?.Value;
+            if (jstz !=null && jstz.Length > 1)
+            {
+                return jstz;
+            }
+            else
+            {
+                return "+0200|Europe/Berlin";
+            }
         }
 
         /// <summary>

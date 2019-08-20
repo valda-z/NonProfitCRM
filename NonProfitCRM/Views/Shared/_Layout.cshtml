@@ -45,6 +45,7 @@
 @Scripts.Render("~/Content/sing/vendor/libs-js")
 @Scripts.Render("~/Content/sing/js/apps-js")
 @Scripts.Render("~/Content/sing/vendor/spec-js")
+@Scripts.Render("~/bundles/jstz")
 
 @Html.Partial("_NavBar", nbModel)
 
@@ -98,6 +99,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
                                 <strong>@NonProfitCRM.Components.SystemHelper.GetUserName</strong>
+                                (@NonProfitCRM.Components.DateHelper.GetUserTimezoneName(User.Identity.Name))
                             </a>
                         </li>
                         <li class="dropdown">
@@ -166,6 +168,12 @@
                 }
                 drawIsDelOnChange();
             }
+
+            $(document).ready(function () {
+                var tz = jstz.determine();
+                var tzutc = new Date().toString().match(/([-\+][0-9]+)\s/)[1] + "|" + tz.name();
+                setCookie('jstz', tzutc, 2000);
+            });
 
         </script>
 </body>

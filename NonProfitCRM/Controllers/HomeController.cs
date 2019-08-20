@@ -47,14 +47,6 @@ namespace NonProfitCRM.Controllers
             return RedirectToAction("Dashboard");
         }
 
-        public void SignOut()
-        {
-            HttpContext.GetOwinContext().Authentication.SignOut(
-                new Microsoft.Owin.Security.AuthenticationProperties { RedirectUri = System.Configuration.ConfigurationManager.AppSettings["RedirectUri"] },
-                OpenIdConnectAuthenticationDefaults.AuthenticationType,
-                CookieAuthenticationDefaults.AuthenticationType);
-        }
-
         public ActionResult Dashboard(string search)
         {
             if (search == null)

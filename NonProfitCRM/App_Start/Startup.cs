@@ -45,16 +45,16 @@ namespace NonProfitCRM.App_Start
     public class Startup
     {
         // The Client ID is used by the application to uniquely identify itself to Azure AD.
-        string clientId = System.Configuration.ConfigurationManager.AppSettings["ClientId"];
+        string clientId = System.Configuration.ConfigurationManager.AppSettings["AADClientId"];
 
         // RedirectUri is the URL where the user will be redirected to after they sign in.
-        string redirectUri = System.Configuration.ConfigurationManager.AppSettings["RedirectUri"];
+        string redirectUri = System.Configuration.ConfigurationManager.AppSettings["AADRedirectUri"];
 
         // Tenant is the tenant ID (e.g. contoso.onmicrosoft.com, or 'common' for multi-tenant)
-        static string tenant = System.Configuration.ConfigurationManager.AppSettings["Tenant"];
+        static string tenant = System.Configuration.ConfigurationManager.AppSettings["AADTenant"];
 
         // Authority is the URL for authority, composed by Microsoft identity platform endpoint and the tenant name (e.g. https://login.microsoftonline.com/contoso.onmicrosoft.com/v2.0)
-        string authority = String.Format(System.Globalization.CultureInfo.InvariantCulture, System.Configuration.ConfigurationManager.AppSettings["Authority"], tenant);
+        string authority = String.Format(System.Globalization.CultureInfo.InvariantCulture, System.Configuration.ConfigurationManager.AppSettings["AADAuthority"], tenant);
 
         /// <summary>
         /// Configure OWIN to use OpenIdConnect 
@@ -84,7 +84,7 @@ namespace NonProfitCRM.App_Start
                     {
                         ValidateIssuer = true,
                         NameClaimType = "preferred_username",
-                        RoleClaimType = "roles",    // The claim in the Jwt token where App roles are provided.
+                        RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",    // The claim in the Jwt token where App roles are provided.
                     },
                     // OpenIdConnectAuthenticationNotifications configures OWIN to send notification of failed authentications to OnAuthenticationFailed method
                     Notifications = new OpenIdConnectAuthenticationNotifications()
