@@ -32,6 +32,11 @@
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-bullhorn", "Akce", "Event", "List"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-university", "Firmy", "Company", "List"));
         nbModel.AddItem(new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-group", "Neziskovky", "NonProfitOrg", "List"));
+        {
+            NonProfitCRM.Models.NavBarModel.NavBarItem itm = new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-file-text-o", "Reporty");
+            itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Akce do CSV", "Report", "ExportEvent"));
+            nbModel.AddItem(itm);
+        }
     }
     if (NonProfitCRM.Components.SystemHelper.IsInRole(NonProfitCRM.Components.SystemHelper.Roles.FRD_SYSTEM_ADMINISTRATOR))
     {

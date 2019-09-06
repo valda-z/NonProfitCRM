@@ -1,0 +1,66 @@
+﻿@model IQueryable<NonProfitCRM.Models.Event>
+@{
+    ViewBag.PreTitle = "report";
+    ViewBag.Title = "Export akcí";
+    ViewBag.PathTitle = "report";
+}
+
+<section class="widget">
+    <header>
+        <h4>&nbsp;
+        </h4>
+        <div class="widget-controls">
+            @using (Html.BeginForm(null, null, FormMethod.Get))
+            {
+                <table border="0" class="pull-right">
+                    <tr>
+                        <td>
+                            <input type="search" name="date" value="@Request.QueryString["date"]" class="form-control input-sm" placeholder="datum">
+                        </td>
+                        <td>
+                            <input type="search" name="company" value="@Request.QueryString["company"]" class="form-control input-sm" placeholder="firma">
+                        </td>
+                        <td>
+                            <input type="search" name="nonprofitorg" value="@Request.QueryString["nonprofitorg"]" class="form-control input-sm" placeholder="neziskovka">
+                        </td>
+                        <td>
+                            <div class="width-200">
+                                <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                                    <input type="search" name="type" value="@Request.QueryString["type"]" class="form-control" placeholder="typ">
+                                    <span class="input-group-btn">
+                                        <button type="submit" name="btn" value="search" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Hledej!</button>
+                                        <button type="submit" name="btn" value="export" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Export!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+
+    </header>
+    <div class="widget-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Datum</td>
+                    <td>Ucast</td>
+                    <td>Firma</td>
+                    <td>Neziskovka</td>
+                    <td>Typ</td>
+                </tr>
+            </thead>
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@NonProfitCRM.Components.DateHelper.FormatDateShort(i.DateOfEvent, NonProfitCRM.Components.SystemHelper.GetUserName)</td>
+                    <td>@i.Capacity</td>
+                    <td>@i.Company.Name</td>
+                    <td>@i.NonProfitOrg.Name</td>
+                    <td>@i.EventType.Name</td>
+                </tr>
+            }
+        </table>
+    </div>
+</section>
