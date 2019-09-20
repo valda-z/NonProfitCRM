@@ -79,11 +79,7 @@ namespace NonProfitCRM.Controllers
                                  ucast = e.Capacity,
                                  firma = e.Company.Name,
                                  neziskovka = e.NonProfitOrg.Name,
-                                 typ = e.EventType.Name,
-                                 firma_kontakt = e.ContactCompanyNote,
-                                 neziskovka_kontakt = e.ContactNonProfitOrgName,
-                                 neziskovka_kontakt_email = e.ContactNonProfitOrgEmail,
-                                 neziskovka_kontakt_telefon = e.ContactNonProfitOrgPhone
+                                 typ = e.EventType.Name
                              };
 
                 var stream = new MemoryStream();
