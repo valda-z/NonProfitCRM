@@ -51,8 +51,8 @@
 "Detail", "Event", new { id = item.Id, returnUrl = Request.RawUrl }, null)</text>, style: "tdnowrap"),
                  grid.Column("Capacity", "Účast"),
                  grid.Column("CompanyName", "Firma"),
+                 grid.Column("ContactCompanyNote", "Kontakt", style: "hidden-xs hidden-sm"),
                  grid.Column("NonProfitOrgName", "Neziskovka", style: "hidden-xs hidden-sm"),
-                 grid.Column("ContactNonProfitOrgName", "Kontakt", style: "hidden-xs hidden-sm"),
                  grid.Column("EventTypeName", "Typ", style: "hidden-xs hidden-sm"),
                  grid.Column("TaskName", "Úkol", 
                  format: @<text>
