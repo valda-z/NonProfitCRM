@@ -1,0 +1,280 @@
+﻿@model IQueryable<NonProfitCRM.Models.Event>
+@{
+    ViewBag.PreTitle = "report";
+    ViewBag.Title = "Kvartální report";
+    ViewBag.PathTitle = "report";
+
+    var model2 = (from p in Model
+                  group p by new { p.CompanyId, p.Company.Name, p.DateOfEvent.Year, p.DateOfEvent.Month, q = ((p.DateOfEvent.Month - 1) / 3) } into g
+                  select new { Id = g.Key.CompanyId, Name = g.Key.Name, Year = g.Key.Year, Month = g.Key.Month, Quarter = g.Key.q, Count = g.Count() }
+                ).ToList();
+
+    var model_all = from p in model2
+                    group p by new { p.Year, p.Quarter, p.Month } into g
+                    select new { Year = g.Key.Year, g.Key.Quarter, g.Key.Month, Count = g.Sum(p => p.Count) };
+
+    var model_comp = from p in model2
+                     group p by new { p.Id, p.Name } into g
+                     select new { Id = g.Key.Id, Name = g.Key.Name };
+    model_comp = from p in model_comp orderby p.Name select p;
+
+
+    int fromYear = 2015;
+    string comp = string.Join(",", ((string[])ViewBag.comp));
+}
+
+@functions{
+
+    string monthToName(int x)
+    {
+        switch (x)
+        {
+            case 1:
+                return "leden";
+            case 2:
+                return "únor";
+            case 3:
+                return "březen";
+            case 4:
+                return "duben";
+            case 5:
+                return "květen";
+            case 6:
+                return "červen";
+            case 7:
+                return "červenec";
+            case 8:
+                return "srpen";
+            case 9:
+                return "září";
+            case 10:
+                return "říjen";
+            case 11:
+                return "listopad";
+            default:
+                return "prosinec";
+        }
+    }
+
+}
+
+<section class="widget">
+    <header>
+        <h4>
+            &nbsp;
+        </h4>
+        <div class="widget-controls">
+            @using (Html.BeginForm(null, null, FormMethod.Get))
+            {
+                    <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                        <select multiple name="companies"
+                                data-placeholder="Multiple countries this time"
+                                data-minimum-results-for-search="10"
+                                tabindex="-1"
+                                class="select2 form-control" id="multiple-select">
+                            @foreach (var i in model_comp)
+                            {
+                                <option value="@i.Id" @Html.Raw((((string[])ViewBag.comp).Contains(i.Id.ToString())) ? "selected " : "")>@i.Name</option>
+                            }
+                        </select>
+
+                        <span class="input-group-btn">
+                            <button type="submit" name="btn" value="search" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Go!</button>
+                        </span>
+                    </div>
+            }
+        </div>
+
+    </header>
+    <style>
+        table {
+            font-family: 'Lucida Console'
+        }
+
+        td {
+            padding: 4px;
+            text-align: right
+        }
+
+        thead tr td {
+            font-weight: 800;
+            background-color: lightgray
+        }
+
+        .boldtr {
+            font-weight: 800;
+            background-color: lightyellow
+        }
+
+        .boldtrsum {
+            font-weight: 800;
+            background-color: lightblue
+        }
+    </style>
+    <div class="widget-body">
+        <h3>Celkem</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td></td>
+                    @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                    {
+                        <td>@i</td>
+                    }
+                </tr>
+            </thead>
+            @for (int m = 1; m <= 12; m++)
+            {
+                <tr>
+                    <td>@monthToName(m)</td>
+                    @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                    {
+                        <td>
+                            @((from p in model_all where p.Year == i && p.Month == m select p.Count).FirstOrDefault())
+                        </td>
+                    }
+                </tr>
+                if (m % 3 == 0)
+                {
+                    <tr class="boldtr">
+                        <td>Q @((m - 1) / 3 + 1)</td>
+                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                        {
+                            <td>
+                                @((from x in (from p in model_all where p.Year == i && p.Quarter == ((m - 1) / 3) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+            <tr class="boldtrsum">
+                <td>SUM</td>
+                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                {
+                    <td>
+                        @((from x in (from p in model_all where p.Year == i group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                    </td>
+                }
+            </tr>
+        </table>
+
+        @{
+            string[] compArr = comp.Split(',');
+            if (comp == "")
+            {
+                compArr = new string[0];
+            }
+            int[] compArrInt = new int[compArr.Length];
+            for (int i = 0; i < compArr.Length; i++)
+            {
+                compArrInt[i] = int.Parse(compArr[i]);
+            }
+
+            for (int c = 0; c < compArr.Length; c++)
+            {
+                int cid = compArrInt[c];
+                <h3>@((from p in model2 where p.Id == cid select p.Name).FirstOrDefault())</h3>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td></td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>@i</td>
+                            }
+                        </tr>
+                    </thead>
+                    @for (int m = 1; m <= 12; m++)
+                    {
+                        <tr>
+                            <td>@monthToName(m)</td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>
+                                    @((from p in model2 where p.Year == i && p.Month == m && p.Id == cid select p.Count).FirstOrDefault())
+                                </td>
+                            }
+                        </tr>
+                        if (m % 3 == 0)
+                        {
+                            <tr class="boldtr">
+                                <td>Q @((m - 1) / 3 + 1)</td>
+                                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                {
+                                    <td>
+                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && p.Id == cid group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                    <tr class="boldtrsum">
+                        <td>SUM</td>
+                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                        {
+                            <td>
+                                @((from x in (from p in model2 where p.Year == i && p.Id == cid group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                            </td>
+                        }
+                    </tr>
+                </table>
+            }
+
+            <h3>Ostatní</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <td></td>
+                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                        {
+                            <td>@i</td>
+                        }
+                    </tr>
+                </thead>
+                @for (int m = 1; m <= 12; m++)
+                {
+                    <tr>
+                        <td>@monthToName(m)</td>
+                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                        {
+                            <td>
+                                @((from p in model2 where p.Year == i && p.Month == m && !compArrInt.Contains(p.Id) select p.Count).FirstOrDefault())
+                            </td>
+                        }
+                    </tr>
+                    if (m % 3 == 0)
+                    {
+                        <tr class="boldtr">
+                            <td>Q @((m - 1) / 3 + 1)</td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>
+                                    @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && !compArrInt.Contains(p.Id) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+                <tr class="boldtrsum">
+                    <td>SUM</td>
+                    @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                    {
+                        <td>
+                            @((from x in (from p in model2 where p.Year == i && !compArrInt.Contains(p.Id) group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                        </td>
+                    }
+                </tr>
+            </table>
+        }
+
+    </div>
+</section>
+
+<script>
+    $(".select2").each(function () {
+        $(this).select2($(this).data());
+    });
+</script>
+
+@Scripts.Render("~/Content/sing/vendor/form-js")
+

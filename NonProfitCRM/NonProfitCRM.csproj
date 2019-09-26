@@ -5763,6 +5763,7 @@
     <Content Include="Views\Error\ReAuth.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
     <Content Include="Views\Report\ExportEvent.cshtml" />
+    <Content Include="Views\Report\QReport.cshtml" />
     <None Include="Web.Release-STAGE.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

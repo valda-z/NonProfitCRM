@@ -35,6 +35,7 @@
         {
             NonProfitCRM.Models.NavBarModel.NavBarItem itm = new NonProfitCRM.Models.NavBarModel.NavBarItem("fa fa-file-text-o", "Reporty");
             itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Akce do CSV", "Report", "ExportEvent"));
+            itm.AddSubitem(new NonProfitCRM.Models.NavBarModel.NavBarSubItem("Akce po kvartálech", "Report", "QReport"));
             nbModel.AddItem(itm);
         }
     }

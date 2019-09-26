@@ -99,5 +99,34 @@ namespace NonProfitCRM.Controllers
                 return View(model);
             }
         }
+
+        public ActionResult QReport(string[] companies, string btn)
+        {
+            if(btn!=null && btn == "search")
+            {
+                ViewBag.comp = new string[0];
+                if (companies == null)
+                {
+                    Response.Cookies["qreport-comp"].Value = "";
+                }else
+                {
+                    Response.Cookies["qreport-comp"].Value = string.Join(",", companies);
+                    ViewBag.comp = companies;
+                }
+                Response.Cookies["qreport-comp"].Expires = DateTime.Now.AddYears(10);
+            }
+            else
+            {
+                ViewBag.comp = new string[0];
+                if (Request.Cookies["qreport-comp"] != null && Request.Cookies["qreport-comp"].Value.Length > 0)
+                {
+                    ViewBag.comp = Request.Cookies["qreport-comp"].Value.Split(',');
+                }
+            }
+
+            var model = from p in new Entities().Event select p;
+
+            return View(model);
+        }
     }
 }
