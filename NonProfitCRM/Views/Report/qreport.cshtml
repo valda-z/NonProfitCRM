@@ -6,12 +6,12 @@
 
     var model2 = (from p in Model
                   group p by new { p.CompanyId, p.Company.Name, p.DateOfEvent.Year, p.DateOfEvent.Month, q = ((p.DateOfEvent.Month - 1) / 3) } into g
-                  select new { Id = g.Key.CompanyId, Name = g.Key.Name, Year = g.Key.Year, Month = g.Key.Month, Quarter = g.Key.q, Count = g.Count() }
+                  select new { Id = g.Key.CompanyId, Name = g.Key.Name, Year = g.Key.Year, Month = g.Key.Month, Quarter = g.Key.q, Count = g.Count(), Capacity = g.Sum( e=> e.Capacity) }
                 ).ToList();
 
     var model_all = from p in model2
                     group p by new { p.Year, p.Quarter, p.Month } into g
-                    select new { Year = g.Key.Year, g.Key.Quarter, g.Key.Month, Count = g.Sum(p => p.Count) };
+                    select new { Year = g.Key.Year, g.Key.Quarter, g.Key.Month, Count = g.Sum(p => p.Count), Capacity = g.Sum(p => p.Capacity) };
 
     var model_comp = from p in model2
                      group p by new { p.Id, p.Name } into g
@@ -110,53 +110,112 @@
             font-weight: 800;
             background-color: lightblue
         }
+
+        .maintable{
+            text-align: left
+        }
     </style>
     <div class="widget-body">
-        <h3>Celkem</h3>
-        <table border="1">
-            <thead>
-                <tr>
-                    <td></td>
-                    @for (int i = DateTime.Now.Year; i >= fromYear; i--)
-                    {
-                        <td>@i</td>
-                    }
-                </tr>
-            </thead>
-            @for (int m = 1; m <= 12; m++)
-            {
-                <tr>
-                    <td>@monthToName(m)</td>
-                    @for (int i = DateTime.Now.Year; i >= fromYear; i--)
-                    {
-                        <td>
-                            @((from p in model_all where p.Year == i && p.Month == m select p.Count).FirstOrDefault())
-                        </td>
-                    }
-                </tr>
-                if (m % 3 == 0)
-                {
-                    <tr class="boldtr">
-                        <td>Q @((m - 1) / 3 + 1)</td>
-                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+
+        <table>
+            <tr>
+                <td class="maintable">
+                    <h3>Celkem - akce</h3>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                {
+                                    <td>@i</td>
+                                }
+                            </tr>
+                        </thead>
+                        @for (int m = 1; m <= 12; m++)
                         {
-                            <td>
-                                @((from x in (from p in model_all where p.Year == i && p.Quarter == ((m - 1) / 3) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
-                            </td>
+                            <tr>
+                                <td>@monthToName(m)</td>
+                                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                {
+                                    <td>
+                                        @((from p in model_all where p.Year == i && p.Month == m select p.Count).FirstOrDefault())
+                                    </td>
+                                }
+                            </tr>
+                            if (m % 3 == 0)
+                            {
+                                <tr class="boldtr">
+                                    <td>Q @((m - 1) / 3 + 1)</td>
+                                    @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                    {
+                                        <td>
+                                            @((from x in (from p in model_all where p.Year == i && p.Quarter == ((m - 1) / 3) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                                        </td>
+                                    }
+                                </tr>
+                            }
                         }
-                    </tr>
-                }
-            }
-            <tr class="boldtrsum">
-                <td>SUM</td>
-                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
-                {
-                    <td>
-                        @((from x in (from p in model_all where p.Year == i group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
-                    </td>
-                }
+                        <tr class="boldtrsum">
+                            <td>SUM</td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>
+                                    @((from x in (from p in model_all where p.Year == i group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                                </td>
+                            }
+                        </tr>
+                    </table>
+
+                </td>
+                <td class="maintable">
+                    <h3>Celkem - dobrovolníci</h3>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                {
+                                    <td>@i</td>
+                                }
+                            </tr>
+                        </thead>
+                        @for (int m = 1; m <= 12; m++)
+                        {
+                            <tr>
+                                <td>@monthToName(m)</td>
+                                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                {
+                                    <td>
+                                        @((from p in model_all where p.Year == i && p.Month == m select p.Capacity).FirstOrDefault())
+                                    </td>
+                                }
+                            </tr>
+                            if (m % 3 == 0)
+                            {
+                                <tr class="boldtr">
+                                    <td>Q @((m - 1) / 3 + 1)</td>
+                                    @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                    {
+                                        <td>
+                                            @((from x in (from p in model_all where p.Year == i && p.Quarter == ((m - 1) / 3) group p by new { p.Quarter } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                        <tr class="boldtrsum">
+                            <td>SUM</td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>
+                                    @((from x in (from p in model_all where p.Year == i group p by new { p.Year } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                                </td>
+                            }
+                        </tr>
+                    </table>
+
+                </td>
             </tr>
-        </table>
 
         @{
             string[] compArr = comp.Split(',');
@@ -173,11 +232,14 @@
             for (int c = 0; c < compArr.Length; c++)
             {
                 int cid = compArrInt[c];
-                <h3>@((from p in model2 where p.Id == cid select p.Name).FirstOrDefault())</h3>
+
+                    <tr>
+                        <td class="maintable">
+                <h3>@((from p in model2 where p.Id == cid select p.Name).FirstOrDefault()) - akce</h3>
                 <table border="1">
                     <thead>
                         <tr>
-                            <td></td>
+                            <td>AKCE</td>
                             @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                             {
                                 <td>@i</td>
@@ -218,54 +280,162 @@
                         }
                     </tr>
                 </table>
-            }
-
-            <h3>Ostatní</h3>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <td></td>
-                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
-                        {
-                            <td>@i</td>
-                        }
-                    </tr>
-                </thead>
-                @for (int m = 1; m <= 12; m++)
-                {
-                    <tr>
-                        <td>@monthToName(m)</td>
-                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
-                        {
-                            <td>
-                                @((from p in model2 where p.Year == i && p.Month == m && !compArrInt.Contains(p.Id) select p.Count).FirstOrDefault())
-                            </td>
-                        }
-                    </tr>
-                    if (m % 3 == 0)
+                        </td>
+                        <td class="maintable">
+                <h3>@((from p in model2 where p.Id == cid select p.Name).FirstOrDefault()) - dobrovolníci</h3>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td>AKCE</td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>@i</td>
+                            }
+                        </tr>
+                    </thead>
+                    @for (int m = 1; m <= 12; m++)
                     {
-                        <tr class="boldtr">
-                            <td>Q @((m - 1) / 3 + 1)</td>
+                        <tr>
+                            <td>@monthToName(m)</td>
                             @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                             {
                                 <td>
-                                    @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && !compArrInt.Contains(p.Id) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                                    @((from p in model2 where p.Year == i && p.Month == m && p.Id == cid select p.Capacity).FirstOrDefault())
                                 </td>
                             }
                         </tr>
+                        if (m % 3 == 0)
+                        {
+                            <tr class="boldtr">
+                                <td>Q @((m - 1) / 3 + 1)</td>
+                                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                {
+                                    <td>
+                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && p.Id == cid group p by new { p.Quarter } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                                    </td>
+                                }
+                            </tr>
+                        }
                     }
-                }
-                <tr class="boldtrsum">
-                    <td>SUM</td>
-                    @for (int i = DateTime.Now.Year; i >= fromYear; i--)
-                    {
-                        <td>
-                            @((from x in (from p in model2 where p.Year == i && !compArrInt.Contains(p.Id) group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                    <tr class="boldtrsum">
+                        <td>SUM</td>
+                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                        {
+                            <td>
+                                @((from x in (from p in model2 where p.Year == i && p.Id == cid group p by new { p.Year } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                            </td>
+                        }
+                    </tr>
+                </table>
                         </td>
+                    </tr>
+
+            }
+
+            if (comp.Length > 0)
+            {
+
+                    <tr>
+                        <td class="maintable">
+                <h3>Ostatní - akce</h3>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td></td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>@i</td>
+                            }
+                        </tr>
+                    </thead>
+                    @for (int m = 1; m <= 12; m++)
+                    {
+                        <tr>
+                            <td>@monthToName(m)</td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>
+                                    @((from p in model2 where p.Year == i && p.Month == m && !compArrInt.Contains(p.Id) select p.Count).FirstOrDefault())
+                                </td>
+                            }
+                        </tr>
+                        if (m % 3 == 0)
+                        {
+                            <tr class="boldtr">
+                                <td>Q @((m - 1) / 3 + 1)</td>
+                                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                {
+                                    <td>
+                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && !compArrInt.Contains(p.Id) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                                    </td>
+                                }
+                            </tr>
+                        }
                     }
-                </tr>
-            </table>
+                    <tr class="boldtrsum">
+                        <td>SUM</td>
+                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                        {
+                            <td>
+                                @((from x in (from p in model2 where p.Year == i && !compArrInt.Contains(p.Id) group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                            </td>
+                        }
+                    </tr>
+                </table>
+                        </td>
+                        <td class="maintable">
+                <h3>Ostatní - dobrovolníci</h3>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td></td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>@i</td>
+                            }
+                        </tr>
+                    </thead>
+                    @for (int m = 1; m <= 12; m++)
+                    {
+                        <tr>
+                            <td>@monthToName(m)</td>
+                            @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                            {
+                                <td>
+                                    @((from p in model2 where p.Year == i && p.Month == m && !compArrInt.Contains(p.Id) select p.Capacity).FirstOrDefault())
+                                </td>
+                            }
+                        </tr>
+                        if (m % 3 == 0)
+                        {
+                            <tr class="boldtr">
+                                <td>Q @((m - 1) / 3 + 1)</td>
+                                @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                                {
+                                    <td>
+                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && !compArrInt.Contains(p.Id) group p by new { p.Quarter } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                    <tr class="boldtrsum">
+                        <td>SUM</td>
+                        @for (int i = DateTime.Now.Year; i >= fromYear; i--)
+                        {
+                            <td>
+                                @((from x in (from p in model2 where p.Year == i && !compArrInt.Contains(p.Id) group p by new { p.Year } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                            </td>
+                        }
+                    </tr>
+                </table>
+                        </td>
+                    </tr>
+
+            }
+
         }
+                </table>
 
     </div>
 </section>
