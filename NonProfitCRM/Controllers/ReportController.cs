@@ -82,6 +82,8 @@ namespace NonProfitCRM.Controllers
                                  typ = e.EventType.Name
                              };
 
+                var data = rmodel.ToList();
+
                 var stream = new MemoryStream();
                 var writeFile = new StreamWriter(stream, Encoding.UTF8);
                 var csv = new CsvWriter(writeFile);
@@ -89,9 +91,11 @@ namespace NonProfitCRM.Controllers
 
                 csv.Configuration.Delimiter = ";";
 
-                csv.WriteRecords(rmodel.ToList());
+                csv.WriteRecords(data);
 
-                stream.Position = 0; //reset stream
+                writeFile.Flush();
+
+                stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, "application/octet-stream", "export-akce.csv");
             }
             else

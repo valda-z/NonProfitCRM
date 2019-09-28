@@ -5,6 +5,7 @@
     ViewBag.PathTitle = "report";
 
     var model2 = (from p in Model
+                  where !p.Deleted
                   group p by new { p.CompanyId, p.Company.Name, p.DateOfEvent.Year, p.DateOfEvent.Month, q = ((p.DateOfEvent.Month - 1) / 3) } into g
                   select new { Id = g.Key.CompanyId, Name = g.Key.Name, Year = g.Key.Year, Month = g.Key.Month, Quarter = g.Key.q, Count = g.Count(), Capacity = g.Sum( e=> e.Capacity) }
                 ).ToList();
