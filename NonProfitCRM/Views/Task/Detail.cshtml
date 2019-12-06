@@ -63,7 +63,7 @@
             <legend>
                 Detail úkolu pro <span class="fw-semi-bold">@entityName</span>:                         
                 @Html.ActionLink(NonProfitCRM.Components.EntityHelper.GetEntityName(Model.Entity, Model.EntityId),
-                    "Detail", Model.Entity, new { id = 0, returnUrl = Request.RawUrl }, new {  })
+                    "Detail", Model.Entity, new { id = Model.EntityId, returnUrl = Request.RawUrl }, new {  })
             </legend>
             @Html.Partial("_ValidationSummary", ViewData.ModelState)
             <div class="form-group">

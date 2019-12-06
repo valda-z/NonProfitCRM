@@ -139,7 +139,7 @@
                                 @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                                 {
                                     <td>
-                                        @((from p in model_all where p.Year == i && p.Month == m select p.Count).FirstOrDefault())
+                                        @((from p in model_all where p.Year == i && p.Month == m select p.Count).Sum())
                                     </td>
                                 }
                             </tr>
@@ -150,7 +150,7 @@
                                     @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                                     {
                                         <td>
-                                            @((from x in (from p in model_all where p.Year == i && p.Quarter == ((m - 1) / 3) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                                            @((from x in (from p in model_all where p.Year == i && p.Quarter == ((m - 1) / 3) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).Sum())
                                         </td>
                                     }
                                 </tr>
@@ -161,7 +161,7 @@
                             @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                             {
                                 <td>
-                                    @((from x in (from p in model_all where p.Year == i group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                                    @((from x in (from p in model_all where p.Year == i group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).Sum())
                                 </td>
                             }
                         </tr>
@@ -254,7 +254,7 @@
                             @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                             {
                                 <td>
-                                    @((from p in model2 where p.Year == i && p.Month == m && p.Id == cid select p.Count).FirstOrDefault())
+                                    @((from p in model2 where p.Year == i && p.Month == m && p.Id == cid select p.Count).Sum())
                                 </td>
                             }
                         </tr>
@@ -265,7 +265,7 @@
                                 @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                                 {
                                     <td>
-                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && p.Id == cid group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && p.Id == cid group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).Sum())
                                     </td>
                                 }
                             </tr>
@@ -276,7 +276,7 @@
                         @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                         {
                             <td>
-                                @((from x in (from p in model2 where p.Year == i && p.Id == cid group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                                @((from x in (from p in model2 where p.Year == i && p.Id == cid group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).Sum())
                             </td>
                         }
                     </tr>
@@ -301,7 +301,7 @@
                             @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                             {
                                 <td>
-                                    @((from p in model2 where p.Year == i && p.Month == m && p.Id == cid select p.Capacity).FirstOrDefault())
+                                    @((from p in model2 where p.Year == i && p.Month == m && p.Id == cid select p.Capacity).Sum())
                                 </td>
                             }
                         </tr>
@@ -312,7 +312,7 @@
                                 @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                                 {
                                     <td>
-                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && p.Id == cid group p by new { p.Quarter } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && p.Id == cid group p by new { p.Quarter } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).Sum())
                                     </td>
                                 }
                             </tr>
@@ -323,7 +323,7 @@
                         @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                         {
                             <td>
-                                @((from x in (from p in model2 where p.Year == i && p.Id == cid group p by new { p.Year } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                                @((from x in (from p in model2 where p.Year == i && p.Id == cid group p by new { p.Year } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).Sum())
                             </td>
                         }
                     </tr>
@@ -356,7 +356,7 @@
                             @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                             {
                                 <td>
-                                    @((from p in model2 where p.Year == i && p.Month == m && !compArrInt.Contains(p.Id) select p.Count).FirstOrDefault())
+                                    @((from p in model2 where p.Year == i && p.Month == m && !compArrInt.Contains(p.Id) select p.Count).Sum())
                                 </td>
                             }
                         </tr>
@@ -367,7 +367,7 @@
                                 @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                                 {
                                     <td>
-                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && !compArrInt.Contains(p.Id) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).FirstOrDefault())
+                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && !compArrInt.Contains(p.Id) group p by new { p.Quarter } into g select new { Count = g.Sum(e => e.Count) }) select x.Count).Sum())
                                     </td>
                                 }
                             </tr>
@@ -378,7 +378,7 @@
                         @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                         {
                             <td>
-                                @((from x in (from p in model2 where p.Year == i && !compArrInt.Contains(p.Id) group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).FirstOrDefault())
+                                @((from x in (from p in model2 where p.Year == i && !compArrInt.Contains(p.Id) group p by new { p.Year } into g select new { Cnt = g.Sum(e => e.Count) }) select x.Cnt).Sum())
                             </td>
                         }
                     </tr>
@@ -403,7 +403,7 @@
                             @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                             {
                                 <td>
-                                    @((from p in model2 where p.Year == i && p.Month == m && !compArrInt.Contains(p.Id) select p.Capacity).FirstOrDefault())
+                                    @((from p in model2 where p.Year == i && p.Month == m && !compArrInt.Contains(p.Id) select p.Capacity).Sum())
                                 </td>
                             }
                         </tr>
@@ -414,7 +414,7 @@
                                 @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                                 {
                                     <td>
-                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && !compArrInt.Contains(p.Id) group p by new { p.Quarter } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                                        @((from x in (from p in model2 where p.Year == i && p.Quarter == ((m - 1) / 3) && !compArrInt.Contains(p.Id) group p by new { p.Quarter } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).Sum())
                                     </td>
                                 }
                             </tr>
@@ -425,7 +425,7 @@
                         @for (int i = DateTime.Now.Year; i >= fromYear; i--)
                         {
                             <td>
-                                @((from x in (from p in model2 where p.Year == i && !compArrInt.Contains(p.Id) group p by new { p.Year } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).FirstOrDefault())
+                                @((from x in (from p in model2 where p.Year == i && !compArrInt.Contains(p.Id) group p by new { p.Year } into g select new { Capacity = g.Sum(e => e.Capacity) }) select x.Capacity).Sum())
                             </td>
                         }
                     </tr>

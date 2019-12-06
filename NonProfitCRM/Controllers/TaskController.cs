@@ -70,6 +70,10 @@ namespace NonProfitCRM.Controllers
                         cx.SaveChanges();
                         Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Modify Task - DONE " + p.Description + " / " + p.Entity + " / " + p.EntityId,
                             _oldObject, Logger.Serialize(p), "Task", p.Id);
+                        if (p.Entity == "Event")
+                        {
+                            closeEventCheck(p.EntityId, cx);
+                        }
                     }
                     finally
                     {
@@ -157,6 +161,10 @@ namespace NonProfitCRM.Controllers
                         cx.SaveChanges();
                         Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Modify Task " + model.Description + " / " + p.Entity + " / " + p.EntityId,
                             _oldObject, Logger.Serialize(p), "Task", p.Id);
+                        if(p.Entity == "Event")
+                        {
+                            closeEventCheck(p.EntityId, cx);
+                        }
                     }
                 }
                 finally
@@ -175,6 +183,25 @@ namespace NonProfitCRM.Controllers
             else
             {
                 return RedirectToAction("List", "Task");
+            }
+        }
+
+        private void closeEventCheck(int id, Entities cx)
+        {
+            var x = (cx.Task.Where(e => e.Entity == "Event" && e.EntityId == id && e.StatusId != 1000)).ToList();
+            if (x.Count == 0)
+            {
+                var p = cx.Event.Single(e => e.Id == id);
+                if(p.Closed == null)
+                {
+                    string _oldObject = Logger.Serialize(p);
+                    p.Closed = DateTime.UtcNow;
+                    p.Updated = DateTime.UtcNow;
+                    p.UpdatedBy = NonProfitCRM.Components.SystemHelper.GetUserName;
+                    cx.SaveChanges();
+                    Logger.Log(NonProfitCRM.Components.SystemHelper.GetUserName, "Modify Event (automatic close) " + p.Name + " / " + p.DateOfEvent.ToShortDateString(),
+                        _oldObject, Logger.Serialize(p), "Event", p.Id);
+                }
             }
         }
 

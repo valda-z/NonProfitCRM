@@ -106,6 +106,7 @@ namespace NonProfitCRM.Controllers
             {
                 model = new Company();
                 model.IdentificationNumber = EntityHelper.Create16DigitString();
+                model.StatusId = (int)CompanyStatusHelper.Status.LEAD;
             }
             else
             {

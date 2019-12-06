@@ -2305,6 +2305,7 @@
     <Content Include="Content\sing\vendor\holderjs\test\.gitignore" />
     <Content Include="Content\sing\vendor\holderjs\test\image.jpg" />
     <Content Include="Content\sing\vendor\holderjs\test\index.html" />
+    <Content Include="Content\sing\vendor\img\searchtag.png" />
     <Content Include="Content\sing\vendor\jasny-bootstrap\dist\css\jasny-bootstrap.css" />
     <Content Include="Content\sing\vendor\jasny-bootstrap\dist\css\jasny-bootstrap.min.css" />
     <Content Include="Content\sing\vendor\jasny-bootstrap\dist\js\jasny-bootstrap.js" />
