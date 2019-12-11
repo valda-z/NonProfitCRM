@@ -304,6 +304,39 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="widget">
+                            <header>
+                                <h4>
+                                    Neziskovky <span class="fw-semi-bold">podle počtu akcí</span>
+                                </h4>
+                                <div class="widget-controls">
+                                </div>
+                            </header>
+                            <div class="widget-body clearfix">
+                                <div>
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <td>Neziskovka</td>
+                                                <td>Akce</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var nnoi in Model.Top10NNO)
+                                            {
+                                                <tr>
+                                                    <td>@nnoi.Company</td>
+                                                    <td>@nnoi.Count</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
             </div>
         </div>
     </main>

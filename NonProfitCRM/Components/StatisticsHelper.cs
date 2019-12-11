@@ -40,6 +40,7 @@ namespace NonProfitCRM.Components
         private static string keyPieNPOEventType = "statistics-data-pienpoeventtype";
         private static string keyEvent = "statistics-data-event";
         private static string keyEventPeople = "statistics-data-eventpeople";
+        private static string keyEventTopNNO = "statistics-data-topnno";
         public static void InvalidateCacheCRM()
         {
             HttpContext.Current.Cache.Remove(keyCRM);
@@ -60,6 +61,50 @@ namespace NonProfitCRM.Components
         {
             public string Tag { get; set; }
             public int Count { get; set; }
+        }
+
+        public class StatTop10NNO
+        {
+            public string Company { get; set; }
+            public int Count { get; set; }
+        }
+
+        public static List<StatTop10NNO> GetTop10NNO()
+        {
+            var cx = new Entities();
+
+            List<StatTop10NNO> ret =
+                (List<StatTop10NNO>)HttpContext.Current.Cache[keyEventTopNNO];
+            if (ret == null)
+            {
+
+                ret = new List<StatTop10NNO>();
+
+                var dFrom = new DateTime(DateTime.Now.Year, 1, 1);
+                var dTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
+
+                var query = from p in cx.Event
+                            where p.DateOfEvent >= dFrom && p.DateOfEvent < dTo
+                            group p by p.NonProfitOrg.Name into g
+                            select new
+                            {
+                                tag = g.Key,
+                                count = g.Count()
+                            };
+                foreach (var x in query.OrderByDescending(e => e.count).Take(10))
+                {
+                    var i = new StatTop10NNO();
+                    i.Company = x.tag.Trim();
+                    i.Count = x.count;
+                    ret.Add(i);
+                }
+
+                HttpContext.Current.Cache.Insert(keyEventTopNNO, ret,
+                                   null, DateTime.Now.AddMinutes(10d),
+                                   System.Web.Caching.Cache.NoSlidingExpiration);
+
+            }
+            return ret;
         }
 
         public static List<StatDataPieEventTypeItem> GetPieEventType()

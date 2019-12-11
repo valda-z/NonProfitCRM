@@ -73,7 +73,7 @@
                             </a>
                         </li>
                         <li class="ml-sm mr-n-xs hidden-xs"><a onclick="window.location.reload();" href="#"><i class="fa fa-refresh fa-lg"></i></a></li>
-                        <li class="ml-sm mr-n-xs hidden-xs"><a title="Zobrazovat i smazané záznamy" onclick="handleIsDelOnChanged(); window.location.reload();" href="#"><i id="myDeletedSwitcher" class="fa fa-minus-square-o fa-lg"></i></a></li>
+                        <li class="ml-sm mr-n-xs hidden-xs"><a title="Zobrazovat i smazané záznamy" onclick="handleIsDelOnChanged(); window.location.reload();" href="#"><i id="myDeletedSwitcher" class="fa fa-trash-o fa-lg"></i></a></li>
                         <li class="ml-sm mr-n-xs hidden-xs"><a class="fs-mini">@NonProfitCRM.Components.SystemHelper.GetAssemblyName()</a></li>
                     </ul>
                     <!-- xs & sm screen logo -->
@@ -159,9 +159,11 @@
             function drawIsDelOnChange() {
                 var isDelOn = getCookie("nonprofitorgIsDelOn");
                 if (isDelOn === "true") {
-                    $("#myDeletedSwitcher").removeClass('fa-minus-square-o').addClass('fa-minus-square');
+                    $("#myDeletedSwitcher").removeClass('fa-trash-o').addClass('fa-trash');
+                    $("#myDeletedSwitcher").css('color', 'red');
                 } else {
-                    $("#myDeletedSwitcher").removeClass('fa-minus-square').addClass('fa-minus-square-o');
+                    $("#myDeletedSwitcher").removeClass('fa-trash').addClass('fa-trash-o');
+                    $("#myDeletedSwitcher").css('color', 'grey');
                 }
             }
 

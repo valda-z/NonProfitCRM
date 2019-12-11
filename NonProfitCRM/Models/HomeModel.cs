@@ -35,6 +35,7 @@ namespace NonProfitCRM.Models
 {
     public class HomeModel
     {
+        public List<StatTop10NNO> Top10NNO { get; set; }
         public List<StatDataPieEventTypeItem> PieEventType { get; set; }
         public List<StatDataPieEventTypeItem> PieNPOEventType { get; set; }
         public IEnumerable<ViewTaskList> TaskList { get; set; }

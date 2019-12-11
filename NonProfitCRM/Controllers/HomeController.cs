@@ -117,6 +117,8 @@ namespace NonProfitCRM.Controllers
             model.PieEventType = StatisticsHelper.GetPieEventType();
             model.PieNPOEventType = StatisticsHelper.GetPieNPOEventType();
 
+            model.Top10NNO = StatisticsHelper.GetTop10NNO();
+
             return View(model);
         }
     }
