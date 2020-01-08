@@ -94,6 +94,7 @@ namespace NonProfitCRM.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
             var model = new Event();
+            model.TypeId = 1; // default to MANUALNI
             return View(model);
         }
 
