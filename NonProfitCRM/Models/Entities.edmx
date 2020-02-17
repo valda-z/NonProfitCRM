@@ -95,6 +95,7 @@
           <Property Name="Closed" Type="datetime" />
           <Property Name="Insurance" Type="bit" Nullable="false" />
           <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="SelfOrganised" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Event2CompanySub">
           <Key>
@@ -237,7 +238,7 @@
           <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewCompanyList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NonProfitCRM.dbo.ViewCompanyList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewCompanyList">
           <Key>
             <PropertyRef Name="Id" />
@@ -279,7 +280,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewCompanyList' does no
           <Property Name="RegionName" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewEventList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NonProfitCRM.dbo.ViewEventList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewEventList">
           <Key>
             <PropertyRef Name="Id" />
@@ -321,7 +322,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewEventList' does not 
           <Property Name="EventTypeName" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NonProfitCRM.dbo.ViewNonProfitOrgList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewNonProfitOrgList">
           <Key>
             <PropertyRef Name="Id" />
@@ -361,7 +362,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewNonProfitOrgList' do
           <Property Name="NonProfitOrgTypeName" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewStatEventNonProfitOrgType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NonProfitCRM.dbo.ViewStatEventNonProfitOrgType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewStatEventNonProfitOrgType">
           <Key>
             <PropertyRef Name="Id" />
@@ -373,7 +374,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewStatEventNonProfitOr
           <Property Name="DateOfEvent" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewStatEventType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NonProfitCRM.dbo.ViewStatEventType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewStatEventType">
           <Key>
             <PropertyRef Name="Id" />
@@ -385,7 +386,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewStatEventType' does 
           <Property Name="DateOfEvent" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewTaskList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NonProfitCRM.dbo.ViewTaskList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewTaskList">
           <Key>
             <PropertyRef Name="Id" />
@@ -414,7 +415,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewTaskList' does not h
           <Property Name="EntityName" Type="nvarchar" MaxLength="103" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'NonProfitCRM.dbo.ViewUserProfileList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewUserProfileList">
           <Key>
             <PropertyRef Name="UserId" />
@@ -1220,6 +1221,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <Property Name="Insurance" Type="Boolean" Nullable="false" />
           <Property Name="TypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EventType" Relationship="Model.FK_Event_EventType" FromRole="Event" ToRole="EventType" />
+          <Property Name="SelfOrganised" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Event2CompanySub">
           <Key>
@@ -1913,6 +1915,7 @@ warning 6002: The table/view 'NonProfitCRM-Database.dbo.ViewUserProfileList' doe
           <EntitySetMapping Name="Event">
             <EntityTypeMapping TypeName="Model.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="SelfOrganised" ColumnName="SelfOrganised" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="Insurance" ColumnName="Insurance" />
                 <ScalarProperty Name="Closed" ColumnName="Closed" />

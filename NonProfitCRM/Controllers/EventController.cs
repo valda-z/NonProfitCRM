@@ -278,7 +278,7 @@ namespace NonProfitCRM.Controllers
                         p.ContactNonProfitOrgPhone = model.ContactNonProfitOrgPhone;
                         p.DateOfEvent = model.DateOfEvent;
                         p.NonProfitOrgId = model.NonProfitOrgId;
-                        //p.Name = model.Name;
+                        p.SelfOrganised = model.SelfOrganised;
                         p.Note = model.Note;
                         p.TypeId = model.TypeId;
                         p.Updated = DateTime.UtcNow;

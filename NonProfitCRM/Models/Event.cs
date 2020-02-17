@@ -41,6 +41,7 @@ namespace NonProfitCRM.Models
         public Nullable<System.DateTime> Closed { get; set; }
         public bool Insurance { get; set; }
         public int TypeId { get; set; }
+        public bool SelfOrganised { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual NonProfitOrg NonProfitOrg { get; set; }

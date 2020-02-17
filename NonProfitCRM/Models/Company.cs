@@ -43,9 +43,9 @@ namespace NonProfitCRM.Models
         public string UpdatedBy { get; set; }
         public System.DateTime Updated { get; set; }
         public bool Insurance { get; set; }
-        public System.DateTime? FirstContact { get; set; }
+        public Nullable<System.DateTime> FirstContact { get; set; }
         public string ContactPerson { get; set; }
-
+    
         public virtual Country Country { get; set; }
         public virtual Region Region { get; set; }
         public virtual CompanyStatus CompanyStatus { get; set; }

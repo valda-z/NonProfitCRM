@@ -79,6 +79,7 @@ namespace NonProfitCRM.Controllers
                                  ucast = e.Capacity,
                                  firma = e.Company.Name,
                                  neziskovka = e.NonProfitOrg.Name,
+                                 organizovano = e.SelfOrganised ? "Vlastní" : "Hestia",
                                  typ = e.EventType.Name
                              };
 

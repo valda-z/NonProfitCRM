@@ -1,18 +1,20 @@
 ﻿@model NonProfitCRM.Models.Event
 @{
-    /**/
+        /**/
 
-    if (Model.Id == 0)
-    {
-        ViewBag.PreTitle = "nová";
-        ViewBag.Title = "Akce";
-    }
-    else
-    {
-        ViewBag.PreTitle = "detail";
-        ViewBag.Title = "Akce";
-    }
-    ViewBag.PathTitle = "seznam Akcí >";
+        if (Model.Id == 0)
+        {
+            ViewBag.PreTitle = "nová";
+            ViewBag.Title = "Akce";
+        }
+        else
+        {
+            ViewBag.PreTitle = "detail";
+            ViewBag.Title = "Akce";
+        }
+        ViewBag.PathTitle = "seznam Akcí >";
+
+        var listOrg = (new[] {new { Id = false, Name = "Hestia" }, new { Id = true, Name = "Vlastní" }}).ToList();
 }
 
 <section class="widget">
@@ -48,23 +50,30 @@
                         new SelectList(new NonProfitCRM.Models.Entities().EventType.OrderBy(e => e.Name), "Id", "Name", Model.TypeId),
                         new { @data_placeholder = "Vyber typ", @class = "select2 form-control", @tabindex = "-1" })
                 </div>
-                @Html.LabelFor(m => m.Insurance, "Pojistit", new { @class = "col-sm-2 control-label" })
+                @Html.LabelFor(m => m.SelfOrganised, "Organizováno", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
-                    <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
-                        <label for="checkbox-ios1-insurance">
-                            <input value="true" type="checkbox" id="checkbox-ios1-insurance" name="Insurance" @Html.Raw(Model.Insurance ? "checked" : "") />
-                        </label>
-                    </div>
+                    @Html.DropDownListFor(m => m.SelfOrganised,
+                        new SelectList(listOrg, "Id", "Name", Model.SelfOrganised),
+                        new { @data_placeholder = "Vyber typ", @class = "select2 form-control", @data_minimum_results_for_search = "10", @tabindex = "-1" })                
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Closed, "Dokončeno", new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-4">
+                <div class="col-sm-1">
                     <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
                         <label for="checkbox-ios1-closed">
                             <input value="true" type="checkbox" id="checkbox-ios1-closed" name="closed" @Html.Raw(Model.Closed != null ? "checked" : "") />
                         </label>
                     </div>
+                </div>
+                <div class="col-sm-3">
+                    <label class="control-label">Pojistit&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <div class="checkbox-inline checkbox-ios checkbox-ios-notready">
+                        <label for="checkbox-ios1-insurance">
+                            <input value="true" type="checkbox" id="checkbox-ios1-insurance" name="Insurance" @Html.Raw(Model.Insurance ? "checked" : "") />
+                        </label>
+                    </div>
+
                 </div>
                 @Html.LabelFor(m => m.DateOfEvent, "Datum akce", new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-4">
