@@ -37,5 +37,6 @@ namespace NonProfitCRM.Models
         public bool Insurance { get; set; }
         public Nullable<System.DateTime> FirstContact { get; set; }
         public string ContactPerson { get; set; }
+        public string Note { get; set; }
     }
 }

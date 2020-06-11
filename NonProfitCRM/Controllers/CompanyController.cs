@@ -24,13 +24,16 @@
 * SOFTWARE.
 */
 
-﻿using NonProfitCRM.Components;
+using CsvHelper;
+using NonProfitCRM.Components;
 using NonProfitCRM.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
@@ -46,6 +49,40 @@ namespace NonProfitCRM.Controllers
             base.Initialize(requestContext);
             ViewBag.CanEdit = true;
         }
+
+        [HttpGet]
+        public ActionResult Export()
+        {
+
+            bool showDeleted = (Request.Cookies["nonprofitorgIsDelOn"]?.Value == "true");
+
+            bool showActive = (Request.Cookies["companyActiveOn"]?.Value == "true");
+
+            var cx = new Entities();
+
+            var model = (from e in cx.ViewCompanyList
+                         where (showDeleted || !e.Deleted) &&
+                         ((showActive && CompanyStatusHelper.IsCompany.Contains(e.StatusId)) || (!showActive))
+                         orderby e.Name
+                         select e);
+
+            var data = model.ToList();
+
+            var stream = new MemoryStream();
+            var writeFile = new StreamWriter(stream, Encoding.UTF8);
+            var csv = new CsvWriter(writeFile);
+            //csv.Configuration.RegisterClassMap<GroupReportCSVMap>();
+
+            csv.Configuration.Delimiter = ";";
+
+            csv.WriteRecords(data);
+
+            writeFile.Flush();
+
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/octet-stream", "export-firmy.csv");
+        }
+
 
         [HttpGet]
         public ActionResult List(string search, string tags)

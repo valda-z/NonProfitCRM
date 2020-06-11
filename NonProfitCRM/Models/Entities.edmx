@@ -276,6 +276,7 @@ warning 6002: The table/view 'NonProfitCRM.dbo.ViewCompanyList' does not have a 
           <Property Name="Insurance" Type="bit" Nullable="false" />
           <Property Name="FirstContact" Type="date" />
           <Property Name="ContactPerson" Type="nvarchar" MaxLength="255" />
+          <Property Name="Note" Type="ntext" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="RegionName" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
@@ -744,6 +745,7 @@ warning 6002: The table/view 'NonProfitCRM.dbo.ViewUserProfileList' does not hav
     [ViewCompanyList].[Insurance] AS [Insurance], 
     [ViewCompanyList].[FirstContact] AS [FirstContact], 
     [ViewCompanyList].[ContactPerson] AS [ContactPerson], 
+    [ViewCompanyList].[Note] AS [Note], 
     [ViewCompanyList].[CountryName] AS [CountryName], 
     [ViewCompanyList].[RegionName] AS [RegionName]
     FROM [dbo].[ViewCompanyList] AS [ViewCompanyList]</DefiningQuery>
@@ -1700,6 +1702,7 @@ warning 6002: The table/view 'NonProfitCRM.dbo.ViewUserProfileList' does not hav
           <Property Name="Insurance" Type="Boolean" Nullable="false" />
           <Property Name="FirstContact" Type="DateTime" Precision="0" />
           <Property Name="ContactPerson" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ViewEventList">
           <Key>
@@ -2114,6 +2117,7 @@ warning 6002: The table/view 'NonProfitCRM.dbo.ViewUserProfileList' does not hav
           <EntitySetMapping Name="ViewCompanyList">
             <EntityTypeMapping TypeName="Model.ViewCompanyList">
               <MappingFragment StoreEntitySet="ViewCompanyList">
+                <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
                 <ScalarProperty Name="FirstContact" ColumnName="FirstContact" />
                 <ScalarProperty Name="Insurance" ColumnName="Insurance" />
