@@ -25,6 +25,7 @@
 */
 
 using CsvHelper;
+using CsvHelper.Configuration;
 using NonProfitCRM.Components;
 using NonProfitCRM.Models;
 using System;
@@ -87,10 +88,9 @@ namespace NonProfitCRM.Controllers
 
                 var stream = new MemoryStream();
                 var writeFile = new StreamWriter(stream, Encoding.UTF8);
-                var csv = new CsvWriter(writeFile);
-                //csv.Configuration.RegisterClassMap<GroupReportCSVMap>();
-
-                csv.Configuration.Delimiter = ";";
+                CsvConfiguration conf = new CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture);
+                conf.Delimiter = ";";
+                var csv = new CsvWriter(writeFile, conf);
 
                 csv.WriteRecords(data);
 
