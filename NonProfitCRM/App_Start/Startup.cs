@@ -37,6 +37,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security.Notifications;
+using System.Net;
 
 [assembly: OwinStartup(typeof(NonProfitCRM.App_Start.Startup))]
 
@@ -62,6 +63,8 @@ namespace NonProfitCRM.App_Start
         /// <param name="app"></param>
         public void Configuration(IAppBuilder app)
         {
+            System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions());

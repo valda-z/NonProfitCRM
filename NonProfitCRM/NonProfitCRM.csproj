@@ -5774,8 +5774,6 @@
     <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput-angular.min.js.map" />
     <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput.less" />
     <Content Include="Content\sing\vendor\bootstrap-tagsinput\bootstrap-tagsinput.min.js.map" />
-    <None Include="Properties\PublishProfiles\czhesttest - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\frd-crm %28OLD%29 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\frd-crm - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
